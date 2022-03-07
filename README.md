@@ -22,7 +22,6 @@ Below are the steps that you need to finish in order to finish this module
 2. Create all the mongoose schema for your Project
 3. Create CRUD endpoints for all the schema
 4. Separate the routers and controller, controller goes into the controller folders. Controllers only handles request and response
-5. Create more controller for your app if needed. Eg: borrow books, add product to order
-6. For business logic like saving data to database, filtering, searching or updating, these are services and goes into services folder
-7. Add authentication middleware using passport jwt strategy
+5. For business logic like saving data to database, filtering, searching or updating, these are services and goes into services folder
+6. Add authentication middleware using passport jwt strategy
 
