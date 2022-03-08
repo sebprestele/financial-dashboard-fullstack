@@ -8,33 +8,18 @@ Content-Type: application/json
 
 }
 ###
-POST http://localhost:5000/api/v1/users HTTP/1.1
+POST http://localhost:5000/api/v1/users
 Content-Type: application/json
 
 {
-	"name": "elemphant",
-	"hobby": "Fly",
-	"age": 25
+  "username": "sebprestele",
+  "email": "sebastian.prestele@integrify.io",
+  "password": "admin12345",
+  "firstName": "Sebastian",
+  "lastName": "Prestele",
+  "isAdmin": true
 }
 
-
 ###
-PATCH http://localhost:5000/api/v1/users/62207f3118620d0edf0ea817/movie/6221cf2b8fd91dda120ad258
+GET http://localhost:5000/api/v1/users
 
-###
-GET http://localhost:5000/api/v1/users/
-
-###
-GET http://localhost:5000/api/v1/movies/6225d54b3fbb800c3d04c9f2
-
-
-###
-DELETE http://localhost:5000/api/v1/movies/6225d54b3fbb800c3d04c9f2
-
-###
-PUT http://localhost:5000/users/1
-Content-Type: application/json
-
-{
-	"username": "Donk"
-}
