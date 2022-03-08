@@ -1,0 +1,25 @@
+POST http://localhost:5000/api/v1/movies HTTP/1.1
+Content-Type: application/json
+
+{
+	"name": "bat man",
+	"publishedYear": 2021,
+	"genres": ["Horror","Comedy", "Adventures"]
+
+}
+###
+POST http://localhost:5000/api/v1/users
+Content-Type: application/json
+
+{
+  "username": "sebprestele",
+  "email": "sebastian.prestele@integrify.io",
+  "password": "admin12345",
+  "firstName": "Sebastian",
+  "lastName": "Prestele",
+  "isAdmin": true
+}
+
+###
+GET http://localhost:5000/api/v1/users
+
