@@ -1,31 +1,29 @@
 import { Request, Response, NextFunction } from 'express'
 
-import User from '../models/User'
-import UserService from '../services/userServices'
+import Product from '../models/Product'
+import productService from '../services/productServices'
 import { BadRequestError } from '../helpers/apiError'
 
 // POST /users
-export const createUser = async (
+export const addProduct = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { username, email, password, firstName, lastName, isAdmin, image } =
-      req.body
+    const { name, price, quantity, category, isAvailable, image } = req.body
 
-    const user = new User({
-      username,
-      email,
-      password,
-      firstName,
-      lastName,
-      isAdmin,
+    const product = new Product({
+      name,
+      price,
+      quantity,
+      category,
+      isAvailable,
       image,
     })
 
-    await UserService.createUser(user)
-    res.json(user)
+    await productService.addProduct(product)
+    res.json(product)
   } catch (error) {
     console.log(error)
     if (error instanceof Error && error.name == 'ValidationError') {
@@ -36,14 +34,14 @@ export const createUser = async (
   }
 }
 
-// GET /users
-export const findUsers = async (
+// GET all products /products
+export const findProducts = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    res.json(await UserService.findUsers())
+    res.json(await productService.findProducts())
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
@@ -53,15 +51,14 @@ export const findUsers = async (
   }
 }
 
-//GET specific user /user/:id
-
-export const findUserById = async (
+// GET single product by id /products/:productId
+export const getProductById = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    res.json(await UserService.findUserById(req.params.userId))
+    res.json(await productService.getProductById(req.params.productId))
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))

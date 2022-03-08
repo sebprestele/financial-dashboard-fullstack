@@ -1,25 +1,30 @@
-POST http://localhost:5000/api/v1/movies HTTP/1.1
+POST http://localhost:5000/api/v1/products HTTP/1.1
 Content-Type: application/json
 
 {
-	"name": "bat man",
-	"publishedYear": 2021,
-	"genres": ["Horror","Comedy", "Adventures"]
-
+	"name": "Hungarian Horntail",
+	"price": 499,
+	"quantity": 1,
+  "isAvailable": true
 }
 ###
 POST http://localhost:5000/api/v1/users
 Content-Type: application/json
 
 {
-  "username": "sebprestele",
-  "email": "sebastian.prestele@integrify.io",
-  "password": "admin12345",
-  "firstName": "Sebastian",
-  "lastName": "Prestele",
-  "isAdmin": true
+  "username": "tester",
+  "email": "test@test.com",
+  "password": "test1234",
+  "firstName": "Testing",
+  "lastName": "Tester",
+  "isAdmin": false,
+  "isOwner": true
 }
 
 ###
-GET http://localhost:5000/api/v1/users
+GET http://localhost:5000/api/v1/users/6227c8238c9dcf12d44e96d7
+
+###
+GET http://localhost:5000/api/v1/products/6227e134ff6b594dd8dd6d89
+
 
