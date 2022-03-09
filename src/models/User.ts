@@ -14,7 +14,7 @@ export type UserDocument = Document & {
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true, dropDups: true },
   email: { type: String, unique: true, required: true },
-  password: { type: String },
+  password: { type: String, required: true },
   firstName: { type: String },
   lastName: { type: String },
   isAdmin: { type: Boolean },

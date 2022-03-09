@@ -28,6 +28,7 @@
     "@types/compression": "^1.7.0",
     "@types/jsonwebtoken": "^8.3.7",
     "@types/lusca": "^1.7.0",
+    "@types/passport-jwt": "^3.0.6",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
@@ -42,6 +43,7 @@
     "mongoose": "^5.11.15",
     "nodemailer": "^6.4.3",
     "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "winston": "^3.2.1"
   },
