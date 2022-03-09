@@ -8,16 +8,16 @@ Content-Type: application/json
   "isAvailable": true
 }
 ###
-POST http://localhost:5000/api/v1/users
+POST http://localhost:5000/api/v1/users/
 Content-Type: application/json
 
 {
-  "username": "tester2",
-  "email": "test2@test.com",
+  "username": "sebprestele",
+  "email": "sebastian@test.io",
   "password": "test1234",
-  "firstName": "Testing",
-  "lastName": "Tester",
-  "isAdmin": false,
+  "firstName": "Sebastian",
+  "lastName": "Prestele",
+  "isAdmin": true,
   "isOwner": true
 }
 ###
@@ -34,13 +34,17 @@ Content-Type: application/json
 GET http://localhost:5000/api/v1/movies/
 
 ###
-GET http://localhost:5000/api/v1/products
+GET http://localhost:5000/api/v1/users/6228c8651ca38a042844473b
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjI4ZDE0NGY1ZWFkZDQ4MGM5YjkzY2UiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ2ODQ2NDMyfQ.XvJ3l1HigXj_UheFHJsPsBvuF6lCWjHx6ipMn99176U
+
+
 ###
-PUT http://localhost:5000/api/v1/users/6227c8238c9dcf12d44e96d7
+POST  http://localhost:5000/api/v1/users/login
 Content-Type: application/json
 
 {
-  		"password": "test12345"
+      "email": "sebastian@test.io",
+  		"password": "test1234"
   }
 
 

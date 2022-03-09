@@ -5,6 +5,8 @@ import productsRouter from './routers/productsRouter'
 import userRouter from './routers/userRouter'
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
+import { jwtStrategy } from './config/passport'
+import passport from 'passport'
 
 dotenv.config({ path: '.env' })
 const app = express()
@@ -13,6 +15,8 @@ const app = express()
 app.use(apiContentType)
 // Use common 3rd-party middlewares
 app.use(express.json())
+
+passport.use(jwtStrategy)
 
 // User router
 app.use('/api/v1/users', userRouter)
