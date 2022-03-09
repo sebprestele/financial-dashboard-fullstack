@@ -6,7 +6,7 @@ const createUser = async (user: UserDocument): Promise<UserDocument> => {
 }
 
 const findUsers = async (): Promise<UserDocument[]> => {
-  return User.find().sort({ name: 1, publishedYear: -1 })
+  return User.find()
 }
 
 const findUserById = async (userId: string): Promise<UserDocument> => {
@@ -15,6 +15,24 @@ const findUserById = async (userId: string): Promise<UserDocument> => {
     throw new NotFoundError(`User ${userId} not found`)
   }
   return foundUser
+}
+
+//Find user by email
+
+const findUserByEmail = async (
+  email?: string
+): Promise<UserDocument | null> => {
+  const user = await User.findOne({ email })
+  return user
+}
+
+//Find user by username
+
+const findUserByUsername = async (
+  username?: string
+): Promise<UserDocument | null> => {
+  const user = await User.findOne({ username })
+  return user
 }
 
 const updateUser = async (
@@ -44,6 +62,8 @@ export default {
   createUser,
   findUsers,
   findUserById,
+  findUserByEmail,
+  findUserByUsername,
   updateUser,
   deleteUser,
 }
