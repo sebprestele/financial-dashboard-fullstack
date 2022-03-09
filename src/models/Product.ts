@@ -6,6 +6,9 @@ export type ProductDocument = Document & {
   price: number
   quantity: number
   category: string
+  description: string
+  features: string[]
+  rating: number
   isAvailable: boolean
   image: string[]
 }
@@ -15,6 +18,9 @@ const productSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
   category: { type: String },
+  description: { type: String },
+  features: [String],
+  rating: { type: Number },
   isAvailable: { type: Boolean },
   image: [String],
 })
