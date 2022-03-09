@@ -17,8 +17,33 @@ const findUserById = async (userId: string): Promise<UserDocument> => {
   return foundUser
 }
 
+const updateUser = async (
+  userId: string,
+  dataToUpdate: Partial<UserDocument>
+): Promise<UserDocument> => {
+  const foundUser = await User.findByIdAndUpdate(userId, dataToUpdate, {
+    new: true,
+  })
+
+  if (!foundUser) {
+    throw new NotFoundError(`User ${userId} not found`)
+  }
+  return foundUser
+}
+
+const deleteUser = async (userId: string) => {
+  const foundUser = await User.findByIdAndDelete(userId)
+
+  if (!foundUser) {
+    throw new NotFoundError(`User ${userId} not found`)
+  }
+  return foundUser
+}
+
 export default {
   createUser,
   findUsers,
   findUserById,
+  updateUser,
+  deleteUser,
 }
