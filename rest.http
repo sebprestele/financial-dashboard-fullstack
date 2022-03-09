@@ -2,9 +2,9 @@ POST http://localhost:5000/api/v1/products HTTP/1.1
 Content-Type: application/json
 
 {
-	"name": "Hungarian Horntail",
-	"price": 499,
-	"quantity": 1,
+	"name": "Thestral",
+	"price": 49,
+	"quantity": 3,
   "isAvailable": true
 }
 ###
@@ -12,19 +12,37 @@ POST http://localhost:5000/api/v1/users
 Content-Type: application/json
 
 {
-  "username": "tester",
-  "email": "test@test.com",
+  "username": "tester2",
+  "email": "test2@test.com",
   "password": "test1234",
   "firstName": "Testing",
   "lastName": "Tester",
   "isAdmin": false,
   "isOwner": true
 }
+###
+POST http://localhost:5000/api/v1/movies HTTP/1.1
+Content-Type: application/json
+
+{
+	"name": "HarryPotter",
+	"yearPublished": 2005
+}
+
 
 ###
-GET http://localhost:5000/api/v1/users/6227c8238c9dcf12d44e96d7
+GET http://localhost:5000/api/v1/movies/
 
 ###
-GET http://localhost:5000/api/v1/products/6227e134ff6b594dd8dd6d89
+GET http://localhost:5000/api/v1/products
+###
+PUT http://localhost:5000/api/v1/users/6227c8238c9dcf12d44e96d7
+Content-Type: application/json
+
+{
+  		"password": "test12345"
+  }
 
 
+### 
+DELETE http://localhost:5000/api/v1/products/6228aecc4c63fd6d68a926e5
