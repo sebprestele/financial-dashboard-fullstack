@@ -24,9 +24,11 @@
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.0",
     "@types/jsonwebtoken": "^8.3.7",
     "@types/lusca": "^1.7.0",
+    "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
     "errorhandler": "^1.5.1",

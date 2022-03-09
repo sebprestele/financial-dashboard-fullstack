@@ -4,7 +4,7 @@ import Product from '../models/Product'
 import productService from '../services/productServices'
 import { BadRequestError } from '../helpers/apiError'
 
-// POST /users
+// POST /products
 export const addProduct = async (
   req: Request,
   res: Response,
@@ -59,6 +59,48 @@ export const getProductById = async (
 ) => {
   try {
     res.json(await productService.getProductById(req.params.productId))
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+//UPDATE single product /products/:productId
+
+export const updateProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const updateProductData = req.body
+    const productId = req.params.productId
+    const updatedProduct = await productService.updateProduct(
+      productId,
+      updateProductData
+    )
+    res.json(updatedProduct)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+// DELETE single product  /products/:productId
+export const deleteProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(await productService.deleteProduct(req.params.productId))
+    res.status(204).end()
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
