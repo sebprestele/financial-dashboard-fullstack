@@ -11,13 +11,26 @@ export const addProduct = async (
   next: NextFunction
 ) => {
   try {
-    const { name, price, quantity, category, isAvailable, image } = req.body
+    const {
+      name,
+      price,
+      quantity,
+      category,
+      description,
+      features,
+      rating,
+      isAvailable,
+      image,
+    } = req.body
 
     const product = new Product({
       name,
       price,
       quantity,
       category,
+      description,
+      features,
+      rating,
       isAvailable,
       image,
     })
