@@ -1,3 +1,4 @@
+import Axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,6 +12,8 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 function Copyright(props: any) {
   return (
@@ -33,13 +36,23 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function Login() {
+  const [loginStatus, setLoginStatus] = useState(false);
+  console.log(loginStatus);
+
+  const navigate = useNavigate();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
+
+    Axios.post("http://localhost:5000/api/v1/users/login", {
       email: data.get("email"),
       password: data.get("password"),
+    }).then((res) => {
+      if (res.data.loginToken) {
+        setLoginStatus(true);
+        navigate(`/dashboard/${res.data.user.username}`);
+      }
     });
   };
 
