@@ -1,15 +1,34 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router";
+import Axios from "axios";
 
 function User() {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<any[]>([]);
+  console.log(userData);
+  const { username } = useParams();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/users/6228c8651ca38a042844473b")
-      .then((res) => res.json())
-      .then((data) => setUserData(data));
-  }, []);
-  console.log(userData);
-  return <div>User</div>;
+    Axios.get(`http://localhost:5000/api/v1/users/`, {}).then((res) => {
+      // @ts-ignore
+      const user = res.data.filter((user) => user.username === username);
+      setUserData(user);
+    });
+  }, [username]);
+
+  return (
+    <>
+      <h1>Welcome {username}</h1>
+      {userData.map((user) => (
+        <div>
+          <div>
+            Userdata:
+            <p>Email: {user.email} </p>
+            <p>Username: {user.username} </p>
+          </div>
+        </div>
+      ))}
+    </>
+  );
 }
 
 export default User;
