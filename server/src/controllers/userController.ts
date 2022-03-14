@@ -63,11 +63,12 @@ export const loginUser = async (
 
       const loginToken = jwt.sign(
         { userId: user._id, email: user.email },
-        JWT_SECRET
+        JWT_SECRET,
+        { expiresIn: '1h' }
       )
       res.json({ loginToken, user })
     } else {
-      next(new NotFoundError('User does not exist'))
+      next(new NotFoundError('E-Mail address does not exist'))
     }
   } catch (error) {
     next(new BadRequestError('Internal server error, sorry dude'))

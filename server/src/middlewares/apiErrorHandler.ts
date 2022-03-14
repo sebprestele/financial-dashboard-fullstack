@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import ApiError from '../helpers/apiError'
 import logger from '../util/logger'
 
-export default function(
+export default function (
   error: ApiError,
   req: Request,
   res: Response,

@@ -13,9 +13,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { setIsLoggedIn, setUsername } from "../../Redux/userSlice";
-import { RootState } from "../../Redux/store";
 
 function Copyright(props: any) {
   return (
@@ -39,29 +36,19 @@ const theme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
-  const username = useSelector((state: RootState) => state.user.username);
-
-  isLoggedIn && navigate(`/user/${username}`);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    Axios.post("http://localhost:5000/api/v1/users/login", {
+
+    Axios.post("http://localhost:5000/api/v1/users", {
+      username: data.get("username"),
       email: data.get("email"),
       password: data.get("password"),
-    })
-      .then((res) => {
-        if (res.data.loginToken) {
-          localStorage.setItem("currentToken", res.data.loginToken);
-          dispatch(setIsLoggedIn());
-          dispatch(setUsername(res.data.user.username));
-          navigate(`/user/${res.data.user.username}`);
-        }
-      })
-      .catch((error) => console.log(error.message));
+    }).then((res) => {
+      console.log(res.data);
+      navigate(`/dashboard/${res.data.username}`);
+    });
   };
 
   return (
@@ -75,7 +62,7 @@ export default function Login() {
           md={7}
           sx={{
             backgroundImage:
-              "url(https://images.unsplash.com/photo-1612178991541-b48cc8e92a4d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80)",
+              "url(https://images.unsplash.com/photo-1612010167108-3e6b327405f0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -99,7 +86,7 @@ export default function Login() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Sign up
             </Typography>
             <Box
               component="form"
@@ -107,6 +94,16 @@ export default function Login() {
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                autoFocus
+              />
               <TextField
                 margin="normal"
                 required
@@ -127,10 +124,7 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+
               <Button
                 type="submit"
                 fullWidth
@@ -139,17 +133,11 @@ export default function Login() {
               >
                 Sign In
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
+
+              <Grid item>
+                <Link href="/login" variant="body2">
+                  {"Already have an account? Login"}
+                </Link>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
             </Box>
