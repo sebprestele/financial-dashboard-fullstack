@@ -5,6 +5,8 @@ import { useEffect } from "react";
 
 function useCheckAuthentication() {
   const dispatch = useDispatch();
+  const timestamp = Math.floor(Date.now() / 1000);
+  console.log(timestamp);
 
   useEffect(() => {
     const timestamp = Math.floor(Date.now() / 1000);
@@ -16,15 +18,12 @@ function useCheckAuthentication() {
       // @ts-ignore
       console.log(decodedToken.exp);
       // @ts-ignore
-      if (decodedToken.exp * 1000 > timestamp) {
-        dispatch(setIsLoggedIn());
-        console.log("setAuthenticatedTotrue");
-      } else {
+      if (decodedToken.exp * 1000 < timestamp) {
         dispatch(setIsLoggedIn());
         localStorage.removeItem("currentToken");
         console.log("removedToken");
       }
-    } else dispatch(setIsLoggedIn());
+    } else return;
   }, [dispatch]);
 }
 
