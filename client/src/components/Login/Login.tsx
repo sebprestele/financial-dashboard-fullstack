@@ -48,11 +48,7 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  //Get all user data from API, might need a more secure way later
-  // Probably best to just get data for the logged in user on the dashboard page
-  useGetUserData();
-
-  // Check login status and if logged in redirect to user page
+  // Check loginStatus and if logged in redirect to user page
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
   const username = useSelector((state: RootState) => state.user.username);
   useEffect(() => {
@@ -63,7 +59,7 @@ export default function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    Axios.post("http://localhost:5000/api/v1/users/login", {
+    Axios.post("http://localhost:5000/api/v1/auth/login", {
       email: data.get("email"),
       password: data.get("password"),
     })

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { RootState } from "../../Redux/store";
 
 const ProtectedRoute = ({ children }: any) => {
   const navigate = useNavigate();

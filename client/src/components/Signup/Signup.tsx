@@ -47,7 +47,7 @@ export default function Login() {
       password: data.get("password"),
     }).then((res) => {
       console.log(res.data);
-      navigate(`/dashboard/${res.data.username}`);
+      navigate(`/user/${res.data.username}`);
     });
   };
 
