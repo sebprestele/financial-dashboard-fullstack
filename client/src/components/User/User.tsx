@@ -1,30 +1,24 @@
-import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import Axios from "axios";
+import { useSelector } from "react-redux";
 
 function User() {
-  const [userData, setUserData] = useState<any[]>([]);
-  console.log(userData);
   const { username } = useParams();
+  console.log(username);
 
-  useEffect(() => {
-    Axios.get(`http://localhost:5000/api/v1/users/`, {}).then((res) => {
-      // @ts-ignore
-      const user = res.data.filter((user) => user.username === username);
-      setUserData(user);
-    });
-  }, [username]);
+  const allUserData = useSelector((state): RootState => state.user.allUser);
+  console.log(allUserData);
+
+  const filteredUser = allUserData.filter((user) => user.username === username);
+  console.log(filteredUser);
 
   return (
     <>
       <h1>Welcome {username}</h1>
-      {userData.map((user) => (
-        <div>
-          <div>
-            Userdata:
-            <p>Email: {user.email} </p>
-            <p>Username: {user.username} </p>
-          </div>
+      {filteredUser.map((user) => (
+        <div key={user._id}>
+          Userdata:
+          <p>Email: {user.email} </p>
+          <p>Username: {user.username} </p>
         </div>
       ))}
     </>

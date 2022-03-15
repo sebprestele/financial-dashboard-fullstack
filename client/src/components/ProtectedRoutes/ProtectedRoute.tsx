@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../../Redux/store";
 import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ children }: any) => {
