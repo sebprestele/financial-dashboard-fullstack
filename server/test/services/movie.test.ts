@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Movie from '../../src/models/Movie'
 import MovieService from '../../src/services/movie'
 import connect, { MongodHelper } from '../db-helper'

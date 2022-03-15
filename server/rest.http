@@ -1,0 +1,43 @@
+POST http://localhost:5000/api/v1/products HTTP/1.1
+Content-Type: application/json
+
+{
+	"name": "Thestral",
+	"price": 49,
+	"quantity": 3,
+  "isAvailable": true
+}
+###
+POST http://localhost:5000/api/v1/users/
+Content-Type: application/json
+
+{
+  "username": "testaccount",
+  "email": "tester@test.com",
+  "password": "test1234",
+  "firstName": "random",
+  "lastName": "dude",
+  "isAdmin": false
+}
+
+###
+GET http://localhost:5000/api/v1/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjI4ZDE0NGY1ZWFkZDQ4MGM5YjkzY2UiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ3MDE3OTg1LCJleHAiOjE2NDcwMjE1ODV9.fMZjgEuZUbtKg4FrHXexvWlvu-Yj7I9NhjtY8ck5t0Q
+
+###
+GET http://localhost:5000/api/v1/users/6228c8651ca38a042844473b
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjI4ZDE0NGY1ZWFkZDQ4MGM5YjkzY2UiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ3MDE3OTg1LCJleHAiOjE2NDcwMjE1ODV9.fMZjgEuZUbtKg4FrHXexvWlvu-Yj7I9NhjtY8ck5t0Q
+
+
+###
+POST  http://localhost:5000/api/v1/users/login
+Content-Type: application/json
+
+{
+      "email": "sebastian@test.io",
+  		"password": "test1234"
+  }
+
+
+### 
+DELETE http://localhost:5000/api/v1/products/6228aecc4c63fd6d68a926e5

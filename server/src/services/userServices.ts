@@ -6,7 +6,7 @@ const createUser = async (user: UserDocument): Promise<UserDocument> => {
 }
 
 const findUsers = async (): Promise<UserDocument[]> => {
-  return User.find()
+  return User.find().select('-password')
 }
 
 const findUserById = async (userId: string): Promise<UserDocument> => {
