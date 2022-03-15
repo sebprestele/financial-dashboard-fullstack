@@ -11,8 +11,17 @@ export const addInvestment = async (
   next: NextFunction
 ) => {
   try {
-    const { name, amount, quantity, price, date, currency, category, image } =
-      req.body
+    const {
+      name,
+      amount,
+      quantity,
+      price,
+      date,
+      currency,
+      comments,
+      category,
+      image,
+    } = req.body
 
     const investment = new Investment({
       name,
@@ -21,6 +30,7 @@ export const addInvestment = async (
       price,
       date,
       currency,
+      comments,
       category,
       image,
     })

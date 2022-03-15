@@ -6,14 +6,16 @@ export type ExpenseDocument = Document & {
   amount: number
   date: Date
   tag: string
+  comments: string
 }
 
 const expenseSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    amount: { type: Number },
+    amount: { type: Number, required: true, default: 0 },
     date: { type: Date },
     tag: { type: String },
+    comments: { type: String },
   },
   { timestamps: true }
 )

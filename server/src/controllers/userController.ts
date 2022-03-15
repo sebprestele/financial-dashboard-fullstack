@@ -110,6 +110,24 @@ export const findUserById = async (
   }
 }
 
+//GET specific user by Username
+
+export const findUserByUserName = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(await UserService.findUserByUsername(req.params.username))
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 //PUT update specific user /users/:id
 
 export const updateUser = async (
