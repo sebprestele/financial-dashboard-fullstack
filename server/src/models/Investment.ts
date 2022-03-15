@@ -6,8 +6,9 @@ export type InvestmentDocument = Document & {
   amount: number
   quantity: number
   price: Record<string, any>
-  date: Record<string, any>
+  date: Date
   currency: string
+  comments: string
   category: Record<string, any>
   image: string[]
 }
@@ -27,6 +28,7 @@ const InvestmentSchema = new mongoose.Schema(
       dateSold: { type: Date },
     },
     currency: { type: String },
+    comments: { type: String },
     image: [String],
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
   },
