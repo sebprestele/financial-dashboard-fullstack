@@ -25,12 +25,10 @@ GET http://localhost:5000/api/v1/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjI4ZDE0NGY1ZWFkZDQ4MGM5YjkzY2UiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ3MDE3OTg1LCJleHAiOjE2NDcwMjE1ODV9.fMZjgEuZUbtKg4FrHXexvWlvu-Yj7I9NhjtY8ck5t0Q
 
 ###
-GET http://localhost:5000/api/v1/users/6228c8651ca38a042844473b
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjI4ZDE0NGY1ZWFkZDQ4MGM5YjkzY2UiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ3MDE3OTg1LCJleHAiOjE2NDcwMjE1ODV9.fMZjgEuZUbtKg4FrHXexvWlvu-Yj7I9NhjtY8ck5t0Q
-
-
+GET http://localhost:5000/api/v1/users/sebprestele
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjI4ZDE0NGY1ZWFkZDQ4MGM5YjkzY2UiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ3MzU3NTgwLCJleHAiOjE2NDczNjExODB9.tkUlttcMhjmP-mrh0jhrcbU8WmKxmR9HTsNy_M5YIgM
 ###
-POST  http://localhost:5000/api/v1/users/login
+POST  http://localhost:5000/api/v1/auth/login
 Content-Type: application/json
 
 {

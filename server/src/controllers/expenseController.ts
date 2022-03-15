@@ -11,13 +11,14 @@ export const addExpense = async (
   next: NextFunction
 ) => {
   try {
-    const { name, amount, date, tag } = req.body
+    const { name, amount, date, tag, comments } = req.body
 
     const expense = new Expense({
       name,
       amount,
       date,
       tag,
+      comments,
     })
 
     await expenseService.addExpense(expense)

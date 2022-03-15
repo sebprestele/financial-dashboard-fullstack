@@ -11,13 +11,14 @@ export const addIncome = async (
   next: NextFunction
 ) => {
   try {
-    const { name, amount, date, tag } = req.body
+    const { name, amount, date, tag, comments } = req.body
 
     const income = new Income({
       name,
       amount,
       date,
       tag,
+      comments,
     })
 
     await incomeService.addIncome(income)

@@ -8,6 +8,7 @@ import {
   updateUser,
   deleteUser,
   loginUser,
+  findUserByUserName,
 } from '../controllers/userController'
 
 const router = Router()
@@ -18,6 +19,11 @@ router.get(
   '/:userId',
   passport.authenticate('jwt', { session: false }),
   findUserById
+)
+router.get(
+  '/:username',
+  passport.authenticate('jwt', { session: false }),
+  findUserByUserName
 )
 router.put(
   '/:userId',
