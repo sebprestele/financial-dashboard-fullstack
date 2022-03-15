@@ -9,17 +9,33 @@ export type UserDocument = Document & {
   lastName: string
   isAdmin: boolean
   image: string
+  investments: [Record<string, any>]
+  income: [Record<string, any>]
+  expense: [Record<string, any>]
 }
 
 const userSchema = new mongoose.Schema(
   {
-    username: { type: String, unique: true, required: true, dropDups: true },
-    email: { type: String, unique: true, required: true },
-    password: { type: String, required: true },
-    firstName: { type: String },
-    lastName: { type: String },
+    username: {
+      type: String,
+      unique: [true, 'That username is already taken'],
+      required: [true, 'Enter a username'],
+      min: [4, 'Min 4 characters required'],
+    },
+    email: {
+      type: String,
+      unique: [true, 'That Email is already taken'],
+      required: [true, 'Enter a Email address'],
+      match: [/.+\@.+\..+/, 'Not a valid Email address'],
+    },
+    password: { type: String, required: true, min: 8 },
+    firstName: { type: String, min: [2, 'Min 2 characters required'] },
+    lastName: { type: String, min: [2, 'Min 2 characters required'] },
     isAdmin: { type: Boolean },
     image: { type: String },
+    investments: { type: mongoose.Schema.Types.ObjectId, ref: 'Investment' },
+    income: { type: mongoose.Schema.Types.ObjectId, ref: 'Income' },
+    expense: { type: mongoose.Schema.Types.ObjectId, ref: 'Expense' },
   },
   { timestamps: true }
 )

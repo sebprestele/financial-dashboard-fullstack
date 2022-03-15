@@ -1,42 +1,28 @@
 import { Request, Response, NextFunction } from 'express'
 
-import Product from '../models/Product'
-import productService from '../services/productServices'
+import Expense from '../models/Expense'
+import expenseService from '../services/expenseServices'
 import { BadRequestError } from '../helpers/apiError'
 
-// POST /products
-export const addProduct = async (
+// POST /expense
+export const addExpense = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const {
-      name,
-      price,
-      quantity,
-      category,
-      description,
-      features,
-      rating,
-      isAvailable,
-      image,
-    } = req.body
+    const { name, amount, date, tag, comments } = req.body
 
-    const product = new Product({
+    const expense = new Expense({
       name,
-      price,
-      quantity,
-      category,
-      description,
-      features,
-      rating,
-      isAvailable,
-      image,
+      amount,
+      date,
+      tag,
+      comments,
     })
 
-    await productService.addProduct(product)
-    res.json(product)
+    await expenseService.addExpense(expense)
+    res.json(expense)
   } catch (error) {
     console.log(error)
     if (error instanceof Error && error.name == 'ValidationError') {
@@ -47,14 +33,14 @@ export const addProduct = async (
   }
 }
 
-// GET all products /products
-export const findProducts = async (
+// GET all expense /expense
+export const findExpense = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    res.json(await productService.findProducts())
+    res.json(await expenseService.findExpense())
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
@@ -64,14 +50,14 @@ export const findProducts = async (
   }
 }
 
-// GET single product by id /products/:productId
-export const getProductById = async (
+// GET single expense by id /expense/:expenseId
+export const getExpenseById = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    res.json(await productService.getProductById(req.params.productId))
+    res.json(await expenseService.getExpenseById(req.params.expenseId))
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
@@ -81,21 +67,21 @@ export const getProductById = async (
   }
 }
 
-//UPDATE single product /products/:productId
+//UPDATE single expense /expense/:expenseId
 
-export const updateProduct = async (
+export const updateExpense = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const updateProductData = req.body
-    const productId = req.params.productId
-    const updatedProduct = await productService.updateProduct(
-      productId,
-      updateProductData
+    const updateExpenseData = req.body
+    const expenseId = req.params.expenseId
+    const updatedExpense = await expenseService.updateExpense(
+      expenseId,
+      updateExpenseData
     )
-    res.json(updatedProduct)
+    res.json(updatedExpense)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
@@ -105,14 +91,14 @@ export const updateProduct = async (
   }
 }
 
-// DELETE single product  /products/:productId
-export const deleteProduct = async (
+// DELETE single expense  /expense/:expenseId
+export const deleteExpense = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    res.json(await productService.deleteProduct(req.params.productId))
+    res.json(await expenseService.deleteExpense(req.params.expenseId))
     res.status(204).end()
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
