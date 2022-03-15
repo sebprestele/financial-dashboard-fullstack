@@ -16,6 +16,7 @@ import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsLoggedIn, setUsername } from "../../Redux/userSlice";
 import { RootState } from "../../Redux/store";
+import useGetUserData from "../../Hooks/getUserData";
 
 function Copyright(props: any) {
   return (
@@ -40,11 +41,12 @@ const theme = createTheme();
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+  useGetUserData();
+  /*   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
   const username = useSelector((state: RootState) => state.user.username);
 
-  isLoggedIn && navigate(`/user/${username}`);
+  console.log(isLoggedIn);
+  console.log(username); */
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
