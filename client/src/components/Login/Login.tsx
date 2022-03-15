@@ -14,9 +14,15 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLoggedIn, setUsername } from "../../Redux/userSlice";
+import {
+  setIsLoggedIn,
+  setUsername,
+  setSingleUser,
+  getAllUsers,
+} from "../../Redux/userSlice";
 import { RootState } from "../../Redux/store";
 import useGetUserData from "../../Hooks/getUserData";
+import { useEffect } from "react";
 
 function Copyright(props: any) {
   return (
@@ -41,13 +47,19 @@ const theme = createTheme();
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  //Get all user data from API, might need a more secure way later
+  // Probably best to just get data for the logged in user on the dashboard page
   useGetUserData();
-  /*   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+
+  // Check login status and if logged in redirect to user page
+  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
   const username = useSelector((state: RootState) => state.user.username);
+  useEffect(() => {
+    isLoggedIn && navigate(`/user/${username}`);
+  }, [isLoggedIn, navigate, username]);
 
-  console.log(isLoggedIn);
-  console.log(username); */
-
+  // Handle checkin form submit and if login succesful redirect to user page
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -60,6 +72,7 @@ export default function Login() {
           localStorage.setItem("currentToken", res.data.loginToken);
           dispatch(setIsLoggedIn());
           dispatch(setUsername(res.data.user.username));
+          dispatch(setSingleUser(res.data.user));
           navigate(`/user/${res.data.user.username}`);
         }
       })
