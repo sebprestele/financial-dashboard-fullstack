@@ -18,10 +18,8 @@ import {
   setIsLoggedIn,
   setUsername,
   setSingleUser,
-  getAllUsers,
 } from "../../Redux/userSlice";
 import { RootState } from "../../Redux/store";
-import useGetUserData from "../../Hooks/getUserData";
 import { useEffect } from "react";
 
 function Copyright(props: any) {
