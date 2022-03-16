@@ -50,7 +50,7 @@ const updateUser = async (
   return foundUser
 }
 
-const deleteUser = async (userId: string) => {
+const deleteUser = async (userId: string): Promise<UserDocument | null> => {
   const foundUser = await User.findByIdAndDelete(userId)
 
   if (!foundUser) {
