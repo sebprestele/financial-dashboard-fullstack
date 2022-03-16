@@ -170,7 +170,11 @@ export const deleteUser = async (
 
 // PATCH ADD Investment to User
 
-export const addInvestmentToUser = async (req: Request, res: Response) => {
+export const addInvestmentToUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const userId = req.params.userId
     const investmentId = req.params.investmentId
@@ -180,32 +184,52 @@ export const addInvestmentToUser = async (req: Request, res: Response) => {
     )
     res.json(updatedUser)
   } catch (error) {
-    console.log(error)
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
   }
 }
 
 // PATCH ADD Income to User
 
-export const addIncomeToUser = async (req: Request, res: Response) => {
+export const addIncomeToUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const userId = req.params.userId
     const incomeId = req.params.incomeId
     const updatedUser = await UserService.addIncomeToUser(userId, incomeId)
     res.json(updatedUser)
   } catch (error) {
-    console.log(error)
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
   }
 }
 
 // PATCH ADD Expense to User
 
-export const addExpenseToUser = async (req: Request, res: Response) => {
+export const addExpenseToUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const userId = req.params.userId
     const expenseId = req.params.expenseId
     const updatedUser = await UserService.addExpenseToUser(userId, expenseId)
     res.json(updatedUser)
   } catch (error) {
-    console.log(error)
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
   }
 }
