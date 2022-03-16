@@ -9,7 +9,7 @@ export type InvestmentDocument = Document & {
   date: Date
   currency: string
   comments: string
-  category: Record<string, any>
+  category: string[]
   image: string[]
 }
 
@@ -30,7 +30,10 @@ const InvestmentSchema = new mongoose.Schema(
     currency: { type: String },
     comments: { type: String },
     image: [String],
-    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    category: {
+      type: String,
+      enum: ['Crypto', 'Stocks', 'ETF', 'Bonds', 'Cash', 'RealEstate', 'Other'],
+    },
   },
   { timestamps: true }
 )

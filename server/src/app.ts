@@ -4,7 +4,6 @@ import cors from 'cors'
 
 import investmentsRouter from './routers/investmentsRouter'
 import userRouter from './routers/userRouter'
-import categoryRouter from './routers/categoryRouter'
 import incomeRouter from './routers/incomeRouter'
 import expenseRouter from './routers/expenseRouter'
 import authRouter from './routers/authRouter'
@@ -32,8 +31,6 @@ passport.use(jwtStrategy)
 app.use('/api/v1/users', userRouter)
 //Investments router
 app.use('/api/v1/investments', investmentsRouter)
-//Category Router
-app.use('/api/v1/category', categoryRouter)
 //Income Router
 app.use('/api/v1/income', incomeRouter)
 //Expense Router

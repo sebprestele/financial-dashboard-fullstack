@@ -9,6 +9,9 @@ import {
   deleteUser,
   loginUser,
   findUserByUserName,
+  addInvestmentToUser,
+  addIncomeToUser,
+  addExpenseToUser,
 } from '../controllers/userController'
 
 const router = Router()
@@ -35,5 +38,9 @@ router.delete(
   passport.authenticate('jwt', { session: false }),
   deleteUser
 )
-router.post('/login', loginUser)
+
+router.patch('/addInvestment/:userId/:investmentId', addInvestmentToUser)
+router.patch('/addIncome/:userId/:incomeId', addIncomeToUser)
+router.patch('/addExpense/:userId/:expenseId', addExpenseToUser)
+
 export default router
