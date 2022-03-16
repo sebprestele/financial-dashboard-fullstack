@@ -1,5 +1,6 @@
 import User, { UserDocument } from '../models/User'
 import { NotFoundError } from '../helpers/apiError'
+import mongoose from 'mongoose'
 
 const createUser = async (user: UserDocument): Promise<UserDocument> => {
   return user.save()
@@ -49,13 +50,31 @@ const updateUser = async (
   return foundUser
 }
 
-const deleteUser = async (userId: string) => {
+const deleteUser = async (userId: string): Promise<UserDocument | null> => {
   const foundUser = await User.findByIdAndDelete(userId)
 
   if (!foundUser) {
     throw new NotFoundError(`User ${userId} not found`)
   }
   return foundUser
+}
+
+const addInvestmentToUser = async (userId: string, investmentId: string) => {
+  const user = await User.findById(userId)
+  user?.investments.push(investmentId)
+  return user?.save()
+}
+
+const addIncomeToUser = async (userId: string, incomeId: string) => {
+  const user = await User.findById(userId)
+  user?.income.push(incomeId)
+  return user?.save()
+}
+
+const addExpenseToUser = async (userId: string, expenseId: string) => {
+  const user = await User.findById(userId)
+  user?.expense.push(expenseId)
+  return user?.save()
 }
 
 export default {
@@ -66,4 +85,7 @@ export default {
   findUserByUsername,
   updateUser,
   deleteUser,
+  addInvestmentToUser,
+  addIncomeToUser,
+  addExpenseToUser,
 }
