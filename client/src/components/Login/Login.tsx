@@ -70,7 +70,7 @@ export default function Login() {
           navigate(`/user/${res.data.user.username}`);
         }
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => console.log(error.response.data.message));
   };
 
   return (
