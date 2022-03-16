@@ -9,9 +9,9 @@ export type UserDocument = Document & {
   lastName: string
   isAdmin: boolean
   image: string
-  investments: mongoose.Types.ObjectId[]
-  income: mongoose.Types.ObjectId[]
-  expense: mongoose.Types.ObjectId[]
+  investments: string[]
+  income: string[]
+  expense: string[]
 }
 
 const userSchema = new mongoose.Schema(
@@ -33,9 +33,9 @@ const userSchema = new mongoose.Schema(
     lastName: { type: String, min: [2, 'Min 2 characters required'] },
     isAdmin: { type: Boolean },
     image: { type: String },
-    investments: { type: mongoose.Schema.Types.ObjectId, ref: 'Investment' },
-    income: { type: mongoose.Schema.Types.ObjectId, ref: 'Income' },
-    expense: { type: mongoose.Schema.Types.ObjectId, ref: 'Expense' },
+    investments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Investment' }],
+    income: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Income' }],
+    expense: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Expense' }],
   },
   { timestamps: true }
 )
