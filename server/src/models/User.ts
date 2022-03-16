@@ -9,9 +9,9 @@ export type UserDocument = Document & {
   lastName: string
   isAdmin: boolean
   image: string
-  investments: [Record<string, any>]
-  income: [Record<string, any>]
-  expense: [Record<string, any>]
+  investments: mongoose.Types.ObjectId[]
+  income: mongoose.Types.ObjectId[]
+  expense: mongoose.Types.ObjectId[]
 }
 
 const userSchema = new mongoose.Schema(
