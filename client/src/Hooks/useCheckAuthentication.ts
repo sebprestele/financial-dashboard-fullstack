@@ -12,7 +12,9 @@ function useCheckAuthentication() {
     const timestamp = Math.floor(Date.now() / 1000);
     let storedToken = localStorage.getItem("currentToken");
 
-    if (storedToken) {
+    if (!storedToken) {
+      dispatch(setIsLoggedIn());
+    } else if (storedToken) {
       const decodedToken = jwt_decode(storedToken);
 
       // @ts-ignore
