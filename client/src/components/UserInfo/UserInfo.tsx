@@ -1,4 +1,5 @@
-import { Avatar, Text, Button, Paper } from "@mantine/core";
+import { Avatar, Text, Paper } from "@mantine/core";
+import EditProfileButton from "./EditProfileButton";
 
 interface UserInfoActionProps {
   avatar: string;
@@ -30,10 +31,7 @@ export function UserInfo({ avatar, name, email }: UserInfoActionProps) {
       <Text align="center" color="white" size="sm" mb="sm">
         {email}
       </Text>
-
-      <Button variant="light" color="indigo" compact fullWidth mb="sm">
-        Edit profile
-      </Button>
+      <EditProfileButton />
     </Paper>
   );
 }
