@@ -11,10 +11,11 @@ import {
   Logout,
 } from "tabler-icons-react";
 import { useDispatch } from "react-redux";
+import { RootState } from "../../Redux/store";
+import { useNavigate } from "react-router";
 
 import { setIsLoggedIn } from "../../Redux/userSlice";
 import { UserInfo } from "../UserInfo/UserInfo";
-import { RootState } from "../../Redux/store";
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef("icon");
@@ -100,12 +101,15 @@ const useStyles = createStyles((theme, _params, getRef) => {
   };
 });
 
+const username = localStorage.getItem("username");
+console.log(username);
+
 const data = [
-  { link: "/dashboard", label: "Dashboard", icon: Dashboard },
-  { link: "/balance", label: "Balance", icon: ZoomMoney },
-  { link: "/portfolio", label: "Portfolio", icon: ChartBar },
-  { link: "", label: "Budget", icon: Cash },
-  { link: "/settings", label: "Settings", icon: Settings },
+  { link: `/dashboard/${username}`, label: "Dashboard", icon: Dashboard },
+  { link: `/balance/${username}`, label: "Balance", icon: ZoomMoney },
+  { link: `/portfolio/${username}`, label: "Portfolio", icon: ChartBar },
+  { link: `/budget/${username}`, label: "Budget", icon: Cash },
+  { link: `/settings/${username}`, label: "Settings", icon: Settings },
 ];
 
 const Sidebar = () => {
@@ -124,6 +128,8 @@ const Sidebar = () => {
     localStorage.removeItem("currentToken");
   };
 
+  const navigate = useNavigate();
+
   const links = data.map((item) => (
     <a
       className={cx(classes.link, {
@@ -132,8 +138,10 @@ const Sidebar = () => {
       href={item.link}
       key={item.label}
       onClick={(event) => {
-        event.preventDefault();
+        navigate(item.link);
         setActive(item.label);
+        event.preventDefault();
+        console.log(active);
       }}
     >
       <item.icon className={classes.linkIcon} />
