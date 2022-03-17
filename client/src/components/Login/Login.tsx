@@ -50,7 +50,7 @@ export default function Login() {
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
   const username = useSelector((state: RootState) => state.user.username);
   useEffect(() => {
-    isLoggedIn && navigate(`/user/${username}`);
+    isLoggedIn && navigate(`/dashboard/${username}`);
   }, [isLoggedIn, navigate, username]);
 
   // Handle checkin form submit and if login succesful redirect to user page
@@ -67,7 +67,7 @@ export default function Login() {
           dispatch(setIsLoggedIn());
           dispatch(setUsername(res.data.user.username));
           dispatch(setSingleUser(res.data.user));
-          navigate(`/user/${res.data.user.username}`);
+          navigate(`/dashboard/${res.data.user.username}`);
         }
       })
       .catch((error) => console.log(error.response.data.message));
