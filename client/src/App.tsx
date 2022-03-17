@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Home from "./components/Home/Home";
-import User from "./components/User/User";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
 import ProtectedRoute from "./components/ProtectedRoutes/ProtectedRoute";
@@ -24,13 +23,37 @@ function App() {
           }
         />
         <Route
-          path="/user/:username"
+          path="/balance/:username"
           element={
             <ProtectedRoute>
-              <User />
+              <Dashboard />
             </ProtectedRoute>
           }
-        ></Route>
+        />
+        <Route
+          path="/portfolio/:username"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/budget/:username"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/:username"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -7,6 +7,7 @@
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@mantine/core": "^4.0.5",
+    "@mantine/form": "^4.0.5",
     "@mantine/hooks": "^4.0.5",
     "@mantine/next": "^4.0.5",
     "@mui/icons-material": "^5.5.0",

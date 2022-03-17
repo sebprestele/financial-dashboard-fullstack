@@ -64,6 +64,7 @@ export default function Login() {
       .then((res) => {
         if (res.data.loginToken) {
           localStorage.setItem("currentToken", res.data.loginToken);
+          localStorage.setItem("username", res.data.user.username);
           dispatch(setIsLoggedIn());
           dispatch(setUsername(res.data.user.username));
           dispatch(setSingleUser(res.data.user));
