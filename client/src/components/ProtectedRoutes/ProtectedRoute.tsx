@@ -6,7 +6,6 @@ import { RootState } from "../../Redux/store";
 const ProtectedRoute = ({ children }: any) => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
-  console.log("protectroute", isLoggedIn);
 
   useEffect(() => {
     !isLoggedIn && navigate("/login");
