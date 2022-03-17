@@ -14,7 +14,7 @@ function useCheckAuthentication() {
 
     if (!storedToken) {
       dispatch(setIsLoggedIn());
-    } else if (storedToken) {
+    } else {
       const decodedToken = jwt_decode(storedToken);
 
       // @ts-ignore
@@ -23,9 +23,11 @@ function useCheckAuthentication() {
       if (decodedToken.exp * 1000 < timestamp) {
         dispatch(setIsLoggedIn());
         localStorage.removeItem("currentToken");
+        console.log(timestamp);
         console.log("removedToken");
       }
-    } else return;
+    }
+    return;
   }, [dispatch]);
 }
 
