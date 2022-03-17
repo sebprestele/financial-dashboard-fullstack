@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { createStyles, Navbar, Group, Button } from "@mantine/core";
-import { useElementSize } from "@mantine/hooks";
+import { useElementSize, useMediaQuery } from "@mantine/hooks";
 import {
   Dashboard,
   ZoomMoney,
@@ -33,6 +33,10 @@ const useStyles = createStyles((theme, _params, getRef) => {
     header: {
       paddingBottom: theme.spacing.md,
       marginBottom: theme.spacing.md * 1.5,
+      "@media (max-width: 1300px)": {
+        paddingBottom: theme.spacing.sm,
+        marginBottom: theme.spacing.sm * 1.5,
+      },
       borderBottom: `1px solid ${theme.colors.blue[9]}`,
     },
 
@@ -49,6 +53,9 @@ const useStyles = createStyles((theme, _params, getRef) => {
       alignItems: "center",
       textDecoration: "none",
       fontSize: theme.fontSizes.md,
+      "@media (max-width: 1300px)": {
+        fontSize: theme.fontSizes.sm,
+      },
       color: theme.white,
       padding: `${theme.spacing.lg}px ${theme.spacing.xs}px`,
       borderRadius: theme.radius.sm,
@@ -105,6 +112,8 @@ const Sidebar = () => {
   //Mantine custom hooks for styling
   const { classes, cx } = useStyles();
   const { height } = useElementSize();
+  const largeScreen = useMediaQuery("(min-width: 1300px)");
+
   //sets state for active link
   const [active, setActive] = useState("Dashboard");
   const dispatch = useDispatch();
@@ -138,7 +147,7 @@ const Sidebar = () => {
 
   return (
     <Navbar
-      height={height}
+      height={largeScreen ? height : 700}
       width={{ sm: 300 }}
       p="md"
       className={classes.navbar}
