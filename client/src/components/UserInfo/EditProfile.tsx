@@ -1,41 +1,50 @@
-import { TextInput, Button, Group, Box } from "@mantine/core";
+import { TextInput, Button, Group, Box, Alert } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useSelector } from "react-redux";
+import { AlertCircle } from "tabler-icons-react";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 import { RootState } from "../../Redux/store";
+import { setSingleUser } from "../../Redux/userSlice";
 
 export default function EditProfile() {
+  const dispatch = useDispatch();
+  const token = localStorage.getItem("currentToken");
+  const userData = useSelector((state: RootState) => state.user.user);
+  const { email, username, firstName, lastName, _id } = userData;
+
   const form = useForm({
     initialValues: {
       username: "",
       email: "",
-      firstname: "",
-      lastname: "",
+      firstName: "",
+      lastName: "",
       newPassword: "",
     },
 
     validate: {},
   });
 
-  const userData = useSelector((state: RootState) => state.user.user);
-  console.log(userData);
-  const { email, username, firstName, lastName, _id } = userData;
-
-  const handleSubmit = () => {
-    form.onSubmit((values) => {
-      axios.put(`http://localhost:5000/api/v1/user/${_id}`, {
-        values,
-      });
-    });
-  };
-
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={form.onSubmit((values) =>
+          axios
+            .put(`http://localhost:5000/api/v1/users/${_id}`, values, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
+              dispatch(setSingleUser(res.data));
+              console.log(res.data);
+              form.reset();
+            })
+
+            .catch((error) => console.log(error.message))
+        )}
+      >
         <TextInput
           label="Email"
-          placeholder={email}
+          placeholder={userData.email}
           {...form.getInputProps("email")}
         />
         <TextInput
@@ -46,12 +55,12 @@ export default function EditProfile() {
         <TextInput
           label="Firstname"
           placeholder={firstName ? firstName : "Insert your firstname"}
-          {...form.getInputProps("firstname")}
+          {...form.getInputProps("firstName")}
         />
         <TextInput
           label="Lastname"
           placeholder={lastName ? lastName : "Insert your lastname"}
-          {...form.getInputProps("lastname")}
+          {...form.getInputProps("lastName")}
         />
 
         <TextInput
