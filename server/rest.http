@@ -20,9 +20,17 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/api/v1/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjI4ZDE0NGY1ZWFkZDQ4MGM5YjkzY2UiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ3MDE3OTg1LCJleHAiOjE2NDcwMjE1ODV9.fMZjgEuZUbtKg4FrHXexvWlvu-Yj7I9NhjtY8ck5t0Q
+GET http://localhost:5000/api/v1/users/6228d144f5eadd480c9b93ce
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjI4ZDE0NGY1ZWFkZDQ4MGM5YjkzY2UiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ3NTk2NjQwLCJleHAiOjE2NDc2MDAyNDB9.wnbDgFBCnZBFfa-fGAIrpI0ZBZDCgaRDqhVeKy3Gi1w
 
+###
+PUT http://localhost:5000/api/v1/users/6228d144f5eadd480c9b93ce
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjI4ZDE0NGY1ZWFkZDQ4MGM5YjkzY2UiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ3NTk2NjQwLCJleHAiOjE2NDc2MDAyNDB9.wnbDgFBCnZBFfa-fGAIrpI0ZBZDCgaRDqhVeKy3Gi1w
+Content-Type: application/json
+
+{
+"firstName": "Sebo"
+}
 ###
 GET http://localhost:5000/api/v1/investments/findInvestments
 
