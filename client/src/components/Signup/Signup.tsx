@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -13,6 +11,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { setSingleUser } from "../../Redux/userSlice";
+import { setUsername } from "../../Redux/userSlice";
 
 function Copyright(props: any) {
   return (
@@ -36,6 +37,7 @@ const theme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,7 +49,9 @@ export default function Login() {
       password: data.get("password"),
     }).then((res) => {
       console.log(res.data);
-      navigate(`/dashboard/${res.data.username}`);
+      dispatch(setSingleUser(res.data));
+      localStorage.setItem("username", res.data.user.username);
+      navigate(`/dashboard/${localStorage.getItem("username")}`);
     });
   };
 
@@ -131,7 +135,7 @@ export default function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Sign Up
               </Button>
 
               <Grid item>
