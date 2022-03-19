@@ -7,11 +7,11 @@ import {
   findUserById,
   updateUser,
   deleteUser,
-  loginUser,
   findUserByUserName,
   addInvestmentToUser,
   addIncomeToUser,
   addExpenseToUser,
+  addImageToUser,
 } from '../controllers/userController'
 
 const router = Router()
@@ -33,6 +33,7 @@ router.put(
   passport.authenticate('jwt', { session: false }),
   updateUser
 )
+
 router.delete(
   '/:userId',
   passport.authenticate('jwt', { session: false }),
@@ -42,5 +43,6 @@ router.delete(
 router.patch('/addInvestment/:userId/:investmentId', addInvestmentToUser)
 router.patch('/addIncome/:userId/:incomeId', addIncomeToUser)
 router.patch('/addExpense/:userId/:expenseId', addExpenseToUser)
+router.patch('/addImage/:userId/:imageId', addImageToUser)
 
 export default router

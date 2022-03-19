@@ -233,3 +233,24 @@ export const addExpenseToUser = async (
     }
   }
 }
+
+// PATCH ADD Image to User
+
+export const addImageToUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.params.userId
+    const imageId = req.params.imageId
+    const updatedUser = await UserService.addImageToUser(userId, imageId)
+    res.json(updatedUser)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}

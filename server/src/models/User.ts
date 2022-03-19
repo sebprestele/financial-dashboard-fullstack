@@ -8,7 +8,7 @@ export type UserDocument = Document & {
   firstName: string
   lastName: string
   isAdmin: boolean
-  image: string
+  image: string[]
   investments: string[]
   income: string[]
   expense: string[]
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
     firstName: { type: String, min: [2, 'Min 2 characters required'] },
     lastName: { type: String, min: [2, 'Min 2 characters required'] },
     isAdmin: { type: Boolean },
-    image: { type: String },
+    image: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Image' }],
     investments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Investment' }],
     income: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Income' }],
     expense: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Expense' }],
