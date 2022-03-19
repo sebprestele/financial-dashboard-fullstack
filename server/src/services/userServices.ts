@@ -1,6 +1,5 @@
 import User, { UserDocument } from '../models/User'
 import { NotFoundError } from '../helpers/apiError'
-import mongoose from 'mongoose'
 
 const createUser = async (user: UserDocument): Promise<UserDocument> => {
   return user.save()
@@ -11,7 +10,7 @@ const findUsers = async (): Promise<UserDocument[]> => {
 }
 
 const findUserById = async (userId: string): Promise<UserDocument> => {
-  const foundUser = await User.findById(userId)
+  const foundUser = await User.findById(userId).populate('image')
   if (!foundUser) {
     throw new NotFoundError(`User ${userId} not found`)
   }
@@ -32,7 +31,12 @@ const findUserByEmail = async (
 const findUserByUsername = async (
   username?: string
 ): Promise<UserDocument | null> => {
-  const user = await User.findOne({ username })
+  const user = await User.findOne({ username }).populate(
+    'image',
+    'income',
+    'expense',
+    'investments'
+  )
   return user
 }
 
@@ -77,6 +81,12 @@ const addExpenseToUser = async (userId: string, expenseId: string) => {
   return user?.save()
 }
 
+const addImageToUser = async (userId: string, imageId: string) => {
+  const user = await User.findById(userId)
+  user?.image.push(imageId)
+  return user?.save()
+}
+
 export default {
   createUser,
   findUsers,
@@ -88,4 +98,5 @@ export default {
   addInvestmentToUser,
   addIncomeToUser,
   addExpenseToUser,
+  addImageToUser,
 }
