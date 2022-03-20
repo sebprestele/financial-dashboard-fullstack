@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Balance from "./components/Balance/Balance";
 import Home from "./components/Home/Home";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
@@ -26,7 +27,7 @@ function App() {
           path="/balance/:username"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <Balance />
             </ProtectedRoute>
           }
         />

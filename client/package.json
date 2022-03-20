@@ -46,7 +46,8 @@
     "tabler-icons-react": "^1.39.0",
     "typescript": "^4.6.2",
     "web-vitals": "^2.1.4",
-    "yup": "0.32.11"
+    "yup": "0.32.11",
+    "zod": "^3.14.2"
   },
   "scripts": {
     "start": "react-scripts start",
