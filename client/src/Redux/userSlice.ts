@@ -5,6 +5,7 @@ export interface UserState {
   allUser: [];
   user: {};
   username: String;
+  userImage: String;
 }
 
 const initialState: UserState = {
@@ -12,6 +13,7 @@ const initialState: UserState = {
   allUser: [],
   user: {},
   username: "",
+  userImage: "",
 };
 
 export const userSlice = createSlice({
@@ -30,11 +32,19 @@ export const userSlice = createSlice({
     setUsername: (state, action) => {
       state.username = action.payload;
     },
+    setUserImage: (state, action) => {
+      state.userImage = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setIsLoggedIn, setUsername, getAllUsers, setSingleUser } =
-  userSlice.actions;
+export const {
+  setIsLoggedIn,
+  setUsername,
+  getAllUsers,
+  setSingleUser,
+  setUserImage,
+} = userSlice.actions;
 
 export default userSlice.reducer;

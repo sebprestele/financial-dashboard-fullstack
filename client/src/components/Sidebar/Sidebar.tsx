@@ -151,6 +151,7 @@ const Sidebar = () => {
 
   //Get user data from redux store
   const userData = useSelector((state: RootState) => state.user.user);
+  const userImage = useSelector((state: RootState) => state.user.userImage);
   const { email, username } = userData;
 
   return (
@@ -164,7 +165,7 @@ const Sidebar = () => {
         <Group className={classes.header} position="apart">
           Logo here
         </Group>
-        <UserInfo avatar="" name={username} email={email} />
+        <UserInfo avatar={userImage} name={username} email={email} />
         {links}
       </Navbar.Section>
 
