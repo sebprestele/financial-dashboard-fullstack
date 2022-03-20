@@ -1,144 +1,72 @@
-import {
-  createStyles,
-  Table,
-  ScrollArea,
-  UnstyledButton,
-  Button,
-  Modal,
-  Group,
-  Text,
-  Center,
-  TextInput,
-  NumberInput,
-  Box,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { Selector, ChevronDown, ChevronUp, Search } from "tabler-icons-react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { Table, ScrollArea, Button, Modal, Group, Text } from "@mantine/core";
+import { Edit } from "tabler-icons-react";
+
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { RootState } from "../../Redux/store";
 import AddIncome from "./AddIncome";
-
-const useStyles = createStyles((theme) => ({
-  th: {
-    padding: "0 !important",
-  },
-
-  control: {
-    width: "100%",
-    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-    },
-  },
-
-  icon: {
-    width: 21,
-    height: 21,
-    borderRadius: 21,
-  },
-}));
-
+import { setSingleUser } from "../../Redux/userSlice";
+import axios from "axios";
 interface RowData {
+  _id: string;
   name: string;
-  email: string;
-  company: string;
-}
-
-interface TableSortProps {
-  data: RowData[];
-}
-
-interface ThProps {
-  children: React.ReactNode;
-  reversed: boolean;
-  sorted: boolean;
-  onSort(): void;
-}
-
-function Th({ children, reversed, sorted, onSort }: ThProps) {
-  const { classes } = useStyles();
-  const Icon = sorted ? (reversed ? ChevronUp : ChevronDown) : Selector;
-  return (
-    <th className={classes.th}>
-      <UnstyledButton onClick={onSort} className={classes.control}>
-        <Group position="apart">
-          <Text weight={500} size="sm">
-            {children}
-          </Text>
-          <Center className={classes.icon}>
-            <Icon size={14} />
-          </Center>
-        </Group>
-      </UnstyledButton>
-    </th>
-  );
-}
-
-const data = [{ name: "sebastian", email: "test@io.de", company: "Income" }];
-
-function filterData(data: RowData[], search: string) {
-  const keys = Object.keys(data[0]);
-  const query = search.toLowerCase().trim();
-  return data.filter((item) =>
-    //@ts-ignore
-    keys.some((key) => item[key].toLowerCase().includes(query))
-  );
-}
-
-function sortData(
-  data: RowData[],
-  payload: { sortBy: keyof RowData; reversed: boolean; search: string }
-) {
-  if (!payload.sortBy) {
-    return filterData(data, payload.search);
-  }
-
-  return filterData(
-    [...data].sort((a, b) => {
-      if (payload.reversed) {
-        return b[payload.sortBy].localeCompare(a[payload.sortBy]);
-      }
-
-      return a[payload.sortBy].localeCompare(b[payload.sortBy]);
-    }),
-    payload.search
-  );
+  amount: string;
+  date: string;
+  tag: string;
 }
 
 export function IncomeOverviewTable() {
-  const [search, setSearch] = useState("");
-  const [sortedData, setSortedData] = useState(data);
-  //@ts-ignore
-  const [sortBy, setSortBy] = useState<keyof RowData>(null);
-  const [reverseSortDirection, setReverseSortDirection] = useState(false);
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("currentToken");
+  const dispatch = useDispatch();
   const [opened, setOpened] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
-  const setSorting = (field: keyof RowData) => {
-    const reversed = field === sortBy ? !reverseSortDirection : false;
-    setReverseSortDirection(reversed);
-    setSortBy(field);
-    setSortedData(sortData(data, { sortBy: field, reversed, search }));
-  };
+  useEffect(() => {
+    try {
+      fetch(`http://localhost:5000/api/v1/users/${userId}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          dispatch(setSingleUser(data));
+          console.log(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch, token, userId]);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    setSearch(value);
-    setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
-    );
-  };
+  const incomeDataArray = useSelector(
+    (state: RootState) => state.user.user.income
+  );
 
-  const rows = sortedData.map((row) => (
-    <tr key={row.name}>
+  const rows = incomeDataArray.map((row: RowData) => (
+    <tr key={row._id}>
       <td>{row.name}</td>
-      <td>{row.email}</td>
-      <td>{row.company}</td>
+      <td>{row.amount} </td>
+      <td>{row.tag}</td>
+      <td>{row.date != null && row.date.substring(5, 10)}</td>
+      <td>
+        <Edit
+          onClick={async () => {
+            await axios
+              .delete(`http://localhost:5000/api/v1/income/${row._id}`)
+              .then((res) => console.log(res));
+            await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
+              method: "GET",
+              headers: { Authorization: `Bearer ${token}` },
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                dispatch(setSingleUser(data));
+                console.log(data);
+              });
+          }}
+        />
+      </td>
     </tr>
   ));
 
@@ -148,41 +76,58 @@ export function IncomeOverviewTable() {
         <Text size="md" mb={10}>
           Latest Income
         </Text>
-        <TextInput
+        {/*  <TextInput
           placeholder="Search by any field"
           mb="md"
           icon={<Search size={14} />}
-          value={search}
-          onChange={handleSearchChange}
-        />
+          // value={search}
+          // onChange={handleSearchChange}
+        /> */}
         <Table
-          horizontalSpacing="md"
-          verticalSpacing="xs"
+          highlightOnHover
+          horizontalSpacing="sm"
+          verticalSpacing="sm"
           sx={{ tableLayout: "fixed", minWidth: 500 }}
         >
           <thead>
             <tr>
-              <Th
-                sorted={sortBy === "name"}
+              <th
+              /*  sorted={sortBy === "name"}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting("name")}
+                onSort={() => setSorting("name")} */
               >
                 Name
-              </Th>
-              <Th
-                sorted={sortBy === "email"}
+              </th>
+              <th
+              /*    //sorted={sortBy === "email"}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting("email")}
+                onSort={() => setSorting("email")} */
               >
-                Email
-              </Th>
-              <Th
-                sorted={sortBy === "company"}
+                Amount
+              </th>
+              <th
+              /*  //sorted={sortBy === "company"}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting("company")}
+                onSort={() => setSorting("company")} */
               >
-                Company
-              </Th>
+                Category
+              </th>
+
+              <th
+              /*  //sorted={sortBy === "company"}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting("company")} */
+              >
+                Date
+              </th>
+
+              <th
+              /*  //sorted={sortBy === "company"}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting("company")} */
+              >
+                Edit
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -190,7 +135,7 @@ export function IncomeOverviewTable() {
               rows
             ) : (
               <tr>
-                <td colSpan={Object.keys(data[0]).length}>
+                <td colSpan={Object.keys(incomeDataArray[0]).length}>
                   <Text weight={500} align="center">
                     Nothing found
                   </Text>
@@ -209,6 +154,9 @@ export function IncomeOverviewTable() {
       </Modal>
       <Group position="center" mt={15}>
         <Button onClick={() => setOpened(true)}>Add Income</Button>
+        {/*   <Button variant="outline" type="submit" onClick={handleSubmit}>
+          Remove Selected
+        </Button> */}
       </Group>
     </div>
   );
