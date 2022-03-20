@@ -1,4 +1,11 @@
-import { TextInput, NumberInput, Button, Group, Box } from "@mantine/core";
+import {
+  TextInput,
+  Textarea,
+  NumberInput,
+  Button,
+  Group,
+  Box,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import axios from "axios";
 
@@ -6,19 +13,22 @@ function AddExpense() {
   const form = useForm({
     initialValues: {
       name: "",
-      amount: "",
-      tag: "",
+      amount: 0,
+      date: "",
+      tag: "Uncategorized",
+      comments: "",
     },
 
     validate: {},
   });
-
+  const userId = localStorage.getItem("userId");
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
       <form
         onSubmit={form.onSubmit((values) => {
-          axios.post("http://localhost:5000/api/v1/expense", values);
+          axios.post(`http://localhost:5000/api/v1/expense/${userId}`, values);
           console.log(values);
+          form.reset();
         })}
       >
         <TextInput
@@ -28,17 +38,20 @@ function AddExpense() {
           {...form.getInputProps("name")}
         />
         <NumberInput
-          defaultValue={0}
           placeholder="Amount"
           label="Add expense amount"
           required
           {...form.getInputProps("amount")}
         />
         <TextInput
-          defaultValue={"Uncategorized"}
           label="Tag"
           placeholder="Add a category for this expense"
           {...form.getInputProps("tag")}
+        />
+        <Textarea
+          label="Comments"
+          placeholder="Add additional comments"
+          {...form.getInputProps("comments")}
         />
 
         <Group position="right" mt="md">
