@@ -115,6 +115,7 @@ export default function ImageUpload() {
       onDrop={(files) => {
         const reader = new FileReader();
         reader.readAsDataURL(files[0]);
+        //@ts-ignore
         reader.onloadend = () => uploadImage(reader.result);
         console.log("success");
       }}
