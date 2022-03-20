@@ -1,7 +1,16 @@
-import { Group, Text, useMantineTheme, MantineTheme } from "@mantine/core";
+import {
+  Group,
+  Text,
+  useMantineTheme,
+  MantineTheme,
+  Loader,
+} from "@mantine/core";
+import { Dropzone, DropzoneStatus, MIME_TYPES } from "@mantine/dropzone";
 import { Upload, Photo, X, Icon as TablerIcon } from "tabler-icons-react";
-import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import axios from "axios";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { setUserImage } from "../../Redux/userSlice";
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   return status.accepted
@@ -28,75 +37,94 @@ function ImageUploadIcon({
   return <Photo {...props} />;
 }
 
-export const dropzoneChildren = (
-  status: DropzoneStatus,
-  theme: MantineTheme
-) => (
-  <Group
-    position="center"
-    spacing="xl"
-    style={{ minHeight: 220, pointerEvents: "none" }}
-  >
-    <ImageUploadIcon
-      status={status}
-      style={{ color: getIconColor(status, theme) }}
-      size={80}
-    />
+export const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) =>
+  !status.accepted ? (
+    <Group
+      position="center"
+      spacing="xl"
+      style={{ minHeight: 220, pointerEvents: "none" }}
+    >
+      <ImageUploadIcon
+        status={status}
+        style={{ color: getIconColor(status, theme) }}
+        size={80}
+      />
 
-    <div>
-      <Text size="xl" inline>
-        Drag images here or click to select file
-      </Text>
-      <Text size="sm" color="dimmed" inline mt={7}>
-        File should not exceed 5mb
-      </Text>
-    </div>
-  </Group>
-);
-
-//const CLOUDINARY_API = 971917323984319;
+      <div>
+        <Text size="xl" inline>
+          Drag images here or click to select file
+        </Text>
+        <Text size="sm" color="dimmed" inline mt={7}>
+          File should not exceed 5mb. Only JPG and PNG images!
+        </Text>
+      </div>
+    </Group>
+  ) : (
+    <Group
+      position="center"
+      spacing="xl"
+      style={{ minHeight: 220, pointerEvents: "none" }}
+    >
+      <div>
+        <Text size="xl" inline>
+          Successful upload! Return to profile
+        </Text>
+      </div>
+    </Group>
+  );
 
 export default function ImageUpload() {
   const theme = useMantineTheme();
-  return (
+  const [isLoading, setIsLoading] = useState(false);
+
+  const token = localStorage.getItem("currentToken");
+  const userId = localStorage.getItem("userId");
+  const dispatch = useDispatch();
+
+  const uploadImage = async (base64EncodedImage: String) => {
+    console.log(base64EncodedImage);
+    try {
+      setIsLoading(true);
+      await fetch(`http://localhost:5000/api/v1/upload`, {
+        method: "POST",
+        body: JSON.stringify({ data: base64EncodedImage, userId: userId }),
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const imageArray = data.image;
+        const image = imageArray.map((image: any) => image.imageUrl);
+        dispatch(setUserImage(image[image.length - 1]));
+        setIsLoading(false);
+      });
+  };
+
+  return !isLoading ? (
     <Dropzone
       onDrop={(files) => {
-        // const instance = axios.create();
-        /*   const imageData = new FormData();
-        imageData.append("file", files[0]);
-        imageData.append("upload_preset", "brashed"); */
-
-        /*     fetch("https://api.cloudinary.com/dmpebjzbf/image/upload", {
-          method: "post",
-          body: imageData,
-        })
-          .then((res) => res.json())
-          .then((data) => console.log(data))
-          .catch((err) => console.log(err)); */
-
-        /*   axios
-          .post(
-            "https://api.cloudinary.com/dmpebjzbf/image/upload",
-            imageData,
-            {
-              headers: { "X-Requested-With": "XMLHttpRequest" },
-            }
-          )  .then((res) => console.log(res))
-          .catch((error) => console.log(error));
-          */
-
-        /* instance
-          .post("https://api.cloudinary.com/dmpebjzbf/image/upload", imageData)
-          .then((res) => console.log(res))
-          .catch((error) => console.log(error)); */
-
-        console.log("accepted files", files);
+        const reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onloadend = () => uploadImage(reader.result);
+        console.log("success");
       }}
       onReject={(files) => console.log("rejected files", files)}
       maxSize={3 * 1024 ** 2}
-      accept={IMAGE_MIME_TYPE}
+      accept={[MIME_TYPES.png, MIME_TYPES.jpeg]}
     >
       {(status) => dropzoneChildren(status, theme)}
     </Dropzone>
+  ) : (
+    <Loader />
   );
 }
