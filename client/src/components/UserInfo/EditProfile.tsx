@@ -6,6 +6,7 @@ import {
   Avatar,
   Center,
   Modal,
+  Image,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,7 +23,8 @@ export default function EditProfile() {
   //Get JWT Token and userData and setup the form values
   const token = localStorage.getItem("currentToken");
   const userData = useSelector((state: RootState) => state.user.user);
-  const { email, username, firstName, lastName, _id, image } = userData;
+  const { email, username, firstName, lastName, _id } = userData;
+  const userImage = useSelector((state: RootState) => state.user.userImage);
   const form = useForm({
     initialValues: {
       username: username,
@@ -30,7 +32,7 @@ export default function EditProfile() {
       firstName: firstName,
       lastName: lastName,
       newPassword: "",
-      image: image,
+      image: userImage,
     },
 
     validate: {},
@@ -56,7 +58,7 @@ export default function EditProfile() {
         )}
       >
         <Center>
-          <Avatar radius="xl" alt="it's me" size="lg" mb={10} />
+          <Avatar src={userImage} radius="xl" alt="it's me" size="lg" mb={10} />
         </Center>
         <Modal
           opened={opened}
