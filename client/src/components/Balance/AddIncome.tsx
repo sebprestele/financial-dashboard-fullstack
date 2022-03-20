@@ -7,8 +7,10 @@ import {
   Box,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-//import { DatePicker } from "@mantine/dates";
+import { DatePicker } from "@mantine/dates";
 import axios from "axios";
+
+import getSingleUserData from "../../Hooks/getSingleUserData";
 
 function AddIncome() {
   const form = useForm({
@@ -43,6 +45,11 @@ function AddIncome() {
           label="Add income amount"
           required
           {...form.getInputProps("amount")}
+        />
+        <DatePicker
+          placeholder="Pick date"
+          label="Date"
+          {...form.getInputProps("date")}
         />
         <TextInput
           label="Tag"
