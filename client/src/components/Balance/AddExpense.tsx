@@ -7,6 +7,7 @@ import {
   Box,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { DatePicker } from "@mantine/dates";
 import axios from "axios";
 
 function AddExpense() {
@@ -42,6 +43,11 @@ function AddExpense() {
           label="Add expense amount"
           required
           {...form.getInputProps("amount")}
+        />
+        <DatePicker
+          placeholder="Pick date"
+          label="Date"
+          {...form.getInputProps("date")}
         />
         <TextInput
           label="Tag"
