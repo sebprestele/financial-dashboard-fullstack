@@ -4,3 +4,8 @@
   min-height: fit-content;
   background-color: #bac8ff;
 }
+
+.currency-icon {
+  position: relative;
+  top: 3px;
+}
