@@ -1,8 +1,6 @@
-import { Container, Tabs, Title } from "@mantine/core";
-
-import { IncomeOverviewTable } from "./IncomeOverviewTable";
+import { Container, Title } from "@mantine/core";
+import { ExpenseOverview } from "./ExpenseOverview";
 import { ExpenseOverviewTable } from "./ExpenseOverviewTable";
-import { BalanceOverview } from "./BalanceOverview";
 
 const Main = () => {
   return (
@@ -10,15 +8,8 @@ const Main = () => {
       <Title align="center" order={1} mb={30}>
         Expense Tracker
       </Title>
-      <BalanceOverview />
-      <Tabs>
-        <Tabs.Tab label="Income">
-          <IncomeOverviewTable />
-        </Tabs.Tab>
-        <Tabs.Tab label="Expense">
-          <ExpenseOverviewTable />
-        </Tabs.Tab>
-      </Tabs>
+      <ExpenseOverview />
+      <ExpenseOverviewTable />
     </Container>
   );
 };

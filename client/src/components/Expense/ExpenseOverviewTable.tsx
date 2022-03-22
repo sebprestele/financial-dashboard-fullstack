@@ -7,7 +7,7 @@ import { RootState } from "../../Redux/store";
 import { setSingleUser } from "../../Redux/userSlice";
 import AddExpense from "./AddExpense";
 import EditExpense from "./EditExpense";
-import { setModalState } from "../../Redux/helperSlice";
+import { setAltModalState, setModalState } from "../../Redux/helperSlice";
 
 export interface RowData {
   _id?: string;
@@ -27,7 +27,7 @@ export function ExpenseOverviewTable() {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("currentToken");
   //State for the Add Expense Modal
-  const [opened, setOpened] = useState(false);
+  const opened = useSelector((state: RootState) => state.helper.altModalState);
   //State for the Edit Details Modal
   const detailsOpen = useSelector(
     (state: RootState) => state.helper.modalState
@@ -81,7 +81,7 @@ export function ExpenseOverviewTable() {
 
   return (
     <div className="flex-column">
-      <Title order={4} mb={10}>
+      <Title order={3} mb={10} mt={30}>
         Latest Expense
       </Title>
       {/*  <TextInput
@@ -107,9 +107,9 @@ export function ExpenseOverviewTable() {
           </tr>
         </thead>
         <tbody>
-          {rows.length >= 0 && rows.length <= 10 ? (
+          {rows.length >= 0 && rows.length <= numRows ? (
             rows
-          ) : rows.length > 10 ? (
+          ) : rows.length > numRows ? (
             <>
               {/*Displays the current expense data in batches of numRows, currently set to 5 */}
               {rows.slice(numRowsStart, numRowsEnd)}
@@ -117,7 +117,6 @@ export function ExpenseOverviewTable() {
           ) : (
             <tr>
               <td colSpan={5}>
-                {" "}
                 <Text weight={500} align="center">
                   Nothing found
                 </Text>
@@ -154,11 +153,13 @@ export function ExpenseOverviewTable() {
 
       {/*Modals for adding and editing data */}
       <Group position="center" mt={15}>
-        <Button onClick={() => setOpened(true)}>Add Expense</Button>
+        <Button onClick={() => dispatch(setAltModalState())}>
+          Add Expense
+        </Button>
 
         <Modal /* Add Expense Model, opens from button click above */
           opened={opened}
-          onClose={() => setOpened(false)}
+          onClose={() => dispatch(setAltModalState())}
           title="Add Expense!"
         >
           <AddExpense />
