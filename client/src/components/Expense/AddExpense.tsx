@@ -9,27 +9,56 @@ import {
 import { useForm } from "@mantine/form";
 import { DatePicker } from "@mantine/dates";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { CurrencyEuro } from "tabler-icons-react";
+
+import { setSingleUser } from "../../Redux/userSlice";
+import { setAltModalState } from "../../Redux/helperSlice";
 
 function AddExpense() {
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("currentToken");
+  const dispatch = useDispatch();
+
   const form = useForm({
     initialValues: {
-      name: "",
+      name: "Random expense",
       amount: 0,
-      date: "",
+      date: new Date(),
       tag: "Uncategorized",
       comments: "",
     },
 
-    validate: {},
+    validate: (values) => ({
+      name: values.name === undefined ? "Name is required" : null,
+      amount: values.amount === undefined ? "Amount is required" : null,
+      date: values.date === undefined ? "Date is required" : null,
+    }),
   });
-  const userId = localStorage.getItem("userId");
+
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
       <form
-        onSubmit={form.onSubmit((values) => {
-          axios.post(`http://localhost:5000/api/v1/expense/${userId}`, values);
-          console.log(values);
+        onSubmit={form.onSubmit(async (values) => {
+          try {
+            await axios
+              .post(`http://localhost:5000/api/v1/expense/${userId}`, values)
+              .then((res) => console.log(res));
+            form.reset();
+            await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
+              method: "GET",
+              headers: { Authorization: `Bearer ${token}` },
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                dispatch(setSingleUser(data));
+                console.log(data);
+              });
+          } catch (error) {
+            console.log(error);
+          }
           form.reset();
+          dispatch(setAltModalState());
         })}
       >
         <TextInput
@@ -41,6 +70,7 @@ function AddExpense() {
         <NumberInput
           placeholder="Amount"
           label="Add expense amount"
+          icon={<CurrencyEuro size={16} />}
           required
           {...form.getInputProps("amount")}
         />
@@ -50,7 +80,7 @@ function AddExpense() {
           {...form.getInputProps("date")}
         />
         <TextInput
-          label="Tag"
+          label="Category"
           placeholder="Add a category for this expense"
           {...form.getInputProps("tag")}
         />

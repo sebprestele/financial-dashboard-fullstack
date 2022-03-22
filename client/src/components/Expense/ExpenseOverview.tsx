@@ -1,11 +1,4 @@
-import {
-  createStyles,
-  Group,
-  Paper,
-  Text,
-  ThemeIcon,
-  SimpleGrid,
-} from "@mantine/core";
+import { Group, Paper, Text, ThemeIcon, SimpleGrid } from "@mantine/core";
 import { ArrowUpRight, ArrowDownRight } from "tabler-icons-react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
@@ -17,9 +10,10 @@ const data = [
   { title: "Monthly Balance", value: "VALUE3", diff: 30 },
 ];
 
-export function BalanceOverview() {
+export function ExpenseOverview() {
   const userData = useSelector((state: RootState) => state.user.user);
-  console.log(userData);
+  console.log(userData.expense);
+  const expenses = userData.expense;
   const stats = data.map((stat) => {
     const DiffIcon = stat.diff > 0 ? ArrowUpRight : ArrowDownRight;
 
