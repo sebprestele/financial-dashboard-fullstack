@@ -81,7 +81,7 @@ export function IncomeOverviewTable() {
 
   return (
     <div className="flex-column">
-      <Title order={4} mb={10}>
+      <Title order={3} mb={10} mt={30}>
         Latest Income
       </Title>
       {/*  <TextInput
@@ -117,7 +117,6 @@ export function IncomeOverviewTable() {
           ) : (
             <tr>
               <td colSpan={5}>
-                {" "}
                 <Text weight={500} align="center">
                   Nothing found
                 </Text>

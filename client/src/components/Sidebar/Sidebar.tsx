@@ -106,7 +106,7 @@ console.log(username);
 
 const data = [
   { link: `/dashboard/${username}`, label: "Dashboard", icon: Dashboard },
-  { link: `/balance/${username}`, label: "Balance", icon: ZoomMoney },
+  { link: `/expense/${username}`, label: "Expense", icon: ZoomMoney },
   { link: `/portfolio/${username}`, label: "Portfolio", icon: ChartBar },
   { link: `/budget/${username}`, label: "Budget", icon: Cash },
   { link: `/settings/${username}`, label: "Settings", icon: Settings },
