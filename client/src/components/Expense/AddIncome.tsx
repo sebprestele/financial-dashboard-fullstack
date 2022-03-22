@@ -11,6 +11,7 @@ import { DatePicker } from "@mantine/dates";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setSingleUser } from "../../Redux/userSlice";
+import { CurrencyEuro } from "tabler-icons-react";
 
 function AddIncome() {
   const userId = localStorage.getItem("userId");
@@ -19,14 +20,18 @@ function AddIncome() {
 
   const form = useForm({
     initialValues: {
-      name: "",
+      name: "Random income",
       amount: 0,
-      date: "",
+      date: new Date(),
       tag: "Uncategorized",
       comments: "",
     },
 
-    validate: {},
+    validate: (values) => ({
+      name: values.name === undefined ? "Name is required" : null,
+      amount: values.amount === undefined ? "Amount is required" : null,
+      date: values.date === undefined ? "Date is required" : null,
+    }),
   });
 
   return (
@@ -62,6 +67,7 @@ function AddIncome() {
         <NumberInput
           placeholder="Amount"
           label="Add income amount"
+          icon={<CurrencyEuro size={16} />}
           required
           {...form.getInputProps("amount")}
         />
