@@ -46,12 +46,13 @@ const ExpenseOverviewChart = () => {
   const { totalExpenseByCategory } = ExpensesFunctions();
   //const expenseData = useSelector((state: RootState) => state.user.user);
 
-  const data = Object.entries(totalExpenseByCategory).map(([name, value]) => ({
-    key: name[0],
-    value: value[0],
+  const data = Object.entries(totalExpenseByCategory).map(([key, value]) => ({
+    key: key,
+    value: value,
   }));
 
-  console.log(Object.entries(totalExpenseByCategory));
+  console.log(data);
+
   return (
     <PieChart width={400} height={400}>
       <Pie
