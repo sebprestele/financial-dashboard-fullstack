@@ -1,5 +1,4 @@
 //@ts-nocheck
-
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/store";
 
@@ -12,11 +11,14 @@ const ExpensesFunctions = () => {
   const currentMonthYear = currentYear + "-" + currentMonth;
   const lastMonthYear = currentYear + "-" + prevMonth;
   const lastTwoMonthYear = currentYear + "-" + prevTwoMonths;
+
   // Set initial value for calculations
   let initialValue = 0;
 
   //Get userData from Redux Store
   const userData = useSelector((state: RootState) => state.user.user);
+  console.log(userData);
+
   //Variable that displays the expense date as YYYY-MM
   const dateExpense = userData.expense.map((expense: any) =>
     expense.date.slice(0, 7)
@@ -100,10 +102,13 @@ const ExpensesFunctions = () => {
     item.map((item) => item[1])
   );
 
-  //Get the category names for the separated categories
-  const categoryName = categoriesArray.map((item) => {
-    return item.filter((item) => item[0][0]);
+  //Get the category names for the separated categories and push to new array
+  const newCategoriesArray = [];
+  categoriesArray.map((item) => {
+    return newCategoriesArray.push(item);
   });
+
+  const combinedCategoryArray = newCategoriesArray.map((item) => item[0]);
 
   //Get totals per category -- will only return the total as number
   const totalsByCategory = categoriesArray.map((item) => {
@@ -115,10 +120,17 @@ const ExpensesFunctions = () => {
   });
 
   //Create object with category names and totals
-  const totalExpenseByCategory = {
-    name: categoryName,
-    value: totalsByCategory,
-  };
+  const totalExpenseByCategory = combinedCategoryArray.reduce(
+    (newObject, currentValue, index) => {
+      newObject[currentValue] = newObject[currentValue]
+        ? newObject[currentValue] + ", " + totalsByCategory[index]
+        : totalsByCategory[index];
+      return newObject;
+    },
+    {}
+  );
+
+  console.log(totalExpenseByCategory);
 
   return {
     prevMonthlyExpenses,
