@@ -81,7 +81,7 @@ export function ExpenseOverview() {
           >
             {stat.diff}%{" "}
           </Text>
-          {stat.diff > 0 ? "increase" : "decrease"} compared to last month
+          {stat.diff > 0 ? "increase" : "decrease"} compared to previous month
         </Text>
       </Paper>
     );
