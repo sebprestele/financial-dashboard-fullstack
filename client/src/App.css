@@ -1,7 +1,5 @@
 .general-layout {
   display: flex;
-  align-items: center;
-  min-height: fit-content;
   background-color: #bac8ff;
 }
 
