@@ -1,18 +1,23 @@
-import { Container, Paper, SimpleGrid, Title } from "@mantine/core";
+import { Container, Paper, SimpleGrid } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+
 import { ExpenseOverview } from "./ExpenseOverview";
 import ExpenseOverviewChart from "./ExpenseCategoryChart";
 import { ExpenseOverviewTable } from "./ExpenseOverviewTable";
+import ExpensesMonthlyChart from "./ExpensesMonthlyChart";
 
 const Main = () => {
+  const largeScreen = useMediaQuery("(min-width: 1300px)");
   return (
-    <Container my="md">
-      <Title align="center" order={1} mb={30}>
-        Expense Tracker
-      </Title>
-      <Paper radius="md">
+    <Container ml={largeScreen ? 600 : 250} mt={largeScreen ? 60 : 20}>
+      <Paper radius="md" p={30}>
         <ExpenseOverview />
-        <ExpenseOverviewChart />
+        <SimpleGrid cols={2}>
+          <ExpenseOverviewChart />
+          <ExpensesMonthlyChart />
+        </SimpleGrid>
       </Paper>
+
       <ExpenseOverviewTable />
     </Container>
   );

@@ -11,7 +11,6 @@ import ExpensesFunctions from "../../stats/expenses";
 
 export function ExpenseOverview() {
   const {
-    totalExpenses,
     monthlyDifference,
     monthlyExpenses,
     prevMonthlyExpenses,
@@ -42,9 +41,8 @@ export function ExpenseOverview() {
         withBorder
         shadow="md"
         p="md"
-        radius="md"
-        mt={10}
-        mb={10}
+        radius="lg"
+        mt={30}
         ml={50}
         mr={50}
         key={stat.title}
@@ -91,6 +89,9 @@ export function ExpenseOverview() {
 
   return (
     <div>
+      <Title align="center" order={1} mb={10}>
+        Expense Tracker
+      </Title>
       <SimpleGrid cols={2} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
         {stats}
       </SimpleGrid>
