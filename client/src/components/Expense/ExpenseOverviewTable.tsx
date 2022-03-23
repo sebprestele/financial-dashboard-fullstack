@@ -36,29 +36,20 @@ export function ExpenseOverviewTable() {
   const expenseDataArray = useSelector(
     (state: RootState) => state.user.user.expense
   );
+
+  const sortedExpenses = expenseDataArray.sort((first: any, second: any) => {
+    let firstDate = new Date(first.date);
+    let secondDate = new Date(second.date);
+    if (firstDate > secondDate) return -1;
+    if (firstDate < secondDate) return 1;
+    return 0;
+  });
   //State for the Edit Expense Modal
   const [rowDetails, setRowDetails] = useState({});
   const dispatch = useDispatch();
 
-  //Get the userData from Backend and dispatch to Redux Store
-  useEffect(() => {
-    try {
-      fetch(`http://localhost:5000/api/v1/users/${userId}`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch(setSingleUser(data));
-          console.log(data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }, [dispatch, token, userId]);
-
   // Set the Expense Overview table with the data userData
-  const rows = expenseDataArray.map((row: RowData) => (
+  const rows = sortedExpenses.map((row: RowData) => (
     <tr key={row._id}>
       <td>{row.name}</td>
       <td>
