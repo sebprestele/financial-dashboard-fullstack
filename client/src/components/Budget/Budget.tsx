@@ -1,7 +1,7 @@
 import { Container, Paper, Title } from "@mantine/core";
 import Sidebar from "../Sidebar/Sidebar";
 
-const Portfolio = () => {
+const Budget = () => {
   return (
     <>
       <div className="general-layout">
@@ -18,4 +18,4 @@ const Portfolio = () => {
   );
 };
 
-export default Portfolio;
+export default Budget;
