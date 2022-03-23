@@ -24,7 +24,7 @@ const ExpensesFunctions = () => {
     expense.date.slice(0, 7)
   );
 
-  //FILTER FUNCTIONS
+  // ----- FILTER FUNCTIONS ----
 
   // Filter function to get current month expenses
   const filteredByMonth = userData.expense.filter(
@@ -40,6 +40,8 @@ const ExpensesFunctions = () => {
   const filteredByPrevTwoMonth = userData.expense.filter(
     (expense: any) => expense.date.slice(0, 7) === lastTwoMonthYear
   );
+
+  /*----  get MONTHLY EXPENSES---- */
 
   // Get total expense value
   const totalExpenses = userData.expense.reduce(
@@ -78,16 +80,53 @@ const ExpensesFunctions = () => {
     initialValue
   );
 
+  /*---- Get DIFFERENCES---- */
+
   // Get difference in expenses between current and previous month
-  const monthlyDifference = monthlyExpenses - prevMonthlyExpenses;
+  const monthlyDifference = Math.round(
+    ((monthlyExpenses - prevMonthlyExpenses) / monthlyExpenses) * 100
+  );
 
   // Get difference in expenses between prev and previous month
-  const prevTwoMonthlyDifference = monthlyExpenses - prevTwoMonthlyExpenses;
+  const prevTwoMonthlyDifference = Math.round(
+    ((prevMonthlyExpenses - prevTwoMonthlyExpenses) / prevMonthlyExpenses) * 100
+  );
 
-  // Get previous year expenses
-  // Get difference between current and last year expenses
+  /*---- Get EXPENSES BY MONTH---- */
 
-  //Get expenses by category
+  // Get expenses for each month
+  const expensesByMonth = {};
+  userData.expense.forEach((item: Object) => {
+    if (expensesByMonth[item.date.slice(0, 7)] === undefined) {
+      expensesByMonth[item.date.slice(0, 7)] = [];
+    }
+    expensesByMonth[item.date.slice(0, 7)].push(item);
+  });
+
+  //Add all monthly expenses
+  const expenseTotalsByMonth = Object.entries(expensesByMonth).map((item) =>
+    item[1].reduce((sum: Number, currentValue: Number) => {
+      //@ts-ignore
+      return sum + currentValue.amount;
+    }, initialValue)
+  );
+
+  console.log(expenseTotalsByMonth);
+
+  const totalExpenseByMonth = Object.keys(expensesByMonth).reduce(
+    (newObject, currentValue, index) => {
+      newObject[currentValue] = newObject[currentValue]
+        ? newObject[currentValue] + ", " + expenseTotalsByMonth[index]
+        : expenseTotalsByMonth[index];
+      return newObject;
+    },
+    {}
+  );
+
+  console.log(totalExpenseByMonth);
+
+  /*---- Get EXPENSES BY CATEGORY---- */
+
   //Get all items with same category and store in object
   const expensesByCategory = {};
   userData.expense.forEach((item: Object) => {
@@ -130,8 +169,6 @@ const ExpensesFunctions = () => {
     {}
   );
 
-  console.log(totalExpenseByCategory);
-
   return {
     prevMonthlyExpenses,
     prevTwoMonthlyDifference,
@@ -141,6 +178,7 @@ const ExpensesFunctions = () => {
     totalExpenses,
     dateExpense,
     totalExpenseByCategory,
+    totalExpenseByMonth,
   };
 };
 

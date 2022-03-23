@@ -1,10 +1,17 @@
-import { Table, Button, Modal, Group, Text, Title } from "@mantine/core";
+import {
+  Table,
+  Button,
+  Modal,
+  Group,
+  Text,
+  Title,
+  Container,
+} from "@mantine/core";
 import { Edit, CurrencyEuro } from "tabler-icons-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { RootState } from "../../Redux/store";
-import { setSingleUser } from "../../Redux/userSlice";
 import AddExpense from "./AddExpense";
 import EditExpense from "./EditExpense";
 import { setAltModalState, setModalState } from "../../Redux/helperSlice";
@@ -23,9 +30,7 @@ export function ExpenseOverviewTable() {
   const numRows = 5;
   const [numRowsEnd, setNumRowsEnd] = useState(numRows);
   const [numRowsStart, setNumRowsStart] = useState(0);
-  //Get userId and JWT token from storage
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("currentToken");
+
   //State for the Add Expense Modal
   const opened = useSelector((state: RootState) => state.helper.altModalState);
   //State for the Edit Details Modal
@@ -37,19 +42,12 @@ export function ExpenseOverviewTable() {
     (state: RootState) => state.user.user.expense
   );
 
-  const sortedExpenses = expenseDataArray.sort((first: any, second: any) => {
-    let firstDate = new Date(first.date);
-    let secondDate = new Date(second.date);
-    if (firstDate > secondDate) return -1;
-    if (firstDate < secondDate) return 1;
-    return 0;
-  });
   //State for the Edit Expense Modal
   const [rowDetails, setRowDetails] = useState({});
   const dispatch = useDispatch();
 
   // Set the Expense Overview table with the data userData
-  const rows = sortedExpenses.map((row: RowData) => (
+  const rows = expenseDataArray.map((row: RowData) => (
     <tr key={row._id}>
       <td>{row.name}</td>
       <td>
@@ -72,8 +70,9 @@ export function ExpenseOverviewTable() {
   ));
 
   return (
-    <div className="flex-column">
-      <Title order={3} mb={10} mt={30}>
+    <Container mb={40}>
+      {/*  <div className="flex-column"> */}
+      <Title order={3} mb={10} mt={40}>
         Latest Expense
       </Title>
       {/*  <TextInput
@@ -167,6 +166,7 @@ export function ExpenseOverviewTable() {
           <EditExpense {...rowDetails} />
         </Modal>
       </Group>
-    </div>
+      {/* </div> */}
+    </Container>
   );
 }
