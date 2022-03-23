@@ -42,6 +42,7 @@
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "react-table": "7.7.0",
+    "recharts": "^2.1.9",
     "reduxjs-toolkit-persist": "^7.2.1",
     "stylis": "4.0.13",
     "stylis-plugin-rtl": "2.1.1",

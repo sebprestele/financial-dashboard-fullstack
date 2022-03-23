@@ -1,5 +1,6 @@
-import { Container, Title } from "@mantine/core";
+import { Container, SimpleGrid, Title } from "@mantine/core";
 import { ExpenseOverview } from "./ExpenseOverview";
+import ExpenseOverviewChart from "./ExpenseCategoryChart";
 import { ExpenseOverviewTable } from "./ExpenseOverviewTable";
 
 const Main = () => {
@@ -9,6 +10,7 @@ const Main = () => {
         Expense Tracker
       </Title>
       <ExpenseOverview />
+      <ExpenseOverviewChart />
       <ExpenseOverviewTable />
     </Container>
   );
