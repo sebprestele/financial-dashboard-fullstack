@@ -69,6 +69,7 @@ export function ExpenseOverviewTable() {
       <td>{row.date != null && row.date.substring(0, 10)}</td>
       <td>
         <Edit
+          size={18}
           onClick={() => {
             dispatch(setModalState());
             // Gets the ID of the current row to display data on the modal

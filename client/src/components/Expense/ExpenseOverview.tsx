@@ -1,19 +1,39 @@
-import { Group, Paper, Text, ThemeIcon, SimpleGrid } from "@mantine/core";
-import { ArrowUpRight, ArrowDownRight } from "tabler-icons-react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Redux/store";
-
-const data = [
-  { title: "Income YTD", value: "VALUE", diff: 10 },
-  { title: "Expense this month", value: "VALUE2", diff: -10 },
-  { title: "Expense YTD", value: "VALUE2", diff: -10 },
-  { title: "Monthly Balance", value: "VALUE3", diff: 30 },
-];
+import {
+  Group,
+  Paper,
+  Text,
+  ThemeIcon,
+  SimpleGrid,
+  Title,
+} from "@mantine/core";
+import { ArrowUpRight, ArrowDownRight, CurrencyEuro } from "tabler-icons-react";
+import ExpensesFunctions from "../../stats/expenses";
 
 export function ExpenseOverview() {
-  const userData = useSelector((state: RootState) => state.user.user);
-  console.log(userData.expense);
-  const expenses = userData.expense;
+  const {
+    totalExpenses,
+    monthlyDifference,
+    monthlyExpenses,
+    prevMonthlyExpenses,
+    prevTwoMonthlyDifference,
+  } = ExpensesFunctions();
+
+  const data = [
+    {
+      title: "Expenses this month",
+      value: monthlyExpenses,
+      diff: monthlyDifference,
+    },
+    {
+      title: "Expenses last month",
+      value: prevMonthlyExpenses,
+      diff: prevTwoMonthlyDifference,
+    },
+
+    /*  { title: "Expense YTD", value: totalExpenses, diff: 0 },
+    { title: "Monthly Balance", value: "VALUE3", diff: 30 }, */
+  ];
+
   const stats = data.map((stat) => {
     const DiffIcon = stat.diff > 0 ? ArrowUpRight : ArrowDownRight;
 
@@ -34,9 +54,14 @@ export function ExpenseOverview() {
             <Text color="dimmed" transform="uppercase" weight={700} size="xs">
               {stat.title}
             </Text>
-            <Text weight={700} size="xl">
+            <Title order={3} mt="xs">
+              <CurrencyEuro
+                size={22}
+                strokeWidth={2.3}
+                className="currency-icon-overview"
+              />{" "}
               {stat.value}
-            </Text>
+            </Title>
           </div>
           <ThemeIcon
             color="gray"
@@ -56,7 +81,7 @@ export function ExpenseOverview() {
             color={stat.diff > 0 ? "teal" : "red"}
             weight={700}
           >
-            {stat.diff}%
+            {stat.diff}%{" "}
           </Text>
           {stat.diff > 0 ? "increase" : "decrease"} compared to last month
         </Text>
