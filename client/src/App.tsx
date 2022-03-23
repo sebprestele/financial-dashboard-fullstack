@@ -8,10 +8,13 @@ import Home from "./components/Home/Home";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
 import ProtectedRoute from "./components/ProtectedRoutes/ProtectedRoute";
+import Settings from "./components/Setting/Settings";
+import Portfolio from "./components/Portfolio/Portfolio";
+import Budget from "./components/Budget/Budget";
 
 function App() {
   return (
-    <MantineProvider>
+    <MantineProvider theme={{}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />}></Route>
@@ -37,7 +40,7 @@ function App() {
             path="/portfolio/:username"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <Portfolio />
               </ProtectedRoute>
             }
           />
@@ -45,7 +48,7 @@ function App() {
             path="/budget/:username"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <Budget />
               </ProtectedRoute>
             }
           />
@@ -53,7 +56,7 @@ function App() {
             path="/settings/:username"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <Settings />
               </ProtectedRoute>
             }
           />
