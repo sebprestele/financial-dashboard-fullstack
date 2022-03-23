@@ -1,15 +1,5 @@
-import {
-  Table,
-  ScrollArea,
-  Button,
-  Modal,
-  Group,
-  Text,
-  Title,
-  Box,
-  SimpleGrid,
-} from "@mantine/core";
-import { Edit, CurrencyEuro, Link } from "tabler-icons-react";
+import { Table, Button, Modal, Group, Text, Title } from "@mantine/core";
+import { Edit, CurrencyEuro } from "tabler-icons-react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -30,8 +20,10 @@ export interface RowData {
 
 export function IncomeOverviewTable() {
   // sets the number of rows to be displayed at once
-  const [numRowsEnd, setNumRowsEnd] = useState(10);
+  const numRows = 5;
+  const [numRowsEnd, setNumRowsEnd] = useState(numRows);
   const [numRowsStart, setNumRowsStart] = useState(0);
+  //Get userId and JWT token from storage
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("currentToken");
   //State for the Add Income Modal
@@ -40,11 +32,15 @@ export function IncomeOverviewTable() {
   const detailsOpen = useSelector(
     (state: RootState) => state.helper.modalState
   );
-  //State for the Add Income Modal
+  // Get Income Data from Redux Store
+  const incomeDataArray = useSelector(
+    (state: RootState) => state.user.user.income
+  );
+  //State for the Edit Income Modal
   const [rowDetails, setRowDetails] = useState({});
-
   const dispatch = useDispatch();
 
+  //Get the userData from Backend and dispatch to Redux Store
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/users/${userId}`, {
@@ -61,10 +57,7 @@ export function IncomeOverviewTable() {
     }
   }, [dispatch, token, userId]);
 
-  const incomeDataArray = useSelector(
-    (state: RootState) => state.user.user.income
-  );
-
+  // Set the Income Overview table with the data userData
   const rows = incomeDataArray.map((row: RowData) => (
     <tr key={row._id}>
       <td>{row.name}</td>
@@ -72,13 +65,13 @@ export function IncomeOverviewTable() {
         <CurrencyEuro size={18} strokeWidth={1.5} className="currency-icon" />
         {row.amount}
       </td>
-
       <td>{row.tag}</td>
       <td>{row.date != null && row.date.substring(0, 10)}</td>
       <td>
         <Edit
           onClick={() => {
             dispatch(setModalState());
+            // Gets the ID of the current row to display data on the modal
             setRowDetails(row);
           }}
         />
@@ -88,7 +81,7 @@ export function IncomeOverviewTable() {
 
   return (
     <div className="flex-column">
-      <Title order={4} mb={10}>
+      <Title order={3} mb={10} mt={30}>
         Latest Income
       </Title>
       {/*  <TextInput
@@ -114,38 +107,16 @@ export function IncomeOverviewTable() {
           </tr>
         </thead>
         <tbody>
-          {rows.length > 0 && rows.length <= 10 ? (
+          {rows.length >= 0 && rows.length <= 10 ? (
             rows
           ) : rows.length > 10 ? (
             <>
-              {rows.splice(numRowsStart, numRowsEnd)}
-
-              {numRowsStart < rows.length ? (
-                <Button
-                  onClick={() => {
-                    setNumRowsStart(numRowsStart + 10);
-                    setNumRowsEnd(numRowsEnd + 10);
-                  }}
-                  variant="outline"
-                >
-                  Load More
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => {
-                    setNumRowsStart(numRowsStart - 10);
-                    setNumRowsEnd(numRowsEnd - 10);
-                  }}
-                  variant="outline"
-                >
-                  Show less
-                </Button>
-              )}
+              {/*Displays the current income data in batches of numRows, currently set to 5 */}
+              {rows.slice(numRowsStart, numRowsEnd)}
             </>
           ) : (
             <tr>
               <td colSpan={5}>
-                {" "}
                 <Text weight={500} align="center">
                   Nothing found
                 </Text>
@@ -155,6 +126,32 @@ export function IncomeOverviewTable() {
         </tbody>
       </Table>
 
+      {/*Logic for the add more / less buttons */}
+      {rows.slice(numRowsStart, numRowsEnd).length >= numRows && (
+        <Button
+          onClick={() => {
+            setNumRowsStart((prevNumRowsStart) => prevNumRowsStart + numRows);
+            setNumRowsEnd((prevNumRowsEnd) => prevNumRowsEnd + numRows);
+          }}
+          variant="outline"
+          mr={10}
+        >
+          Load More
+        </Button>
+      )}
+      {numRowsStart !== 0 && (
+        <Button
+          onClick={() => {
+            setNumRowsStart((prevNumRowsStart) => prevNumRowsStart - numRows);
+            setNumRowsEnd((prevNumRowsEnd) => prevNumRowsEnd - numRows);
+          }}
+          variant="outline"
+        >
+          Show less
+        </Button>
+      )}
+
+      {/*Modals for adding and editing data */}
       <Group position="center" mt={15}>
         <Button onClick={() => setOpened(true)}>Add Income</Button>
 

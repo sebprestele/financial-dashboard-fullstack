@@ -70,6 +70,7 @@ export default function Login() {
           dispatch(setUsername(res.data.user.username));
           dispatch(setSingleUser(res.data.user));
           navigate(`/dashboard/${res.data.user.username}`);
+          console.log(res.data.user, "FROM login");
         }
       })
       .catch((error) => console.log(error.response.data.message));

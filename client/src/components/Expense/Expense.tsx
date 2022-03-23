@@ -1,7 +1,7 @@
 import Sidebar from "../Sidebar/Sidebar";
 import Main from "./Main";
 
-const Balance = () => {
+const Expense = () => {
   return (
     <div className="general-layout">
       <Sidebar />
@@ -10,4 +10,4 @@ const Balance = () => {
   );
 };
 
-export default Balance;
+export default Expense;

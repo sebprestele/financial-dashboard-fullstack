@@ -1,11 +1,14 @@
 .general-layout {
   display: flex;
-  align-items: center;
-  min-height: fit-content;
   background-color: #bac8ff;
 }
 
 .currency-icon {
   position: relative;
   top: 3px;
+}
+
+.currency-icon-overview {
+  position: relative;
+  top: 4px;
 }

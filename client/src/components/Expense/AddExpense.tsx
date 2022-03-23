@@ -10,23 +10,30 @@ import { useForm } from "@mantine/form";
 import { DatePicker } from "@mantine/dates";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setSingleUser } from "../../Redux/userSlice";
+import { CurrencyEuro } from "tabler-icons-react";
 
-function AddIncome() {
+import { setSingleUser } from "../../Redux/userSlice";
+import { setAltModalState } from "../../Redux/helperSlice";
+
+function AddExpense() {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("currentToken");
   const dispatch = useDispatch();
 
   const form = useForm({
     initialValues: {
-      name: "",
+      name: "Random expense",
       amount: 0,
-      date: "",
+      date: new Date(),
       tag: "Uncategorized",
       comments: "",
     },
 
-    validate: {},
+    validate: (values) => ({
+      name: values.name === undefined ? "Name is required" : null,
+      amount: values.amount === undefined ? "Amount is required" : null,
+      date: values.date === undefined ? "Date is required" : null,
+    }),
   });
 
   return (
@@ -35,7 +42,7 @@ function AddIncome() {
         onSubmit={form.onSubmit(async (values) => {
           try {
             await axios
-              .post(`http://localhost:5000/api/v1/income/${userId}`, values)
+              .post(`http://localhost:5000/api/v1/expense/${userId}`, values)
               .then((res) => console.log(res));
             form.reset();
             await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
@@ -51,17 +58,19 @@ function AddIncome() {
             console.log(error);
           }
           form.reset();
+          dispatch(setAltModalState());
         })}
       >
         <TextInput
           required
           label="Name"
-          placeholder="Add a name for this income"
+          placeholder="Add a name for this expense"
           {...form.getInputProps("name")}
         />
         <NumberInput
           placeholder="Amount"
-          label="Add income amount"
+          label="Add expense amount"
+          icon={<CurrencyEuro size={16} />}
           required
           {...form.getInputProps("amount")}
         />
@@ -72,7 +81,7 @@ function AddIncome() {
         />
         <TextInput
           label="Category"
-          placeholder="Add a category for this income"
+          placeholder="Add a category for this expense"
           {...form.getInputProps("tag")}
         />
         <Textarea
@@ -88,4 +97,4 @@ function AddIncome() {
     </Box>
   );
 }
-export default AddIncome;
+export default AddExpense;
