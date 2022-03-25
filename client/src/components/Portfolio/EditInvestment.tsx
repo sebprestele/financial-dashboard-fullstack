@@ -13,20 +13,28 @@ const EditInvestment = (rowDetails: RowData) => {
   const token = localStorage.getItem("currentToken");
   const dispatch = useDispatch();
 
+  console.log(rowDetails);
+
   const form = useForm({
     initialValues: {
       name: rowDetails.name,
       amount: rowDetails.amount,
-      date: rowDetails.date,
-      tag: rowDetails.tag,
+      category: rowDetails.category,
+      transactionType: rowDetails.transactionType,
+      quantity: rowDetails.quantity,
+      /*  date: formList([{ dateBought: rowDetails.dateBought, dateSold: rowDetails.dateSold }]),
+      price: formList([{ priceBought: rowDetails.price, priceSold: 0 }]),
+      currency: rowDetails.currency, */
+      cryptoCurrency: rowDetails.cryptoCurrency,
+      fee: rowDetails.fee,
       comments: rowDetails.comments,
     },
 
     validate: (values) => ({
       name: values.name === undefined ? "Name is required" : null,
       amount: values.amount === undefined ? "Amount is required" : null,
-      date: values.date === undefined ? "Date is required" : null,
-      tag: values.tag === undefined ? "Category is required" : null,
+      //date: values.date === undefined ? "Date is required" : null,
+      category: values.category === undefined ? "Category is required" : null,
     }),
   });
 
@@ -37,7 +45,7 @@ const EditInvestment = (rowDetails: RowData) => {
           try {
             await axios
               .put(
-                `http://localhost:5000/api/v1/expense/${rowDetails._id}`,
+                `http://localhost:5000/api/v1/investment/${rowDetails._id}`,
                 values
               )
               .then((res) => console.log(res));
@@ -65,20 +73,19 @@ const EditInvestment = (rowDetails: RowData) => {
           required
           icon={<CurrencyEuro size={16} />}
           label="Amount"
-          placeholder={rowDetails.amount}
+          // placeholder={rowDetails.amount}
           {...form.getInputProps("amount")}
         />
         <DatePicker
           required
           label="Date"
-          placeholder={rowDetails.date && rowDetails.date.substring(0, 10)}
-          {...form.getInputProps("date")}
+          //   {...form.getInputProps("date")}
         />
         <TextInput
           required
           label="Category"
-          placeholder={rowDetails.tag}
-          {...form.getInputProps("tag")}
+          //  placeholder={rowDetails.category}
+          {...form.getInputProps("category")}
         />
         <TextInput
           label="Comments"
@@ -97,9 +104,9 @@ const EditInvestment = (rowDetails: RowData) => {
               try {
                 await axios
                   .delete(
-                    `http://localhost:5000/api/v1/expense/${rowDetails._id}`
+                    `http://localhost:5000/api/v1/investment/${rowDetails._id}`
                   )
-                  .then((res) => console.log(res));
+                  .then((res) => console.log(res, "delete response"));
                 await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
                   method: "GET",
                   headers: { Authorization: `Bearer ${token}` },
@@ -107,7 +114,7 @@ const EditInvestment = (rowDetails: RowData) => {
                   .then((res) => res.json())
                   .then((data) => {
                     dispatch(setSingleUser(data));
-                    console.log(data);
+                    console.log(data, "deleted updated user details");
                   });
               } catch (error) {
                 console.log(error);

@@ -4,7 +4,7 @@ export const category = [
   "ETF",
   "Bonds",
   "Cash",
-  "RealEstate",
+  "Real Estate",
   "Other",
 ];
 
