@@ -28,9 +28,6 @@ export function ExpenseOverview() {
       value: prevMonthlyExpenses,
       diff: prevTwoMonthlyDifference,
     },
-
-    /*  { title: "Expense YTD", value: totalExpenses, diff: 0 },
-    { title: "Monthly Balance", value: "VALUE3", diff: 30 }, */
   ];
 
   const stats = data.map((stat) => {

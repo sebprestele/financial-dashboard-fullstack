@@ -32,7 +32,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        SebPrestele
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -96,7 +96,7 @@ export default function Login() {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-        />
+        ></Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
