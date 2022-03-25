@@ -37,7 +37,16 @@ export function StatsOverview() {
     const DiffIcon = stat.diff > 0 ? ArrowUpRight : ArrowDownRight;
 
     return (
-      <Paper withBorder p="md" radius="md" key={stat.title}>
+      <Paper
+        withBorder
+        shadow="md"
+        p="md"
+        radius="lg"
+        mt={30}
+        ml={50}
+        mr={50}
+        key={stat.title}
+      >
         <Group position="apart">
           <div>
             <Text
@@ -71,7 +80,7 @@ export function StatsOverview() {
             color={stat.diff > 0 ? "teal" : "red"}
             weight={700}
           >
-            {stat.diff}%
+            {stat.diff}%{" "}
           </Text>
           {stat.diff > 0 ? "increase" : "decrease"} compared to last month
         </Text>
