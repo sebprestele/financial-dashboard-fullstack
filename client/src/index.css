@@ -5,6 +5,12 @@ html {
   box-sizing: border-box;
 }
 
+:root {
+  --primary-color: #4c6ef5;
+  --secondary-color: #bac8ff;
+  --highlight-color: #1864ab;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

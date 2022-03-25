@@ -26,7 +26,7 @@ export function SavingsGoalOverview() {
   return (
     <Paper radius="md" withBorder className={classes.card}>
       <Text align="center" weight={700} className={classes.title}>
-        Maldives Holiday
+        Family Holiday
       </Text>
       <Text color="dimmed" align="center" size="sm">
         Goal: 4500 EUR
@@ -37,11 +37,11 @@ export function SavingsGoalOverview() {
           Progress
         </Text>
         <Text size="sm" color="dimmed">
-          32%
+          {Math.round((1200 / 4500) * 100)}%
         </Text>
       </Group>
 
-      <Progress value={62} mt={5} />
+      <Progress value={27} mt={5} />
 
       <Group position="apart" mt="md">
         <Text size="sm">1200 EUR</Text>
