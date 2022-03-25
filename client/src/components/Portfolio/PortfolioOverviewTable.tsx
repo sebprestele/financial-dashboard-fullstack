@@ -12,8 +12,8 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { RootState } from "../../Redux/store";
-import AddExpense from "./AddExpense";
-import EditExpense from "./EditExpense";
+import AddInvestment from "./AddInvestment";
+import EditInvestment from "./EditInvestment";
 import { setAltModalState, setModalState } from "../../Redux/helperSlice";
 export interface RowData {
   _id?: string;
@@ -24,29 +24,29 @@ export interface RowData {
   comments?: string;
 }
 
-export function ExpenseOverviewTable() {
+export function PortfolioOverviewTable() {
   // sets the number of rows to be displayed at once
   const numRows = 5;
   const [numRowsEnd, setNumRowsEnd] = useState(numRows);
   const [numRowsStart, setNumRowsStart] = useState(0);
 
-  //State for the Add Expense Modal
+  //State for the Add Portfolio Modal
   const opened = useSelector((state: RootState) => state.helper.altModalState);
   //State for the Edit Details Modal
   const detailsOpen = useSelector(
     (state: RootState) => state.helper.modalState
   );
-  // Get Expense Data from Redux Store
-  const expenseDataArray = useSelector(
-    (state: RootState) => state.user.user.expense
+  // Get Portfolio Data from Redux Store
+  const portfolioDataArray = useSelector(
+    (state: RootState) => state.user.user.investments
   );
 
-  //State for the Edit Expense Modal
+  //State for the Edit Portfolio Modal
   const [rowDetails, setRowDetails] = useState({});
   const dispatch = useDispatch();
 
-  // Set the Expense Overview table with the data userData
-  const rows = expenseDataArray.map((row: RowData) => (
+  // Set the Portfolio Overview table with the data userData
+  const rows = portfolioDataArray.map((row: RowData) => (
     <tr key={row._id}>
       <td>{row.name}</td>
       <td>
@@ -72,15 +72,15 @@ export function ExpenseOverviewTable() {
     <Container mb={40}>
       {/*  <div className="flex-column"> */}
       <Title order={3} mb={10} mt={40}>
-        Latest Expense
+        Latest Activity
       </Title>
       {/*  <TextInput
-          placeholder="Search by any field"
-          mb="md"
-          icon={<Search size={14} />}
-          // value={search}
-          // onChange={handleSearchChange}
-        /> */}
+            placeholder="Search by any field"
+            mb="md"
+            icon={<Search size={14} />}
+            // value={search}
+            // onChange={handleSearchChange}
+          /> */}
       <Table
         highlightOnHover
         horizontalSpacing="sm"
@@ -101,7 +101,7 @@ export function ExpenseOverviewTable() {
             rows
           ) : rows.length > numRows ? (
             <>
-              {/*Displays the current expense data in batches of numRows, currently set to 5 */}
+              {/*Displays the current portfolio data in batches of numRows, currently set to 5 */}
               {rows.slice(numRowsStart, numRowsEnd)}
             </>
           ) : (
@@ -144,25 +144,25 @@ export function ExpenseOverviewTable() {
       {/*Modals for adding and editing data */}
       <Group position="center" mt={15}>
         <Button onClick={() => dispatch(setAltModalState())}>
-          Add Expense
+          Add Transaction
         </Button>
 
-        <Modal /* Add Expense Model, opens from button click above */
+        <Modal /* Add Portfolio Model, opens from button click above */
           opened={opened}
           onClose={() => dispatch(setAltModalState())}
-          title="Add Expense!"
+          title="Add Investment!"
         >
-          <AddExpense />
+          <AddInvestment />
         </Modal>
 
         <Modal /* Details Modal, opens from click on edit in table row */
           opened={detailsOpen}
           onClose={() => dispatch(setModalState())}
-          title="Expense Details"
+          title="Portfolio Details"
           padding="md"
           size="lg"
         >
-          <EditExpense {...rowDetails} />
+          <EditInvestment {...rowDetails} />
         </Modal>
       </Group>
       {/* </div> */}

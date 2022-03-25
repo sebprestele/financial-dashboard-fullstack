@@ -1,16 +1,21 @@
-import { Container, Grid, Text } from "@mantine/core";
+import { Container, Grid, Paper, Text, Title } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+
 import { IncomeExpenseOverviewTable } from "../Dashboard/IncomeExpenseOverviewTable";
 import { StatsOverview } from "../Dashboard/StatsOverview";
 import { SavingsGoalOverview } from "./SavingsGoalOverview";
 
 const Main = () => {
+  const largeScreen = useMediaQuery("(min-width: 1300px)");
   return (
-    <Container>
-      <Text weight={500} size="lg" align="center" mb={10}>
+    <Container ml={largeScreen ? 600 : 250} mt={largeScreen ? 60 : 20}>
+      <Title order={1} align="center" mb={30}>
         Financial Overview
-      </Text>
+      </Title>
+      <Paper radius="md" p={30}>
+        <StatsOverview />
+      </Paper>
 
-      <StatsOverview />
       <Grid mt={50}>
         <Grid.Col md={8}>
           <Text weight={500} size="lg" mb={10}>
@@ -20,7 +25,7 @@ const Main = () => {
         </Grid.Col>
         <Grid.Col md={4}>
           <Text weight={500} size="lg" mb={10}>
-            Saving Tracker
+            Goal Tracker
           </Text>
           <SavingsGoalOverview />
         </Grid.Col>
