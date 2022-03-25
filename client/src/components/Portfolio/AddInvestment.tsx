@@ -31,12 +31,12 @@ function AddInvestment() {
 
   const form = useForm({
     initialValues: {
-      name: "New Investment",
+      name: "",
       category: "Crypto",
       transactionType: "Buy",
       amount: 0,
       quantity: 0,
-      date: new Date(),
+      date: formList([{ dateBought: new Date(), dateSold: new Date() }]),
       price: formList([{ priceBought: 0, priceSold: 0 }]),
       currency: "EUR",
       cryptoCurrency: "Bitcoin",
@@ -67,12 +67,10 @@ function AddInvestment() {
               .then((res) => res.json())
               .then((data) => {
                 dispatch(setSingleUser(data));
-                console.log(data);
               });
           } catch (error) {
             console.log(error);
           }
-          form.reset();
           setCategoryActive("Crypto");
           dispatch(setAltModalState());
         })}
@@ -80,7 +78,7 @@ function AddInvestment() {
         <TextInput
           required
           label="Name"
-          placeholder="Add a name for this investment"
+          placeholder="Add a name for this transaction"
           {...form.getInputProps("name")}
         />
         <Select
@@ -91,7 +89,6 @@ function AddInvestment() {
           {...form.getInputProps("transactionType")}
           onChange={(value) => {
             value !== null && setTransactionType(value);
-            console.log(value, "change transtype");
           }}
           value={transactionType}
         />
@@ -104,22 +101,30 @@ function AddInvestment() {
           {...form.getInputProps("category")}
           onChange={(value) => {
             value !== null && setCategoryActive(value);
-            console.log(value);
           }}
           value={categoryActive}
         />
-        <DatePicker
-          style={{ marginTop: 10, zIndex: 2 }}
-          placeholder="Date of transaction"
-          label="Date"
-          {...form.getInputProps("date")}
-        />
+        {transactionType === "Buy" ? (
+          <DatePicker
+            style={{ marginTop: 10, zIndex: 2 }}
+            placeholder="Date of transaction"
+            label="Date Bought"
+            {...form.getListInputProps("date", 0, "dateBought")}
+          />
+        ) : (
+          <DatePicker
+            style={{ marginTop: 10, zIndex: 2 }}
+            placeholder="Date of transaction"
+            label="Date Sold"
+            {...form.getListInputProps("date", 0, "dateSold")}
+          />
+        )}
 
         {categoryActive === "Crypto" ? (
           <Select
             style={{ marginTop: 10, zIndex: 2 }}
             data={cryptoCurrency}
-            placeholder="Pick a category"
+            placeholder="Pick a coin"
             label="Cryptocurrency"
             {...form.getInputProps("cryptoCurrency")}
           />
@@ -139,7 +144,11 @@ function AddInvestment() {
           <NumberInput
             style={{ marginTop: 10, zIndex: 2 }}
             placeholder="Amount"
-            label="Add amount"
+            label={
+              categoryActive === "Real Estate"
+                ? "Property Value"
+                : "Total Amount"
+            }
             {...form.getInputProps("amount")}
           />
         ) : (
@@ -186,11 +195,3 @@ function AddInvestment() {
   );
 }
 export default AddInvestment;
-function value(
-  arg0: string,
-  value: any
-): JSX.IntrinsicAttributes &
-  import("@mantine/core").NumberInputProps &
-  import("react").RefAttributes<HTMLInputElement> {
-  throw new Error("Function not implemented.");
-}
