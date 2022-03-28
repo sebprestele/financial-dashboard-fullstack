@@ -124,10 +124,10 @@ const Sidebar = () => {
 
   //sets state for active link
   const active = useSelector((state: RootState) => state.helper.activeItem);
-  console.log(active, "Active outside click");
   //Logout function
   const handleLogout = () => {
     dispatch(setIsLoggedIn());
+    dispatch(setActiveItem("Dashboard"));
     localStorage.removeItem("currentToken");
   };
 

@@ -3,12 +3,14 @@ import { createSlice /* PayloadAction */ } from "@reduxjs/toolkit";
 export interface HelperState {
   modalState: Boolean;
   altModalState: Boolean;
+  dropZoneOpenState: Boolean;
   activeItem: String;
 }
 
 const initialState: HelperState = {
   modalState: false,
   altModalState: false,
+  dropZoneOpenState: false,
   activeItem: "Dashboard",
 };
 
@@ -22,6 +24,9 @@ export const helperSlice = createSlice({
     setAltModalState: (state) => {
       state.altModalState = !state.altModalState;
     },
+    setDropzoneOpenState: (state) => {
+      state.dropZoneOpenState = !state.dropZoneOpenState;
+    },
     setActiveItem: (state, action) => {
       state.activeItem = action.payload;
     },
@@ -29,7 +34,11 @@ export const helperSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setModalState, setAltModalState, setActiveItem } =
-  helperSlice.actions;
+export const {
+  setModalState,
+  setAltModalState,
+  setDropzoneOpenState,
+  setActiveItem,
+} = helperSlice.actions;
 
 export default helperSlice.reducer;

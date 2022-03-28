@@ -6,7 +6,6 @@ import {
   Avatar,
   Center,
   Modal,
-  Image,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,6 +15,7 @@ import axios from "axios";
 import { RootState } from "../../Redux/store";
 import { setSingleUser } from "../../Redux/userSlice";
 import ImageUpload from "../ImageUpload/ImageUpload";
+import { setDropzoneOpenState } from "../../Redux/helperSlice";
 
 export default function EditProfile() {
   const dispatch = useDispatch();
@@ -39,7 +39,10 @@ export default function EditProfile() {
   });
 
   //set state for the Upload Image Modal
-  const [opened, setOpened] = useState(false);
+  const opened = useSelector(
+    (state: RootState) => state.helper.dropZoneOpenState
+  );
+  //const [opened, setOpened] = useState(false);
 
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
@@ -62,14 +65,14 @@ export default function EditProfile() {
         </Center>
         <Modal
           opened={opened}
-          onClose={() => setOpened(false)}
+          onClose={() => dispatch(setDropzoneOpenState())}
           title="Upload a profile image!"
         >
           <ImageUpload />
         </Modal>
         <Group position="center">
           <Button
-            onClick={() => setOpened(true)}
+            onClick={() => dispatch(setDropzoneOpenState())}
             variant="light"
             color="indigo"
             compact
