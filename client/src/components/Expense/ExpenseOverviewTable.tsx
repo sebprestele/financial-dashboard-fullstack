@@ -165,7 +165,6 @@ export function ExpenseOverviewTable() {
           <EditExpense {...rowDetails} />
         </Modal>
       </Group>
-      {/* </div> */}
     </Container>
   );
 }

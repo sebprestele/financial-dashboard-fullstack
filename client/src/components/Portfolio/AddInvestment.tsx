@@ -10,7 +10,6 @@ import {
 import { useForm, formList } from "@mantine/form";
 import { DatePicker } from "@mantine/dates";
 import axios from "axios";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { setSingleUser } from "../../Redux/userSlice";
@@ -18,35 +17,30 @@ import { setAltModalState } from "../../Redux/helperSlice";
 import {
   category,
   currency,
-  cryptoCurrency,
+  transactionType,
 } from "../../data/TransactionsData";
 
 function AddInvestment() {
-  //States for the conditional form field logic
-  const [categoryActive, setCategoryActive] = useState("Crypto");
-  const [transactionType, setTransactionType] = useState("Buy");
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("currentToken");
   const dispatch = useDispatch();
 
   const form = useForm({
     initialValues: {
-      name: "New Investment",
-      category: "Crypto",
+      name: "Random Investment",
+      category: "Uncategorized",
       transactionType: "Buy",
       amount: 0,
       quantity: 0,
-      date: new Date(),
+      date: formList([{ dateBought: new Date(), dateSold: new Date() }]),
       price: formList([{ priceBought: 0, priceSold: 0 }]),
       currency: "EUR",
-      cryptoCurrency: "Bitcoin",
       fee: 0,
       comments: "",
     },
 
     validate: (values) => ({
       name: values.name === undefined ? "Name is required" : null,
-      category: values.amount === undefined ? "Category is required" : null,
     }),
   });
 
@@ -59,7 +53,6 @@ function AddInvestment() {
             await axios
               .post(`http://localhost:5000/api/v1/investment/${userId}`, values)
               .then((res) => console.log(res));
-            form.reset();
             await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
               method: "GET",
               headers: { Authorization: `Bearer ${token}` },
@@ -67,104 +60,65 @@ function AddInvestment() {
               .then((res) => res.json())
               .then((data) => {
                 dispatch(setSingleUser(data));
-                console.log(data);
               });
           } catch (error) {
             console.log(error);
           }
           form.reset();
-          setCategoryActive("Crypto");
           dispatch(setAltModalState());
         })}
       >
         <TextInput
           required
           label="Name"
-          placeholder="Add a name for this investment"
+          placeholder="Add a name for this transaction"
           {...form.getInputProps("name")}
         />
         <Select
           style={{ marginTop: 10, zIndex: 2 }}
-          data={["Buy", "Sell"]}
+          data={transactionType}
           placeholder="Type of transaction"
           label="Type of transaction"
           {...form.getInputProps("transactionType")}
-          onChange={(value) => {
-            value !== null && setTransactionType(value);
-            console.log(value, "change transtype");
-          }}
-          value={transactionType}
         />
         <Select
-          required
           style={{ marginTop: 10, zIndex: 2 }}
           data={category}
           placeholder="Pick a category"
           label="Category of your investment"
           {...form.getInputProps("category")}
-          onChange={(value) => {
-            value !== null && setCategoryActive(value);
-            console.log(value);
-          }}
-          value={categoryActive}
         />
         <DatePicker
           style={{ marginTop: 10, zIndex: 2 }}
           placeholder="Date of transaction"
-          label="Date"
-          {...form.getInputProps("date")}
+          label="Date of transaction"
+          {...form.getListInputProps("date", 0, "dateBought")}
         />
-
-        {categoryActive === "Crypto" ? (
-          <Select
-            style={{ marginTop: 10, zIndex: 2 }}
-            data={cryptoCurrency}
-            placeholder="Pick a category"
-            label="Cryptocurrency"
-            {...form.getInputProps("cryptoCurrency")}
-          />
-        ) : (
-          <Select
-            style={{ marginTop: 10, zIndex: 2 }}
-            data={currency}
-            placeholder="Pick a currency"
-            label="Currency"
-            {...form.getInputProps("currency")}
-          />
-        )}
-        {categoryActive !== "Stocks" &&
-        categoryActive !== "Crypto" &&
-        categoryActive !== "ETF" &&
-        categoryActive !== "Bonds" ? (
-          <NumberInput
-            style={{ marginTop: 10, zIndex: 2 }}
-            placeholder="Amount"
-            label="Add amount"
-            {...form.getInputProps("amount")}
-          />
-        ) : (
-          <NumberInput
-            style={{ marginTop: 10, zIndex: 2 }}
-            placeholder="Quantity"
-            label="Quantity"
-            {...form.getInputProps("quantity")}
-          />
-        )}
-        {transactionType === "Buy" ? (
-          <NumberInput
-            style={{ marginTop: 10, zIndex: 2 }}
-            placeholder="Price"
-            label="Price Bought"
-            {...form.getListInputProps("price", 0, "priceBought")}
-          />
-        ) : (
-          <NumberInput
-            style={{ marginTop: 10, zIndex: 2 }}
-            placeholder="Price"
-            label="Price Sold"
-            {...form.getListInputProps("price", 0, "priceSold")}
-          />
-        )}
+        <Select
+          style={{ marginTop: 10, zIndex: 2 }}
+          data={currency}
+          placeholder="Pick a currency"
+          label="Currency"
+          {...form.getInputProps("currency")}
+        />
+        <NumberInput
+          decimalSeparator="."
+          step={0.01}
+          precision={5}
+          style={{ marginTop: 10, zIndex: 2 }}
+          placeholder="Quantity"
+          label="Quantity"
+          {...form.getInputProps("quantity")}
+        />
+        <NumberInput
+          decimalSeparator="."
+          precision={2}
+          step={0.01}
+          style={{ marginTop: 10, zIndex: 2 }}
+          placeholder="Price"
+          label="Price Bought / Sold"
+          {...form.getListInputProps("price", 0, "priceBought")}
+        />
         <NumberInput
           style={{ marginTop: 10, zIndex: 2 }}
           placeholder="Fee"
@@ -177,7 +131,6 @@ function AddInvestment() {
           placeholder="Add additional comments"
           {...form.getInputProps("comments")}
         />
-
         <Group position="right" mt="md">
           <Button type="submit">Submit</Button>
         </Group>
@@ -186,11 +139,3 @@ function AddInvestment() {
   );
 }
 export default AddInvestment;
-function value(
-  arg0: string,
-  value: any
-): JSX.IntrinsicAttributes &
-  import("@mantine/core").NumberInputProps &
-  import("react").RefAttributes<HTMLInputElement> {
-  throw new Error("Function not implemented.");
-}

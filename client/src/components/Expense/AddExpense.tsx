@@ -57,7 +57,6 @@ function AddExpense() {
           } catch (error) {
             console.log(error);
           }
-          form.reset();
           dispatch(setAltModalState());
         })}
       >
