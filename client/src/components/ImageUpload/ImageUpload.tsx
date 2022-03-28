@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { setUserImage } from "../../Redux/userSlice";
+import { setDropzoneOpenState } from "../../Redux/helperSlice";
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   return status.accepted
@@ -107,6 +108,7 @@ export default function ImageUpload() {
         const image = imageArray.map((image: any) => image.imageUrl);
         dispatch(setUserImage(image[image.length - 1]));
         setIsLoading(false);
+        dispatch(setDropzoneOpenState());
       });
   };
 
