@@ -7,7 +7,7 @@ import {
   Title,
   Container,
 } from "@mantine/core";
-import { Edit, CurrencyEuro } from "tabler-icons-react";
+import { Edit } from "tabler-icons-react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -16,22 +16,17 @@ import AddInvestment from "./AddInvestment";
 import EditInvestment from "./EditInvestment";
 import { setAltModalState, setModalState } from "../../Redux/helperSlice";
 export interface RowData {
-  _id: string;
-  name: string;
-  category: string;
-  amount: number;
-  quantity: number;
-  price: Object[];
-  priceBought: string;
-  priceSold: string;
-  currency: string;
-  cryptoCurrency: string[];
-  transactionType: string[];
-  fee: number;
-  date: Object[];
-  dateBought: string;
-  dateSold: string;
-  comments: string;
+  _id?: string;
+  name?: string;
+  category?: string;
+  amount: number | undefined;
+  quantity?: Number;
+  price: [{ priceBought: string; priceSold: string }];
+  currency?: string;
+  transactionType?: string;
+  fee?: Number;
+  date: [{ dateBought: string; dateSold: string }];
+  comments?: string;
 }
 
 export function PortfolioOverviewTable() {
@@ -59,12 +54,13 @@ export function PortfolioOverviewTable() {
   const rows = portfolioDataArray.map((row: RowData) => (
     <tr key={row._id}>
       <td>{row.name}</td>
-      <td>{row.amount}</td>
+      <td>{Object.values(row.price).map((price) => price.priceBought)}</td>
       <td>{row.quantity}</td>
+      <td>{row.currency}</td>
       <td>{row.category}</td>
-      <td>{/* {row.date} */}</td>
-
-      {/* <td>{row.date.dateBought != null && row.date.substring(0, 10)}</td>*/}
+      <td>
+        {Object.values(row.date).map((date) => date.dateBought.slice(0, 10))}
+      </td>
       <td>
         <Edit
           size={18}
@@ -84,13 +80,6 @@ export function PortfolioOverviewTable() {
       <Title order={3} mb={10} mt={40}>
         Latest Activity
       </Title>
-      {/*  <TextInput
-            placeholder="Search by any field"
-            mb="md"
-            icon={<Search size={14} />}
-            // value={search}
-            // onChange={handleSearchChange}
-          /> */}
       <Table
         highlightOnHover
         horizontalSpacing="sm"
@@ -100,8 +89,9 @@ export function PortfolioOverviewTable() {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Amount/Price</th>
+            <th>Price</th>
             <th>Quantity</th>
+            <th>Currency</th>
             <th>Category</th>
             <th>Date</th>
             <th>Edit</th>
@@ -173,10 +163,10 @@ export function PortfolioOverviewTable() {
           padding="md"
           size="lg"
         >
+          {/*@ts-ignore*/}
           <EditInvestment {...rowDetails} />
         </Modal>
       </Group>
-      {/* </div> */}
     </Container>
   );
 }
