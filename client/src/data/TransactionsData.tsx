@@ -2,6 +2,7 @@ export const category = [
   "Crypto",
   "Stocks",
   "ETF",
+  "Gold",
   "Bonds",
   "Cash",
   "Real Estate",
@@ -9,6 +10,7 @@ export const category = [
 ];
 
 export const currency = [
+  "--Currency--",
   "EUR",
   "USD",
   "GBP",
@@ -20,9 +22,7 @@ export const currency = [
   "CAD",
   "JPY",
   "THB",
-];
-
-export const cryptoCurrency = [
+  "--CryptoCurrency--",
   "Bitcoin",
   "Ethereum",
   "Tether",
@@ -34,3 +34,5 @@ export const cryptoCurrency = [
   "Chainlink",
   "DogeCoin",
 ];
+
+export const transactionType = ["Buy", "Sell"];
