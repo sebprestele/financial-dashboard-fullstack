@@ -13,8 +13,8 @@ const expenseSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     amount: { type: Number, required: true, default: 0 },
-    date: { type: Date },
-    tag: { type: String },
+    date: { type: Date, required: true, default: Date.now() },
+    tag: { type: String, default: 'Uncategorized' },
     comments: { type: String },
   },
   { timestamps: true }

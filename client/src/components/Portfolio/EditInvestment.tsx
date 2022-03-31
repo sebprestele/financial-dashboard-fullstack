@@ -4,7 +4,6 @@ import { DatePicker } from "@mantine/dates";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 
-import { RowData } from "./PortfolioOverviewTable";
 import { setSingleUser } from "../../Redux/userSlice";
 import { setModalState } from "../../Redux/helperSlice";
 import {
@@ -12,8 +11,9 @@ import {
   currency,
   transactionType,
 } from "../../data/TransactionsData";
+import { PortfolioData } from "../../types/types";
 
-const EditInvestment = (rowDetails: RowData) => {
+const EditInvestment = (rowDetails: PortfolioData) => {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("currentToken");
   const dispatch = useDispatch();
