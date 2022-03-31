@@ -4,12 +4,12 @@ import Sidebar from "../Sidebar/Sidebar";
 const Settings = () => {
   return (
     <>
-      <div className="general-layout">
+      <div className="progress-container">
         <Sidebar />
         <Container>
-          <Paper mt={500}>
+          <Paper>
             <Title order={2} p={20}>
-              This is still work in progress!
+              This page is still work in progress!
             </Title>
           </Paper>
         </Container>
