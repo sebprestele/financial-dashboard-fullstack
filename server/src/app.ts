@@ -38,7 +38,7 @@ passport.use(jwtStrategy)
 // User router
 app.use('/api/v1/users', userRouter)
 //Investments router
-app.use('/api/v1/investments', investmentsRouter)
+app.use('/api/v1/investment', investmentsRouter)
 //Income Router
 app.use('/api/v1/income', incomeRouter)
 //Expense Router

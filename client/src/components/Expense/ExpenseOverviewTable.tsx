@@ -15,14 +15,8 @@ import { RootState } from "../../Redux/store";
 import AddExpense from "./AddExpense";
 import EditExpense from "./EditExpense";
 import { setAltModalState, setModalState } from "../../Redux/helperSlice";
-export interface RowData {
-  _id?: string;
-  name?: string;
-  amount?: string;
-  date?: string;
-  tag?: string;
-  comments?: string;
-}
+import { Link } from "react-router-dom";
+import { ExpenseData } from "../../types/types";
 
 export function ExpenseOverviewTable() {
   // sets the number of rows to be displayed at once
@@ -46,7 +40,7 @@ export function ExpenseOverviewTable() {
   const dispatch = useDispatch();
 
   // Set the Expense Overview table with the data userData
-  const rows = expenseDataArray.map((row: RowData) => (
+  const rows = expenseDataArray.map((row: ExpenseData) => (
     <tr key={row._id}>
       <td>{row.name}</td>
       <td>
@@ -56,14 +50,16 @@ export function ExpenseOverviewTable() {
       <td>{row.tag}</td>
       <td>{row.date != null && row.date.substring(0, 10)}</td>
       <td>
-        <Edit
-          size={18}
-          onClick={() => {
-            dispatch(setModalState());
-            // Gets the ID of the current row to display data on the modal
-            setRowDetails(row);
-          }}
-        />
+        <Link to={""} className="edit-icon">
+          <Edit
+            size={18}
+            onClick={() => {
+              dispatch(setModalState());
+              // Gets the ID of the current row to display data on the modal
+              setRowDetails(row);
+            }}
+          />
+        </Link>
       </td>
     </tr>
   ));

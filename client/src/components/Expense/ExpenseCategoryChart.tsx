@@ -71,7 +71,7 @@ const ExpenseOverviewChart = () => {
     <>
       <Container mt={30}>
         <Paper>
-          <Title order={5} ml={50} mb={-50}>
+          <Title order={5} ml={50} mb={-20}>
             Expenses by Category
           </Title>
 

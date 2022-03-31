@@ -6,6 +6,7 @@ export interface UserState {
   user: {};
   username: String;
   userImage: String;
+  goals: Object;
 }
 
 const initialState: UserState = {
@@ -14,6 +15,12 @@ const initialState: UserState = {
   user: {},
   username: "",
   userImage: "",
+  goals: {
+    totalValueTarget: 1000000,
+    cryptoPercentTarget: 20,
+    stockPercentTarget: 70,
+    cashPercentTarget: 10,
+  },
 };
 
 export const userSlice = createSlice({
@@ -35,6 +42,9 @@ export const userSlice = createSlice({
     setUserImage: (state, action) => {
       state.userImage = action.payload;
     },
+    setUserGoals: (state, action) => {
+      state.goals = action.payload;
+    },
   },
 });
 
@@ -45,6 +55,7 @@ export const {
   getAllUsers,
   setSingleUser,
   setUserImage,
+  setUserGoals,
 } = userSlice.actions;
 
 export default userSlice.reducer;

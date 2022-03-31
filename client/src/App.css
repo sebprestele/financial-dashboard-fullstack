@@ -12,3 +12,10 @@
   position: relative;
   top: 4px;
 }
+
+.edit-icon {
+  color: rgba(0, 0, 0, 0.568);
+}
+.edit-icon :hover {
+  cursor: pointer;
+}
