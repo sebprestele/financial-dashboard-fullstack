@@ -24,12 +24,14 @@ GET http://localhost:5000/api/v1/users/62347a7ee8e4d435086cb497
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjM0N2E3ZWU4ZTRkNDM1MDg2Y2I0OTciLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ3NzMwNjIzLCJleHAiOjE2NDc3MzQyMjN9.npTwsz-6i0LD5rucz-oii4aqhkdj4jpmftMr0tXtQpQ
 
 ###
-PUT http://localhost:5000/api/v1/users/6228d144f5eadd480c9b93ce
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjI4ZDE0NGY1ZWFkZDQ4MGM5YjkzY2UiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ3NTk2NjQwLCJleHAiOjE2NDc2MDAyNDB9.wnbDgFBCnZBFfa-fGAIrpI0ZBZDCgaRDqhVeKy3Gi1w
+PUT http://localhost:5000/api/v1/users/623666667bd6ed2d703a3088
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjM2NjY2NjdiZDZlZDJkNzAzYTMwODgiLCJlbWFpbCI6InNlYmFzdGlhbkB0ZXN0LmlvIiwiaWF0IjoxNjQ4NzY3MTg3LCJleHAiOjE2NDg4NTM1ODd9.sruKav0C6mpzJS1mbmS4lvC1gbeSE37w3WdpjwuDYAs
 Content-Type: application/json
 
 {
-"firstName": "Sebo"
+"firstName": "Sebast",
+"lastName": "Preste",
+"newPassword": ""
 }
 ###
 GET http://localhost:5000/api/v1/budget/

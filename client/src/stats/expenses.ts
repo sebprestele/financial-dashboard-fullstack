@@ -136,6 +136,23 @@ const ExpensesFunctions = () => {
     item.map((item) => item[1])
   );
 
+  //Filter category Expenses by Month
+
+  const filteredCategoryExpensesForCurrentMonth = categoriesArray.map((item) =>
+    item[1].filter((item) => item.date.slice(0, 7) === currentMonthYear)
+  );
+
+  //Get current Month ExpenseTotals ByCategory
+
+  const currentMonthExpenseTotalsByCategory =
+    filteredCategoryExpensesForCurrentMonth.map((item) => {
+      return item.reduce((sum: Number, currentValue: Number) => {
+        //@ts-ignore
+        const total = sum + currentValue.amount;
+        return total;
+      }, initialValue);
+    });
+
   //Get the category names for the separated categories and push to new array
   const newCategoriesArray = [];
   categoriesArray.map((item) => {
@@ -164,6 +181,19 @@ const ExpensesFunctions = () => {
     {}
   );
 
+  //Create object with category names and monthly totals
+  const totalExpenseByCategoryCurrentMonth = combinedCategoryArray.reduce(
+    (newObject, currentValue, index) => {
+      newObject[currentValue] = newObject[currentValue]
+        ? newObject[currentValue] +
+          ", " +
+          currentMonthExpenseTotalsByCategory[index]
+        : currentMonthExpenseTotalsByCategory[index];
+      return newObject;
+    },
+    {}
+  );
+
   return {
     prevMonthlyExpenses,
     prevTwoMonthlyDifference,
@@ -174,6 +204,7 @@ const ExpensesFunctions = () => {
     dateExpense,
     totalExpenseByCategory,
     totalExpenseByMonth,
+    totalExpenseByCategoryCurrentMonth,
   };
 };
 

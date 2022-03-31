@@ -9,7 +9,6 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
 import axios from "axios";
 
 import { RootState } from "../../Redux/store";
@@ -27,12 +26,9 @@ export default function EditProfile() {
   const userImage = useSelector((state: RootState) => state.user.userImage);
   const form = useForm({
     initialValues: {
-      username: username,
-      email: email,
       firstName: firstName,
       lastName: lastName,
       newPassword: "",
-      image: userImage,
     },
 
     validate: {},
@@ -42,13 +38,13 @@ export default function EditProfile() {
   const opened = useSelector(
     (state: RootState) => state.helper.dropZoneOpenState
   );
-  //const [opened, setOpened] = useState(false);
 
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
       <form
-        onSubmit={form.onSubmit((values) =>
-          axios
+        onSubmit={form.onSubmit(async (values) => {
+          console.log(values);
+          await axios
             .put(`http://localhost:5000/api/v1/users/${_id}`, values, {
               headers: { Authorization: `Bearer ${token}` },
             })
@@ -57,8 +53,8 @@ export default function EditProfile() {
               console.log(res.data);
             })
 
-            .catch((error) => console.log(error.message))
-        )}
+            .catch((error) => console.log(error.response.data));
+        })}
       >
         <Center>
           <Avatar src={userImage} radius="xl" alt="it's me" size="lg" mb={10} />
@@ -82,16 +78,8 @@ export default function EditProfile() {
           </Button>
         </Group>
 
-        <TextInput
-          label="Email"
-          placeholder={email}
-          {...form.getInputProps("email")}
-        />
-        <TextInput
-          label="Username"
-          placeholder={username ? "username" : "Insert your username"}
-          {...form.getInputProps("username")}
-        />
+        <TextInput label="Email" placeholder={email} disabled />
+        <TextInput label="Username" placeholder={username} disabled />
         <TextInput
           label="Firstname"
           placeholder={firstName ? "firstName" : "Insert your firstname"}
@@ -102,13 +90,11 @@ export default function EditProfile() {
           placeholder={lastName ? lastName : "Insert your lastname"}
           {...form.getInputProps("lastName")}
         />
-
         <TextInput
           label="NewPassword"
           placeholder="your new password"
           {...form.getInputProps("newPassword")}
         />
-
         <Group position="right" mt="md">
           <Button type="submit">Submit</Button>
         </Group>
