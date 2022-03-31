@@ -11,7 +11,7 @@ import {
 const router = Router()
 
 router.get('/', findExpense)
-router.post('/', addExpense)
+router.post('/:userId', addExpense)
 router.get('/:expenseId', getExpenseById)
 router.delete('/:expenseId', deleteExpense)
 router.put('/:expenseId', updateExpense)

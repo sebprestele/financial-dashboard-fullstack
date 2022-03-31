@@ -2,7 +2,9 @@ import { Request, Response, NextFunction } from 'express'
 
 import Income from '../models/Income'
 import incomeService from '../services/incomeServices'
+import addIncomeToUser from '../services/userServices'
 import { BadRequestError } from '../helpers/apiError'
+import userServices from '../services/userServices'
 
 // POST /income
 export const addIncome = async (
@@ -11,18 +13,25 @@ export const addIncome = async (
   next: NextFunction
 ) => {
   try {
-    const { name, amount, date, tag, comments } = req.body
+    const { name, amount, date, tag } = req.body
+    const userId = req.params.userId
+    console.log(userId, 'userId')
 
     const income = new Income({
       name,
       amount,
       date,
       tag,
-      comments,
     })
 
     await incomeService.addIncome(income)
     res.json(income)
+
+    const incomeId = income._id
+    console.log(incomeId, 'incomeId')
+
+    await userServices.addIncomeToUser(userId, incomeId)
+    console.log(res)
   } catch (error) {
     console.log(error)
     if (error instanceof Error && error.name == 'ValidationError') {

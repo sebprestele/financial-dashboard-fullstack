@@ -10,7 +10,11 @@ const findUsers = async (): Promise<UserDocument[]> => {
 }
 
 const findUserById = async (userId: string): Promise<UserDocument> => {
-  const foundUser = await User.findById(userId).populate('image')
+  const foundUser = await User.findById(userId)
+    .populate('image')
+    .populate('income')
+    .populate('expense')
+    .populate('investments')
   if (!foundUser) {
     throw new NotFoundError(`User ${userId} not found`)
   }
@@ -23,6 +27,10 @@ const findUserByEmail = async (
   email?: string
 ): Promise<UserDocument | null> => {
   const user = await User.findOne({ email })
+    .populate('image')
+    .populate('income')
+    .populate('expense')
+    .populate('investments')
   return user
 }
 
@@ -31,12 +39,11 @@ const findUserByEmail = async (
 const findUserByUsername = async (
   username?: string
 ): Promise<UserDocument | null> => {
-  const user = await User.findOne({ username }).populate(
-    'image',
-    'income',
-    'expense',
-    'investments'
-  )
+  const user = await User.findOne({ username })
+    .populate('image')
+    .populate('income')
+    .populate('expense')
+    .populate('investments')
   return user
 }
 

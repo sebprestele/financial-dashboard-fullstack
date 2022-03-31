@@ -10,6 +10,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "useUnknownInCatchVariables": false,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,

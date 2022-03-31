@@ -17,7 +17,6 @@ const ExpensesFunctions = () => {
 
   //Get userData from Redux Store
   const userData = useSelector((state: RootState) => state.user.user);
-  console.log(userData);
 
   //Variable that displays the expense date as YYYY-MM
   const dateExpense = userData.expense.map((expense: any) =>
@@ -111,8 +110,6 @@ const ExpensesFunctions = () => {
     }, initialValue)
   );
 
-  console.log(expenseTotalsByMonth);
-
   const totalExpenseByMonth = Object.keys(expensesByMonth).reduce(
     (newObject, currentValue, index) => {
       newObject[currentValue] = newObject[currentValue]
@@ -122,8 +119,6 @@ const ExpensesFunctions = () => {
     },
     {}
   );
-
-  console.log(totalExpenseByMonth);
 
   /*---- Get EXPENSES BY CATEGORY---- */
 

@@ -2,11 +2,16 @@ import {
   createStyles,
   Group,
   Paper,
+  Progress,
   SimpleGrid,
   Text,
   Title,
 } from "@mantine/core";
-import { ArrowUpRight, ArrowDownRight, CurrencyEuro } from "tabler-icons-react";
+import { useSelector } from "react-redux";
+import { CurrencyEuro } from "tabler-icons-react";
+
+import PortfolioFunctions from "../../stats/portfolio";
+import { RootState } from "../../Redux/store";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -25,56 +30,77 @@ const useStyles = createStyles((theme) => ({
     alignItems: "center",
   },
 
-  icon: {
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[3]
-        : theme.colors.gray[4],
-  },
-
   title: {
     fontWeight: 700,
     textTransform: "uppercase",
   },
 }));
 
-interface StatsGridProps {
-  data: {
-    title: string;
-    value: string;
-    diff: number;
-  }[];
-}
-
 export function PortfolioOverview() {
   const { classes } = useStyles();
 
+  const goals = useSelector((state: RootState) => state.user.goals);
+  const { totalInvestmentsByCategory, totalPortfolioValue } =
+    PortfolioFunctions();
+
+  const totalValues = Object.entries(totalInvestmentsByCategory).map(
+    (item) => item
+  );
+  const cryptoValue = totalValues.filter((item) => item[0] === "Crypto");
+  const stocksValueFilter = totalValues.filter((item) => item[0] === "Stocks");
+  const etfValueFilter = totalValues.filter((item) => item[0] === "ETF");
+  const cashValue = totalValues.filter((item) => item[0] === "Cash");
+  const stocksValue =
+    stocksValueFilter.length !== 0 ? stocksValueFilter[0][1] : 0;
+  const etfValue = etfValueFilter.length !== 0 ? etfValueFilter[0][1] : 0;
+  //@ts-ignore
+  const stocksEtfValue = stocksValue + etfValue;
+
   const data = [
     {
-      title: "Expenses this month",
-      value: "TEST1",
-      diff: 12,
+      title: "Crypto value",
+      value: cryptoValue[0][1],
+      percentOfTotal: Math.floor(
+        //@ts-ignore
+        (cryptoValue[0][1] / totalPortfolioValue) * 100
+      ),
+      goal: goals.cryptoPercentGoal,
+      diff: Math.floor(
+        //@ts-ignore
+        (((cryptoValue[0][1] / totalPortfolioValue) * 100) /
+          goals.cryptoPercentGoal) *
+          100
+      ),
     },
     {
-      title: "Expenses last month",
-      value: "TEST2",
-      diff: -20,
+      title: "Stocks & ETF value",
+      value: stocksEtfValue,
+      percentOfTotal: Math.floor((stocksEtfValue / totalPortfolioValue) * 100),
+      goal: goals.stockPercentGoal,
+      diff: Math.floor(
+        (((stocksEtfValue / totalPortfolioValue) * 100) /
+          goals.stockPercentGoal) *
+          100
+      ),
     },
     {
-      title: "Expenses this month",
-      value: "TEST3",
-      diff: 12,
-    },
-    {
-      title: "Expenses last month",
-      value: "TEST4",
-      diff: -20,
+      title: "Total Cash value",
+      value: cashValue.length !== 0 ? cashValue[0][1] : 0,
+      percentOfTotal: Math.floor(
+        //@ts-ignore
+        (cashValue[0][1] / totalPortfolioValue) * 100
+      ),
+      goal: goals.cashPercentGoal,
+      diff: Math.floor(
+        //@ts-ignore
+        (((cashValue[0][1] / totalPortfolioValue) * 100) /
+          goals.cashPercentGoal) *
+          100
+      ),
     },
   ];
 
   const stats = data.map((stat) => {
-    const DiffIcon = stat.diff > 0 ? ArrowUpRight : ArrowDownRight;
-
     return (
       <Paper withBorder shadow="md" p="lg" radius="lg" key={stat.title}>
         <Group position="apart">
@@ -89,36 +115,35 @@ export function PortfolioOverview() {
           </Text>
         </Group>
 
-        <Group align="flex-end" spacing="xs" mt={25}>
-          <Title order={3} mt="xs">
-            <CurrencyEuro
-              size={22}
-              strokeWidth={2.3}
-              className="currency-icon-overview"
-            />{" "}
-            {stat.value}
-          </Title>
-          <Text
-            color={stat.diff > 0 ? "teal" : "red"}
-            size="sm"
-            weight={500}
-            className={classes.diff}
-          >
-            <span>{stat.diff}%</span>
-            <DiffIcon size={16} />
+        <Title order={3} mt="xs">
+          <CurrencyEuro
+            size={22}
+            strokeWidth={2.3}
+            className="currency-icon-overview"
+          />{" "}
+          {stat.value}
+        </Title>
+        <Group position="apart" mt="xs">
+          <Text size="sm" color="dimmed">
+            Current % of Total
+          </Text>
+          <Text size="sm" color="dimmed">
+            {stat.percentOfTotal} %
           </Text>
         </Group>
 
-        <Text size="xs" color="dimmed" mt={7}>
-          Compared to previous month
-        </Text>
+        <Progress value={stat.diff} mt={10} />
+
+        <Group position="apart" mt="md">
+          <Text size="sm">Goal: {`${stat.goal} % of total`}</Text>
+        </Group>
       </Paper>
     );
   });
   return (
     <div className={classes.root}>
       <SimpleGrid
-        cols={4}
+        cols={3}
         breakpoints={[
           { maxWidth: "md", cols: 2 },
           { maxWidth: "xs", cols: 1 },

@@ -11,7 +11,7 @@ import {
 const router = Router()
 
 router.get('/', findIncome)
-router.post('/', addIncome)
+router.post('/:userId', addIncome)
 router.get('/:incomeId', getIncomeById)
 router.delete('/:incomeId', deleteIncome)
 router.put('/:incomeId', updateIncome)

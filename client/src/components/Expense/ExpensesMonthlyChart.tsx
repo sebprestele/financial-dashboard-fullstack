@@ -23,7 +23,7 @@ const ExpensesMonthlyChart = () => {
     <>
       <Container mt={30}>
         <Title order={5} ml={50} mb={-50}>
-          Expenses by Category
+          Expenses by Month
         </Title>
         <ResponsiveContainer>
           <BarChart
