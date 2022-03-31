@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import passport from 'passport'
+import fileupload from 'express-fileupload'
 
 import investmentsRouter from './routers/investmentsRouter'
 import userRouter from './routers/userRouter'
@@ -9,6 +10,7 @@ import incomeRouter from './routers/incomeRouter'
 import expenseRouter from './routers/expenseRouter'
 import authRouter from './routers/authRouter'
 import uploadRouter from './routers/uploadRouter'
+import budgetRouter from './routers/budgetRouter'
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
 import { jwtStrategy } from './config/passport'
@@ -29,7 +31,8 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 // Middleware for fileupload to cloudinary
 /* eslint-disable  @typescript-eslint/no-var-requires*/
-const fileupload = require('express-fileupload')
+
+//const fileupload = require('express-fileupload')
 app.use(fileupload({ useTempFiles: true }))
 /* eslint-enable  @typescript-eslint/no-var-requires */
 
@@ -47,6 +50,8 @@ app.use('/api/v1/expense', expenseRouter)
 app.use('/api/v1/auth', authRouter)
 //Upload Image Router
 app.use('/api/v1/upload', uploadRouter)
+//Budget Router
+app.use('/api/v1/budget', budgetRouter)
 
 // Custom API error handler
 app.use(apiErrorHandler)
