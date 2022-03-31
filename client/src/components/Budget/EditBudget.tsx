@@ -1,32 +1,28 @@
-import { Button, Group, TextInput } from "@mantine/core";
+import { Button, Checkbox, Group, NumberInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { DatePicker } from "@mantine/dates";
 import { CurrencyEuro } from "tabler-icons-react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-
 import { setSingleUser } from "../../Redux/userSlice";
-import { setModalState } from "../../Redux/helperSlice";
-import { ExpenseData } from "../../types/types";
+import { setAltModalState } from "../../Redux/helperSlice";
+import { BudgetDataProps } from "../../types/types";
 
-const EditExpense = (rowDetails: ExpenseData) => {
+const EditBudget = (budgetDetails: BudgetDataProps) => {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("currentToken");
   const dispatch = useDispatch();
 
   const form = useForm({
     initialValues: {
-      name: rowDetails.name,
-      amount: rowDetails.amount,
-      date: rowDetails.date,
-      tag: rowDetails.tag,
-      comments: rowDetails.comments,
+      title: budgetDetails.title,
+      budget: budgetDetails.budget,
+      tag: budgetDetails.tag,
+      comments: budgetDetails.comments,
     },
 
     validate: (values) => ({
-      name: values.name === undefined ? "Name is required" : null,
-      amount: values.amount === undefined ? "Amount is required" : null,
-      date: values.date === undefined ? "Date is required" : null,
+      name: values.title === undefined ? "Name is required" : null,
+      budget: values.budget === undefined ? "Amount is required" : null,
       tag: values.tag === undefined ? "Category is required" : null,
     }),
   });
@@ -38,7 +34,7 @@ const EditExpense = (rowDetails: ExpenseData) => {
           try {
             await axios
               .put(
-                `http://localhost:5000/api/v1/expense/${rowDetails._id}`,
+                `http://localhost:5000/api/v1/budget/${budgetDetails._id}`,
                 values
               )
               .then((res) => console.log(res));
@@ -53,42 +49,38 @@ const EditExpense = (rowDetails: ExpenseData) => {
           } catch (error) {
             console.log(error);
           }
-          dispatch(setModalState());
+          dispatch(setAltModalState());
         })}
       >
         <TextInput
           required
           label="Name"
-          placeholder={rowDetails.name}
-          {...form.getInputProps("name")}
+          placeholder={budgetDetails.title}
+          {...form.getInputProps("title")}
         />
-        <TextInput
+        <NumberInput
           required
           icon={<CurrencyEuro size={16} />}
           label="Amount"
-          placeholder={rowDetails.amount}
-          {...form.getInputProps("amount")}
+          {...form.getInputProps("budget")}
         />
-        <DatePicker
-          required
-          label="Date"
-          placeholder={rowDetails.date && rowDetails.date.substring(0, 10)}
-          {...form.getInputProps("date")}
-        />
+
         <TextInput
           required
           label="Category"
-          placeholder={rowDetails.tag}
+          placeholder={budgetDetails.tag}
           {...form.getInputProps("tag")}
         />
         <TextInput
           label="Comments"
-          placeholder={rowDetails.comments}
+          placeholder={budgetDetails.comments}
           {...form.getInputProps("comments")}
         />
+        <Checkbox mt={10} label="Show on Dashboard?"></Checkbox>
+
         <Group mt={10}>
           <Button type="submit" name="save">
-            Save Details
+            Save
           </Button>
           <Button
             name="delete"
@@ -97,7 +89,7 @@ const EditExpense = (rowDetails: ExpenseData) => {
               try {
                 await axios
                   .delete(
-                    `http://localhost:5000/api/v1/expense/${rowDetails._id}`
+                    `http://localhost:5000/api/v1/budget/${budgetDetails._id}`
                   )
                   .then((res) => console.log(res));
                 await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
@@ -112,10 +104,10 @@ const EditExpense = (rowDetails: ExpenseData) => {
               } catch (error) {
                 console.log(error);
               }
-              dispatch(setModalState());
+              dispatch(setAltModalState());
             }}
           >
-            Delete Expense
+            Remove Budget
           </Button>
         </Group>
       </form>
@@ -123,4 +115,4 @@ const EditExpense = (rowDetails: ExpenseData) => {
   );
 };
 
-export default EditExpense;
+export default EditBudget;

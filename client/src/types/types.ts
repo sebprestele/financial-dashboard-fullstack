@@ -38,3 +38,14 @@ export interface PortfolioStatsProps {
     percentOfTotal: number;
   }[];
 }
+
+export interface BudgetDataProps {
+  _id?: string;
+  title?: string;
+  icon?: string;
+  budget?: number;
+  tag?: string;
+  comments?: string;
+}
+
+export type CategoryExpense = [string, number];
