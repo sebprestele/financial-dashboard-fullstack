@@ -32,7 +32,7 @@ Content-Type: application/json
 "firstName": "Sebo"
 }
 ###
-GET http://localhost:5000/api/v1/investments/findInvestments
+GET http://localhost:5000/api/v1/budget/
 
 ###
 POST  http://localhost:5000/api/v1/auth/login

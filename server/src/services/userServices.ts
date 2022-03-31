@@ -15,6 +15,7 @@ const findUserById = async (userId: string): Promise<UserDocument> => {
     .populate('income')
     .populate('expense')
     .populate('investments')
+    .populate('budget')
   if (!foundUser) {
     throw new NotFoundError(`User ${userId} not found`)
   }
@@ -31,6 +32,7 @@ const findUserByEmail = async (
     .populate('income')
     .populate('expense')
     .populate('investments')
+    .populate('budget')
   return user
 }
 
@@ -44,6 +46,7 @@ const findUserByUsername = async (
     .populate('income')
     .populate('expense')
     .populate('investments')
+    .populate('budget')
   return user
 }
 
@@ -88,6 +91,12 @@ const addExpenseToUser = async (userId: string, expenseId: string) => {
   return user?.save()
 }
 
+const addBudgetToUser = async (userId: string, budgetId: string) => {
+  const user = await User.findById(userId)
+  user?.budget.push(budgetId)
+  return user?.save()
+}
+
 const addImageToUser = async (userId: string, imageId: string) => {
   const user = await User.findById(userId)
   user?.image.push(imageId)
@@ -105,5 +114,6 @@ export default {
   addInvestmentToUser,
   addIncomeToUser,
   addExpenseToUser,
+  addBudgetToUser,
   addImageToUser,
 }
