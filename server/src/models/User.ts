@@ -12,6 +12,7 @@ export type UserDocument = Document & {
   investments: string[]
   income: string[]
   expense: string[]
+  budget: string[]
 }
 
 const userSchema = new mongoose.Schema(
@@ -36,6 +37,7 @@ const userSchema = new mongoose.Schema(
     investments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Investment' }],
     income: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Income' }],
     expense: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Expense' }],
+    budget: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Budget' }],
   },
   { timestamps: true }
 )
