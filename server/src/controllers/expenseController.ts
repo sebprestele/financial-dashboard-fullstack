@@ -2,7 +2,9 @@ import { Request, Response, NextFunction } from 'express'
 
 import Expense from '../models/Expense'
 import expenseService from '../services/expenseServices'
+import addExpenseToUser from '../services/userServices'
 import { BadRequestError } from '../helpers/apiError'
+import userServices from '../services/userServices'
 
 // POST /expense
 export const addExpense = async (
@@ -12,7 +14,7 @@ export const addExpense = async (
 ) => {
   try {
     const { name, amount, date, tag, comments } = req.body
-
+    const userId = req.params.userId
     const expense = new Expense({
       name,
       amount,
@@ -23,6 +25,11 @@ export const addExpense = async (
 
     await expenseService.addExpense(expense)
     res.json(expense)
+
+    const expenseId = expense._id
+
+    await userServices.addExpenseToUser(userId, expenseId)
+    console.log(res)
   } catch (error) {
     console.log(error)
     if (error instanceof Error && error.name == 'ValidationError') {

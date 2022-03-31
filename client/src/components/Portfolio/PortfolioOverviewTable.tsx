@@ -15,19 +15,8 @@ import { RootState } from "../../Redux/store";
 import AddInvestment from "./AddInvestment";
 import EditInvestment from "./EditInvestment";
 import { setAltModalState, setModalState } from "../../Redux/helperSlice";
-export interface RowData {
-  _id?: string;
-  name?: string;
-  category?: string;
-  amount: number | undefined;
-  quantity?: Number;
-  price: [{ priceBought: string; priceSold: string }];
-  currency?: string;
-  transactionType?: string;
-  fee?: Number;
-  date: [{ dateBought: string; dateSold: string }];
-  comments?: string;
-}
+import { Link } from "react-router-dom";
+import { PortfolioData } from "../../types/types";
 
 export function PortfolioOverviewTable() {
   // sets the number of rows to be displayed at once
@@ -51,7 +40,7 @@ export function PortfolioOverviewTable() {
   const dispatch = useDispatch();
 
   // Set the Portfolio Overview table with the data userData
-  const rows = portfolioDataArray.map((row: RowData) => (
+  const rows = portfolioDataArray.map((row: PortfolioData) => (
     <tr key={row._id}>
       <td>{row.name}</td>
       <td>{Object.values(row.price).map((price) => price.priceBought)}</td>
@@ -62,14 +51,16 @@ export function PortfolioOverviewTable() {
         {Object.values(row.date).map((date) => date.dateBought.slice(0, 10))}
       </td>
       <td>
-        <Edit
-          size={18}
-          onClick={() => {
-            dispatch(setModalState());
-            // Gets the ID of the current row to display data on the modal
-            setRowDetails(row);
-          }}
-        />
+        <Link to={""} className="edit-icon">
+          <Edit
+            size={18}
+            onClick={() => {
+              dispatch(setModalState());
+              // Gets the ID of the current row to display data on the modal
+              setRowDetails(row);
+            }}
+          />
+        </Link>
       </td>
     </tr>
   ));

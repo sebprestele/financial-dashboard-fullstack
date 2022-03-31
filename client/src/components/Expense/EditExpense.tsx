@@ -2,13 +2,13 @@ import { Button, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { DatePicker } from "@mantine/dates";
 import { CurrencyEuro } from "tabler-icons-react";
-import { RowData } from "./ExpenseOverviewTable";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setSingleUser } from "../../Redux/userSlice";
 import { setModalState } from "../../Redux/helperSlice";
+import { ExpenseData } from "../../types/types";
 
-const EditExpense = (rowDetails: RowData) => {
+const EditExpense = (rowDetails: ExpenseData) => {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("currentToken");
   const dispatch = useDispatch();

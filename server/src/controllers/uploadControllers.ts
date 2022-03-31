@@ -10,11 +10,9 @@ const { cloudinary } = require('../util/cloudinary')
 
 // POST /upload
 export const createUpload = async (req: Request, res: Response) => {
-  console.log('calling')
   try {
     const userId = req.body.userId
     const imageData = req.body.data
-    console.log(userId)
     const uploadedResponse = await cloudinary.uploader.upload(imageData, {
       /* eslint-disable  @typescript-eslint/camelcase */
       upload_preset: 'money',

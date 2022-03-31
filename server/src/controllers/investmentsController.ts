@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import Investment from '../models/Investment'
 import investmentService from '../services/investmentServices'
 import { BadRequestError } from '../helpers/apiError'
+import userServices from '../services/userServices'
 
 // POST /investments
 export const addInvestment = async (
@@ -18,10 +19,11 @@ export const addInvestment = async (
       price,
       date,
       currency,
+      cryptoCurrency,
       comments,
       category,
-      image,
     } = req.body
+    const userId = req.params.userId
 
     const investment = new Investment({
       name,
@@ -30,13 +32,19 @@ export const addInvestment = async (
       price,
       date,
       currency,
+      cryptoCurrency,
       comments,
       category,
-      image,
     })
 
     await investmentService.addInvestment(investment)
     res.json(investment)
+
+    const investmentId = investment._id
+    console.log(investmentId, 'investmentId')
+
+    await userServices.addInvestmentToUser(userId, investmentId)
+    console.log(res)
   } catch (error) {
     console.log(error)
     if (error instanceof Error && error.name == 'ValidationError') {

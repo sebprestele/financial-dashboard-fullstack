@@ -5,6 +5,7 @@ export interface HelperState {
   altModalState: Boolean;
   dropZoneOpenState: Boolean;
   activeItem: String;
+  goalsModalState: Boolean;
 }
 
 const initialState: HelperState = {
@@ -12,6 +13,7 @@ const initialState: HelperState = {
   altModalState: false,
   dropZoneOpenState: false,
   activeItem: "Dashboard",
+  goalsModalState: false,
 };
 
 export const helperSlice = createSlice({
@@ -30,6 +32,9 @@ export const helperSlice = createSlice({
     setActiveItem: (state, action) => {
       state.activeItem = action.payload;
     },
+    setGoalsModalState: (state) => {
+      state.goalsModalState = !state.goalsModalState;
+    },
   },
 });
 
@@ -39,6 +44,7 @@ export const {
   setAltModalState,
   setDropzoneOpenState,
   setActiveItem,
+  setGoalsModalState,
 } = helperSlice.actions;
 
 export default helperSlice.reducer;

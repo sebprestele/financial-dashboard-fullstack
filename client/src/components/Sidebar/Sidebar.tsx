@@ -13,7 +13,7 @@ import {
 
 import { RootState } from "../../Redux/store";
 import { setIsLoggedIn } from "../../Redux/userSlice";
-import { setActiveItem } from "../../Redux/helperSlice";
+import { setActiveItem, setModalState } from "../../Redux/helperSlice";
 import { UserInfo } from "../UserInfo/UserInfo";
 import { Link } from "react-router-dom";
 

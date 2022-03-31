@@ -11,7 +11,7 @@ import {
 const router = Router()
 
 router.get('/', findInvestments)
-router.post('/', addInvestment)
+router.post('/:userId', addInvestment)
 router.get('/:investmentId', getInvestmentById)
 router.delete('/:investmentId', deleteInvestment)
 router.put('/:investmentId', updateInvestment)

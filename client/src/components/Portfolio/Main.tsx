@@ -1,21 +1,43 @@
-import { Container, Paper, SimpleGrid } from "@mantine/core";
+import { Container, Modal, Paper, SimpleGrid, Title } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import PortfolioTotalsChart from "./PortfolioTotalsChart";
+import { Edit } from "tabler-icons-react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
+import PortfolioTotals from "./PortfolioTotals";
 import { PortfolioOverview } from "./PortfolioOverview";
-import PortfolioCategoryChart from "./PortfolioCategoryChart";
+import PortfolioByCategoryChart from "./PortfolioByCategoryChart";
 import { PortfolioOverviewTable } from "./PortfolioOverviewTable";
+import { RootState } from "../../Redux/store";
+import { setGoalsModalState } from "../../Redux/helperSlice";
+import GoalEditForm from "./EditGoalsForm";
 
 const Main = () => {
   const largeScreen = useMediaQuery("(min-width: 1300px)");
+  const dispatch = useDispatch();
+  const goalsModalState = useSelector(
+    (state: RootState) => state.helper.goalsModalState
+  );
   return (
     <Container ml={largeScreen ? 600 : 250} mt={largeScreen ? 60 : 20}>
       <Paper radius="md" p={30}>
-        <PortfolioOverview />
+        <Title order={1} align="center">
+          Portfolio Overview
+        </Title>
         <SimpleGrid cols={2}>
-          <PortfolioCategoryChart />
-          <PortfolioTotalsChart />
+          <PortfolioTotals />
+          <PortfolioByCategoryChart />
         </SimpleGrid>
+        <PortfolioOverview />
+        <Edit size={17} onClick={() => dispatch(setGoalsModalState())} />
+        <Modal
+          opened={goalsModalState}
+          onClose={() => dispatch(setGoalsModalState())}
+          title="Edit Goals"
+          transition="pop-top-right"
+        >
+          <GoalEditForm />
+        </Modal>
       </Paper>
       <PortfolioOverviewTable />
     </Container>
