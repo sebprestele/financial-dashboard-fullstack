@@ -1,7 +1,6 @@
 import { Container, Modal, Paper, SimpleGrid, Title } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { Edit } from "tabler-icons-react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import PortfolioTotals from "./PortfolioTotals";
