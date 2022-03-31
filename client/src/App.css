@@ -3,6 +3,16 @@
   background-color: #bac8ff;
 }
 
+.progress-container {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 40%;
+  bottom: 50%;
+  left: 40%;
+  right: 40%;
+}
+
 .currency-icon {
   position: relative;
   top: 3px;
