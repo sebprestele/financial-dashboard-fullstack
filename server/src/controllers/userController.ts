@@ -234,6 +234,27 @@ export const addExpenseToUser = async (
   }
 }
 
+// PATCH ADD Budget to User
+
+export const addBudgetToUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.params.userId
+    const budgetId = req.params.expenseId
+    const updatedUser = await UserService.addExpenseToUser(userId, budgetId)
+    res.json(updatedUser)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 // PATCH ADD Image to User
 
 export const addImageToUser = async (
