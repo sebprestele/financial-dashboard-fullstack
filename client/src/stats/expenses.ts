@@ -110,6 +110,7 @@ const ExpensesFunctions = () => {
     }, initialValue)
   );
 
+  // Create new object with key: month, value: expensetotals
   const totalExpenseByMonth = Object.keys(expensesByMonth).reduce(
     (newObject, currentValue, index) => {
       newObject[currentValue] = newObject[currentValue]
@@ -199,6 +200,7 @@ const ExpensesFunctions = () => {
     prevTwoMonthlyDifference,
     monthlyExpenses,
     currentYear,
+    currentMonthYear,
     monthlyDifference,
     totalExpenses,
     dateExpense,

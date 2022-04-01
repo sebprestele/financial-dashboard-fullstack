@@ -38,14 +38,12 @@ export function BudgetOverview() {
 
   // Budget Data from Redux Store
   const budgetData = useSelector((state: RootState) => state.user.user.budget);
-  console.log(budgetData);
 
   const stats = budgetData.map((stat: BudgetDataProps) => {
     // Check if categories of expenses and budget are the same
     const categoryExpense = expenseData.filter((item) =>
       item[0] === stat.tag ? item : null
     );
-    console.log(categoryExpense);
     return (
       <Paper radius="md" p={30} withBorder shadow="md">
         <Title align="center" mt={30} order={4}>
@@ -65,7 +63,6 @@ export function BudgetOverview() {
             {Math.floor((categoryExpense[0][1] / stat.budget) * 100)}%
           </Text>
         </Group>
-
         <Progress
           //@ts-ignore
           value={Math.floor((categoryExpense[0][1] / stat.budget) * 100)}
