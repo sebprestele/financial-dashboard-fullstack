@@ -1,41 +1,35 @@
-import {
-  createStyles,
-  Group,
-  Paper,
-  Text,
-  ThemeIcon,
-  SimpleGrid,
-} from "@mantine/core";
-import { ArrowUpRight, ArrowDownRight } from "tabler-icons-react";
-import { useSelector } from "react-redux";
+import { Group, Paper, Text, SimpleGrid, Title } from "@mantine/core";
+import { iconSizes } from "@mantine/core/lib/components/Stepper/Step/Step.styles";
+import { ChartLine, CurrencyEuro, ZoomMoney } from "tabler-icons-react";
 
-import { RootState } from "../../Redux/store";
-
-const useStyles = createStyles((theme) => ({
-  root: {
-    paddingBottom: theme.spacing.xl * 1.5,
-  },
-
-  label: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-  },
-}));
+import ExpensesFunctions from "../../stats/expenses";
+import PortfolioFunctions from "../../stats/portfolio";
 
 /* interface StatsGridIconsProps {
   data: { title: string; value: string; diff: number }[];
 } */
 
-const data = [
-  { title: "Test", value: "VALUE", diff: 10 },
-  { title: "Test2", value: "VALUE2", diff: -10 },
-  { title: "Test3", value: "VALUE3", diff: 30 },
-];
-
 export function StatsOverview() {
-  const { classes } = useStyles();
-  const stats = data.map((stat) => {
-    const DiffIcon = stat.diff > 0 ? ArrowUpRight : ArrowDownRight;
+  const { totalPortfolioValue } = PortfolioFunctions();
+  const { totalExpenseByMonth, currentMonthYear } = ExpensesFunctions();
+  const currentMonthExpense = Object.entries(totalExpenseByMonth).filter(
+    (item) => item[0] === currentMonthYear
+  );
 
+  const data = [
+    {
+      title: "Portfolio Value",
+      value: totalPortfolioValue,
+      icon: <ChartLine />,
+    },
+    {
+      title: "Expenses this month",
+      value: currentMonthExpense[0][1],
+      icon: <ZoomMoney />,
+    },
+  ];
+
+  const stats = data.map((stat) => {
     return (
       <Paper
         withBorder
@@ -43,54 +37,35 @@ export function StatsOverview() {
         p="md"
         radius="lg"
         mt={30}
-        ml={50}
-        mr={50}
+        ml={80}
+        mr={80}
         key={stat.title}
       >
         <Group position="apart">
-          <div>
-            <Text
-              color="dimmed"
-              transform="uppercase"
-              weight={700}
-              size="xs"
-              className={classes.label}
-            >
-              {stat.title}
-            </Text>
-            <Text weight={700} size="xl">
-              {stat.value}
-            </Text>
-          </div>
-          <ThemeIcon
-            color="gray"
-            variant="light"
-            sx={(theme) => ({
-              color: stat.diff > 0 ? theme.colors.teal[6] : theme.colors.red[6],
-            })}
-            size={38}
-            radius="md"
-          >
-            <DiffIcon size={28} />
-          </ThemeIcon>
-        </Group>
-        <Text color="dimmed" size="sm" mt="md">
-          <Text
-            component="span"
-            color={stat.diff > 0 ? "teal" : "red"}
-            weight={700}
-          >
-            {stat.diff}%{" "}
+          <Text size="md" color="dimmed">
+            {stat.title}
           </Text>
-          {stat.diff > 0 ? "increase" : "decrease"} compared to last month
-        </Text>
+          {stat.icon}
+        </Group>
+
+        <Group spacing="md" mt={15}>
+          <Title order={2}>
+            {" "}
+            <CurrencyEuro
+              size={18}
+              strokeWidth={1.5}
+              className="currency-icon"
+            />{" "}
+            {stat.value}{" "}
+          </Title>
+        </Group>
       </Paper>
     );
   });
 
   return (
-    <div className={classes.root}>
-      <SimpleGrid cols={3} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
+    <div>
+      <SimpleGrid cols={2} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
         {stats}
       </SimpleGrid>
     </div>
