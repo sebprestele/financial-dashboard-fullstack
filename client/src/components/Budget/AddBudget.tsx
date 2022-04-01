@@ -26,7 +26,6 @@ function AddBudget() {
       tag: "Uncategorized",
       comments: "",
     },
-
     validate: (values) => ({
       name: values.title === undefined ? "Name is required" : null,
       amount: values.budget === undefined ? "Budget is required" : null,

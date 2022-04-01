@@ -5,8 +5,6 @@ import Axios from "axios";
 import { setSingleUser } from "../Redux/userSlice";
 import { RootState } from "../Redux/store";
 
-//Will try to get a singleUser but need to get the userID OR change the backend to findByUserName instead of userId
-
 const useGetSingleUserData = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user.username);

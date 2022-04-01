@@ -1,5 +1,3 @@
-import { number } from "yup";
-
 //Expense Types
 export interface ExpenseData {
   _id?: string;

@@ -1,4 +1,4 @@
-import { Paper, Text, SimpleGrid, Card, Container, Title } from "@mantine/core";
+import { Container, Title } from "@mantine/core";
 import {
   BarChart,
   Bar,

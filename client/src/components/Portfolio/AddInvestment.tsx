@@ -38,7 +38,6 @@ function AddInvestment() {
       fee: 0,
       comments: "",
     },
-
     validate: (values) => ({
       name: values.name === undefined ? "Name is required" : null,
     }),

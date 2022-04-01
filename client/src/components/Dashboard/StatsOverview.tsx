@@ -1,5 +1,4 @@
 import { Group, Paper, Text, SimpleGrid, Title } from "@mantine/core";
-import { iconSizes } from "@mantine/core/lib/components/Stepper/Step/Step.styles";
 import { ChartLine, CurrencyEuro, ZoomMoney } from "tabler-icons-react";
 
 import ExpensesFunctions from "../../stats/expenses";

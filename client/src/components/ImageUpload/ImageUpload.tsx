@@ -30,11 +30,9 @@ function ImageUploadIcon({
   if (status.accepted) {
     return <Upload {...props} />;
   }
-
   if (status.rejected) {
     return <X {...props} />;
   }
-
   return <Photo {...props} />;
 }
 
@@ -50,7 +48,6 @@ export const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) =>
         style={{ color: getIconColor(status, theme) }}
         size={80}
       />
-
       <div>
         <Text size="xl" inline>
           Drag images here or click to select file
@@ -77,13 +74,11 @@ export const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) =>
 export default function ImageUpload() {
   const theme = useMantineTheme();
   const [isLoading, setIsLoading] = useState(false);
-
   const token = localStorage.getItem("currentToken");
   const userId = localStorage.getItem("userId");
   const dispatch = useDispatch();
 
   const uploadImage = async (base64EncodedImage: String) => {
-    console.log(base64EncodedImage);
     try {
       setIsLoading(true);
       await fetch(`http://localhost:5000/api/v1/upload`, {
@@ -119,7 +114,6 @@ export default function ImageUpload() {
         reader.readAsDataURL(files[0]);
         //@ts-ignore
         reader.onloadend = () => uploadImage(reader.result);
-        console.log("success");
       }}
       onReject={(files) => console.log("rejected files", files)}
       maxSize={3 * 1024 ** 2}

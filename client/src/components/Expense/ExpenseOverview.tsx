@@ -6,6 +6,7 @@ import {
   SimpleGrid,
   Title,
 } from "@mantine/core";
+
 import { ArrowUpRight, ArrowDownRight, CurrencyEuro } from "tabler-icons-react";
 import ExpensesFunctions from "../../stats/expenses";
 

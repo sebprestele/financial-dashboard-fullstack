@@ -42,7 +42,6 @@ const useStyles = createStyles((theme, _params, getRef) => {
         paddingBottom: theme.spacing.sm,
         marginBottom: theme.spacing.sm * 1.5,
       },
-      /*   borderBottom: `1px solid ${theme.colors.blue[9]}`, */
     },
 
     footer: {
@@ -117,6 +116,7 @@ const data = [
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //Mantine custom hooks for styling
   const { classes, cx } = useStyles();
@@ -130,8 +130,6 @@ const Sidebar = () => {
     dispatch(setActiveItem("Dashboard"));
     localStorage.removeItem("currentToken");
   };
-
-  const navigate = useNavigate();
 
   const links = data.map((item) => (
     <Link
@@ -165,7 +163,6 @@ const Sidebar = () => {
     >
       <Navbar.Section mt={-45}>
         <Group className={classes.header} position="apart"></Group>
-
         <UserInfo avatar={userImage} name={username} email={email} />
         {links}
       </Navbar.Section>

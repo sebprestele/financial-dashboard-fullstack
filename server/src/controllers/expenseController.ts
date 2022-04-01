@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 
 import Expense from '../models/Expense'
 import expenseService from '../services/expenseServices'
-import addExpenseToUser from '../services/userServices'
 import { BadRequestError } from '../helpers/apiError'
 import userServices from '../services/userServices'
 

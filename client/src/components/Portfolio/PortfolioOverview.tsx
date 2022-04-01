@@ -17,19 +17,16 @@ const useStyles = createStyles((theme) => ({
   root: {
     padding: theme.spacing.xl,
   },
-
   value: {
     fontSize: 24,
     fontWeight: 700,
     lineHeight: 1,
   },
-
   diff: {
     lineHeight: 1,
     display: "flex",
     alignItems: "center",
   },
-
   title: {
     fontWeight: 700,
     textTransform: "uppercase",
@@ -42,7 +39,6 @@ export function PortfolioOverview() {
   const goals = useSelector((state: RootState) => state.user.goals);
   const { totalInvestmentsByCategory, totalPortfolioValue } =
     PortfolioFunctions();
-
   const totalValues = Object.entries(totalInvestmentsByCategory).map(
     (item) => item
   );
@@ -114,7 +110,6 @@ export function PortfolioOverview() {
             {stat.title}
           </Text>
         </Group>
-
         <Title order={3} mt="xs">
           <CurrencyEuro
             size={22}
@@ -131,9 +126,7 @@ export function PortfolioOverview() {
             {stat.percentOfTotal} %
           </Text>
         </Group>
-
         <Progress value={stat.diff} mt={10} />
-
         <Group position="apart" mt="md">
           <Text size="sm">Goal: {`${stat.goal} % of total`}</Text>
         </Group>
