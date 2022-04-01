@@ -30,7 +30,6 @@ export default function EditProfile() {
       lastName: lastName,
       newPassword: "",
     },
-
     validate: {},
   });
 
@@ -52,7 +51,6 @@ export default function EditProfile() {
               dispatch(setSingleUser(res.data));
               console.log(res.data);
             })
-
             .catch((error) => console.log(error.response.data));
         })}
       >
@@ -77,7 +75,6 @@ export default function EditProfile() {
             Upload Image
           </Button>
         </Group>
-
         <TextInput label="Email" placeholder={email} disabled />
         <TextInput label="Username" placeholder={username} disabled />
         <TextInput

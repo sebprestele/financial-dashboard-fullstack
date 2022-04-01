@@ -12,8 +12,8 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
+
 import { setSingleUser } from "../../Redux/userSlice";
-import { setUsername } from "../../Redux/userSlice";
 
 function Copyright(props: any) {
   return (
@@ -128,7 +128,6 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-
               <Button
                 type="submit"
                 fullWidth
@@ -137,7 +136,6 @@ export default function Login() {
               >
                 Sign Up
               </Button>
-
               <Grid item>
                 <Link href="/login" variant="body2">
                   {"Already have an account? Login"}

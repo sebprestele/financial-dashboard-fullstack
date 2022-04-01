@@ -27,7 +27,6 @@ export function BudgetOverview() {
   const expenseData = Object.entries(totalExpenseByCategoryCurrentMonth).map(
     (item) => item
   );
-  console.log(expenseData);
 
   // State for the EditModal State
   const altModalState = useSelector(

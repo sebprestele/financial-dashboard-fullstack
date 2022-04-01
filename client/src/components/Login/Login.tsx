@@ -12,15 +12,16 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   setIsLoggedIn,
   setUsername,
   setSingleUser,
 } from "../../Redux/userSlice";
 import { RootState } from "../../Redux/store";
-import { useEffect } from "react";
 
 function Copyright(props: any) {
   return (
@@ -31,7 +32,7 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="">
         SebPrestele
       </Link>{" "}
       {new Date().getFullYear()}

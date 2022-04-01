@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+
 import { setIsLoggedIn } from "../../Redux/userSlice";
 
 const Logout = () => {

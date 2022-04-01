@@ -10,12 +10,12 @@ import {
 import { Edit } from "tabler-icons-react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { RootState } from "../../Redux/store";
+import { setAltModalState, setModalState } from "../../Redux/helperSlice";
 import AddInvestment from "./AddInvestment";
 import EditInvestment from "./EditInvestment";
-import { setAltModalState, setModalState } from "../../Redux/helperSlice";
-import { Link } from "react-router-dom";
 import { PortfolioData } from "../../types/types";
 
 export function PortfolioOverviewTable() {
@@ -23,7 +23,6 @@ export function PortfolioOverviewTable() {
   const numRows = 5;
   const [numRowsEnd, setNumRowsEnd] = useState(numRows);
   const [numRowsStart, setNumRowsStart] = useState(0);
-
   //State for the Add Investment Modal
   const opened = useSelector((state: RootState) => state.helper.altModalState);
   //State for the Edit Details Modal
@@ -34,7 +33,6 @@ export function PortfolioOverviewTable() {
   const portfolioDataArray = useSelector(
     (state: RootState) => state.user.user.investments
   );
-
   //State for the Edit Portfolio Modal
   const [rowDetails, setRowDetails] = useState({});
   const dispatch = useDispatch();
@@ -107,7 +105,6 @@ export function PortfolioOverviewTable() {
           )}
         </tbody>
       </Table>
-
       {/*Logic for the add more / less buttons */}
       {rows.slice(numRowsStart, numRowsEnd).length >= numRows && (
         <Button
@@ -132,7 +129,6 @@ export function PortfolioOverviewTable() {
           Show less
         </Button>
       )}
-
       {/*Modals for adding and editing data */}
       <Group position="center" mt={15}>
         <Button onClick={() => dispatch(setAltModalState())}>
@@ -146,7 +142,6 @@ export function PortfolioOverviewTable() {
         >
           <AddInvestment />
         </Modal>
-
         <Modal /* Details Modal, opens from click on edit in table row */
           opened={detailsOpen}
           onClose={() => dispatch(setModalState())}
