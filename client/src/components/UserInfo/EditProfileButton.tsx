@@ -17,7 +17,6 @@ function EditProfileButton() {
       >
         <EditProfile />
       </Drawer>
-
       <Group position="center">
         <Button
           onClick={() => setOpened(true)}

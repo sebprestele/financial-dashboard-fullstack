@@ -1,13 +1,6 @@
 import { useSelector } from "react-redux";
 
 const PortfolioFunctions = () => {
-  //Setup CONSTANTS for month and year
-  const currentMonth = "0" + (new Date().getMonth() + 1);
-  const prevMonth = "0" + new Date().getMonth();
-  const currentYear = new Date().getFullYear();
-  const currentMonthYear = currentYear + "-" + currentMonth;
-  const lastMonthYear = currentYear + "-" + prevMonth;
-
   // Set initial value for calculations
   let initialValue = 0;
 
@@ -33,7 +26,6 @@ const PortfolioFunctions = () => {
 
   // Get category names from array
   const combinedCategoryArray = categoriesArray.map((item) => item[0]);
-  console.log(categoriesArray);
 
   // Get priceBought from categories
   const categoryPriceBought = categoriesArray.map((item) =>

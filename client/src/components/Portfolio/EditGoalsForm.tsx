@@ -58,7 +58,6 @@ export default function GoalEditForm() {
           //    onChange={() => console.log("values")}
           variant="default"
         />
-
         {form.values.cashPercentGoal +
           form.values.stockPercentGoal +
           form.values.cryptoPercentGoal <=

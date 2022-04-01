@@ -5,10 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { RootState } from "../../Redux/store";
 import { setSingleUser } from "../../Redux/userSlice";
+import { setModalState } from "../../Redux/helperSlice";
 import AddIncome from "./AddIncome";
 import EditIncome from "./EditIncome";
-import { setModalState } from "../../Redux/helperSlice";
-
 export interface RowData {
   _id?: string;
   name?: string;
@@ -84,13 +83,6 @@ export function IncomeOverviewTable() {
       <Title order={3} mb={10} mt={30}>
         Latest Income
       </Title>
-      {/*  <TextInput
-          placeholder="Search by any field"
-          mb="md"
-          icon={<Search size={14} />}
-          // value={search}
-          // onChange={handleSearchChange}
-        /> */}
       <Table
         highlightOnHover
         horizontalSpacing="sm"
@@ -125,7 +117,6 @@ export function IncomeOverviewTable() {
           )}
         </tbody>
       </Table>
-
       {/*Logic for the add more / less buttons */}
       {rows.slice(numRowsStart, numRowsEnd).length >= numRows && (
         <Button
@@ -150,7 +141,6 @@ export function IncomeOverviewTable() {
           Show less
         </Button>
       )}
-
       {/*Modals for adding and editing data */}
       <Group position="center" mt={15}>
         <Button onClick={() => setOpened(true)}>Add Income</Button>
@@ -162,7 +152,6 @@ export function IncomeOverviewTable() {
         >
           <AddIncome />
         </Modal>
-
         <Modal /* Details Modal, opens from click on edit in table row */
           opened={detailsOpen}
           onClose={() => dispatch(setModalState())}

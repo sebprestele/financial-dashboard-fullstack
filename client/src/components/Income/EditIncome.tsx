@@ -2,9 +2,10 @@ import { Button, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { DatePicker } from "@mantine/dates";
 import { CurrencyEuro } from "tabler-icons-react";
-import { RowData } from "./IncomeOverviewTable";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+
+import { RowData } from "./IncomeOverviewTable";
 import { setSingleUser } from "../../Redux/userSlice";
 import { setModalState } from "../../Redux/helperSlice";
 
@@ -21,7 +22,6 @@ const EditIncome = (rowDetails: RowData) => {
       tag: rowDetails.tag,
       comments: rowDetails.comments,
     },
-
     validate: (values) => ({
       name: values.name === undefined ? "Name is required" : null,
       amount: values.amount === undefined ? "Amount is required" : null,
@@ -85,7 +85,6 @@ const EditIncome = (rowDetails: RowData) => {
           placeholder={rowDetails.comments}
           {...form.getInputProps("comments")}
         />
-
         <Group mt={10}>
           <Button type="submit" name="save">
             Save Details

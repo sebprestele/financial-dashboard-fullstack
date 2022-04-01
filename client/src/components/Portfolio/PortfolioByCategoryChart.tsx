@@ -38,7 +38,6 @@ const PortfolioCategoryChart = () => {
           <Title order={4} ml={50} mb={-10}>
             Investments by Category
           </Title>
-
           <PieChart width={400} height={300}>
             <Pie
               data={data}

@@ -18,8 +18,6 @@ const EditInvestment = (rowDetails: PortfolioData) => {
   const token = localStorage.getItem("currentToken");
   const dispatch = useDispatch();
 
-  console.log(rowDetails);
-
   const form = useForm({
     initialValues: {
       name: rowDetails.name,
@@ -46,8 +44,6 @@ const EditInvestment = (rowDetails: PortfolioData) => {
       category: values.category === undefined ? "Category is required" : null,
     }),
   });
-
-  console.log(rowDetails.date[0].dateBought);
 
   return (
     <>

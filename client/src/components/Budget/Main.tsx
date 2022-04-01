@@ -1,6 +1,7 @@
 import { Button, Container, Modal, Paper } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
+
 import { setModalState } from "../../Redux/helperSlice";
 import { RootState } from "../../Redux/store";
 import AddBudget from "./AddBudget";
@@ -18,7 +19,6 @@ const Main = () => {
           Add new budget
         </Button>
       </Paper>
-
       <Modal opened={opened} onClose={() => dispatch(setModalState())}>
         <AddBudget />
       </Modal>

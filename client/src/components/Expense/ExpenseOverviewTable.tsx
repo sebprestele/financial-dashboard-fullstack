@@ -10,12 +10,12 @@ import {
 import { Edit, CurrencyEuro } from "tabler-icons-react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { RootState } from "../../Redux/store";
 import AddExpense from "./AddExpense";
 import EditExpense from "./EditExpense";
 import { setAltModalState, setModalState } from "../../Redux/helperSlice";
-import { Link } from "react-router-dom";
 import { ExpenseData } from "../../types/types";
 
 export function ExpenseOverviewTable() {
@@ -111,7 +111,6 @@ export function ExpenseOverviewTable() {
           )}
         </tbody>
       </Table>
-
       {/*Logic for the add more / less buttons */}
       {rows.slice(numRowsStart, numRowsEnd).length >= numRows && (
         <Button
@@ -142,7 +141,6 @@ export function ExpenseOverviewTable() {
         <Button onClick={() => dispatch(setAltModalState())}>
           Add Expense
         </Button>
-
         <Modal /* Add Expense Model, opens from button click above */
           opened={opened}
           onClose={() => dispatch(setAltModalState())}
@@ -150,7 +148,6 @@ export function ExpenseOverviewTable() {
         >
           <AddExpense />
         </Modal>
-
         <Modal /* Details Modal, opens from click on edit in table row */
           opened={detailsOpen}
           onClose={() => dispatch(setModalState())}

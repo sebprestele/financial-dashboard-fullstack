@@ -8,10 +8,11 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { DatePicker } from "@mantine/dates";
+import { CurrencyEuro } from "tabler-icons-react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+
 import { setSingleUser } from "../../Redux/userSlice";
-import { CurrencyEuro } from "tabler-icons-react";
 
 function AddIncome() {
   const userId = localStorage.getItem("userId");
@@ -26,7 +27,6 @@ function AddIncome() {
       tag: "Uncategorized",
       comments: "",
     },
-
     validate: (values) => ({
       name: values.name === undefined ? "Name is required" : null,
       amount: values.amount === undefined ? "Amount is required" : null,
