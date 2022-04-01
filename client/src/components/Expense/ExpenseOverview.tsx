@@ -7,7 +7,12 @@ import {
   Title,
 } from "@mantine/core";
 
-import { ArrowUpRight, ArrowDownRight, CurrencyEuro } from "tabler-icons-react";
+import {
+  ArrowUpRight,
+  ArrowDownRight,
+  CurrencyEuro,
+  StarOff,
+} from "tabler-icons-react";
 import ExpensesFunctions from "../../stats/expenses";
 
 export function ExpenseOverview() {
@@ -71,16 +76,18 @@ export function ExpenseOverview() {
             <DiffIcon size={28} />
           </ThemeIcon>
         </Group>
-        <Text color="dimmed" size="sm" mt="md">
-          <Text
-            component="span"
-            color={stat.diff > 0 ? "teal" : "red"}
-            weight={700}
-          >
-            {stat.diff}%{" "}
+        {stat.diff <= 0 && (
+          <Text color="dimmed" size="sm" mt="md">
+            <Text
+              component="span"
+              color={stat.diff > 0 ? "teal" : "red"}
+              weight={700}
+            >
+              {stat.diff}%
+            </Text>
+            {stat.diff > 0 ? "increase" : "decrease"} compared to previous month
           </Text>
-          {stat.diff > 0 ? "increase" : "decrease"} compared to previous month
-        </Text>
+        )}
       </Paper>
     );
   });

@@ -8,6 +8,19 @@ const PortfolioFunctions = () => {
   const userData = useSelector((state) => state.user.user);
   const investment = userData.investments.map((investment) => investment);
 
+  // Get item Totals Quantity * price
+  //Would be better to do on backend, but this also works
+  const priceBought = investment.map((item) =>
+    Object.values(item.price).map((item) => item.priceBought)
+  );
+  const quantity = investment.map((item) => item.quantity);
+  const totals = [];
+  const priceTotals = (function () {
+    for (let i = 0; i < (quantity.length, priceBought.length); i++) {
+      totals.push(priceBought[i] * quantity[i]);
+    }
+  })();
+
   /*---- Get PORTFOLIO BY CATEGORY---- */
 
   // Get all items with same category and store in object
@@ -28,6 +41,7 @@ const PortfolioFunctions = () => {
   const combinedCategoryArray = categoriesArray.map((item) => item[0]);
 
   // Get priceBought from categories
+
   const categoryPriceBought = categoriesArray.map((item) =>
     Object.values(item[1]).map((item) =>
       Object.values(item.price)
@@ -66,6 +80,7 @@ const PortfolioFunctions = () => {
     totalInvestmentsByCategory,
     totalsByCategory,
     totalPortfolioValue,
+    priceTotals,
   };
 };
 export default PortfolioFunctions;
