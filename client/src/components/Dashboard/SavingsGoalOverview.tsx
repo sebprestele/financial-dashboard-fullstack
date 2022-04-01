@@ -1,51 +1,50 @@
-import {
-  createStyles,
-  Progress,
-  Text,
-  Group,
-  Badge,
-  Paper,
-} from "@mantine/core";
-
-const useStyles = createStyles((theme) => ({
-  card: {
-    position: "relative",
-    overflow: "visible",
-    padding: theme.spacing.xl,
-  },
-
-  title: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    lineHeight: 1,
-  },
-}));
+import { Progress, Text, Group, Badge, Paper } from "@mantine/core";
+import { RootState } from "../../Redux/store";
+import ExpensesFunctions from "../../stats/expenses";
+import { useSelector } from "react-redux";
 
 export function SavingsGoalOverview() {
-  const { classes } = useStyles();
+  // Expense Data by category
+  const { totalExpenseByCategoryCurrentMonth } = ExpensesFunctions();
+  const expenseData = Object.entries(totalExpenseByCategoryCurrentMonth).map(
+    (item) => item
+  );
+  // Budget Data from Redux Store
+  const budgetData = useSelector((state: RootState) => state.user.user.budget);
+
+  // Check if categories of expenses and budget are the same
+  const categoryExpense = expenseData.filter((item) =>
+    item[0] === budgetData[0].tag ? item : null
+  );
 
   return (
-    <Paper radius="md" withBorder className={classes.card}>
-      <Text align="center" weight={700} className={classes.title}>
-        Family Holiday
+    <Paper radius="md" withBorder p={30}>
+      <Text align="center" weight={700}>
+        {budgetData[0].title}
       </Text>
       <Text color="dimmed" align="center" size="sm">
-        Goal: 4500 EUR
+        Budget: {budgetData[0].budget} EUR
       </Text>
-
       <Group position="apart" mt="xs">
         <Text size="sm" color="dimmed">
-          Progress
+          Already spent:{" "}
         </Text>
         <Text size="sm" color="dimmed">
-          {Math.round((1200 / 4500) * 100)}%
+          {/*@ts-ignore */}
+          {Math.floor((categoryExpense[0][1] / budgetData[0].budget) * 100)} %
         </Text>
       </Group>
-
-      <Progress value={27} mt={5} />
-
+      <Progress
+        //@ts-ignore
+        value={Math.floor((categoryExpense[0][1] / budgetData[0].budget) * 100)}
+        mt={5}
+      />
       <Group position="apart" mt="md">
-        <Text size="sm">1200 EUR</Text>
-        <Badge size="sm">Holiday</Badge>
+        <Text size="sm">
+          {/*@ts-ignore */}
+          Spent: {categoryExpense[0][1]} EUR
+        </Text>
+        <Badge size="sm">{budgetData[0].tag}</Badge>
       </Group>
     </Paper>
   );
