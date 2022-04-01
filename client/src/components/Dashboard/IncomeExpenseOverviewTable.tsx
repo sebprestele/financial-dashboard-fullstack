@@ -1,184 +1,59 @@
-import {
-  createStyles,
-  Table,
-  ScrollArea,
-  UnstyledButton,
-  Group,
-  Text,
-  Center,
-  TextInput,
-} from "@mantine/core";
-import { Selector, ChevronDown, ChevronUp, Search } from "tabler-icons-react";
-import { useState } from "react";
+import { Table, Text, Container } from "@mantine/core";
+import { CurrencyEuro } from "tabler-icons-react";
 import { useSelector } from "react-redux";
+
 import { RootState } from "../../Redux/store";
-
-const useStyles = createStyles((theme) => ({
-  th: {
-    padding: "0 !important",
-  },
-
-  control: {
-    width: "100%",
-    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-    },
-  },
-
-  icon: {
-    width: 21,
-    height: 21,
-    borderRadius: 21,
-  },
-}));
-
-interface RowData {
-  name: string;
-  email: string;
-  company: string;
-}
-
-interface TableSortProps {
-  data: RowData[];
-}
-
-interface ThProps {
-  children: React.ReactNode;
-  reversed: boolean;
-  sorted: boolean;
-  onSort(): void;
-}
-
-function Th({ children, reversed, sorted, onSort }: ThProps) {
-  const { classes } = useStyles();
-  const Icon = sorted ? (reversed ? ChevronUp : ChevronDown) : Selector;
-  return (
-    <th className={classes.th}>
-      <UnstyledButton onClick={onSort} className={classes.control}>
-        <Group position="apart">
-          <Text weight={500} size="sm">
-            {children}
-          </Text>
-          <Center className={classes.icon}>
-            <Icon size={14} />
-          </Center>
-        </Group>
-      </UnstyledButton>
-    </th>
-  );
-}
-
-const data = [{ name: "sebastian", email: "test@io.de", company: "Income" }];
-
-function filterData(data: RowData[], search: string) {
-  const keys = Object.keys(data[0]);
-  const query = search.toLowerCase().trim();
-  return data.filter((item) =>
-    //@ts-ignore
-    keys.some((key) => item[key].toLowerCase().includes(query))
-  );
-}
-
-function sortData(
-  data: RowData[],
-  payload: { sortBy: keyof RowData; reversed: boolean; search: string }
-) {
-  if (!payload.sortBy) {
-    return filterData(data, payload.search);
-  }
-
-  return filterData(
-    [...data].sort((a, b) => {
-      if (payload.reversed) {
-        return b[payload.sortBy].localeCompare(a[payload.sortBy]);
-      }
-
-      return a[payload.sortBy].localeCompare(b[payload.sortBy]);
-    }),
-    payload.search
-  );
-}
+import { ExpenseData } from "../../types/types";
 
 export function IncomeExpenseOverviewTable() {
-  const [search, setSearch] = useState("");
-  const [sortedData, setSortedData] = useState(data);
-  //@ts-ignore
-  const [sortBy, setSortBy] = useState<keyof RowData>(null);
-  const [reverseSortDirection, setReverseSortDirection] = useState(false);
+  // sets the number of rows to be displayed at once
+  const numRows = 5;
 
-  const setSorting = (field: keyof RowData) => {
-    const reversed = field === sortBy ? !reverseSortDirection : false;
-    setReverseSortDirection(reversed);
-    setSortBy(field);
-    setSortedData(sortData(data, { sortBy: field, reversed, search }));
-  };
+  // Get Expense Data from Redux Store
+  const expenseDataArray = useSelector(
+    (state: RootState) => state.user.user.expense
+  );
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    setSearch(value);
-    setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
-    );
-  };
-
-  const rows = sortedData.map((row) => (
-    <tr key={row.name}>
+  // Set the Expense Overview table with the data userData
+  const rows = expenseDataArray.map((row: ExpenseData) => (
+    <tr key={row._id}>
       <td>{row.name}</td>
-      <td>{row.email}</td>
-      <td>{row.company}</td>
+      <td>
+        <CurrencyEuro size={18} strokeWidth={1.5} className="currency-icon" />
+        {row.amount}
+      </td>
+      <td>{row.tag}</td>
+      <td>{row.date != null && row.date.substring(0, 10)}</td>
     </tr>
   ));
 
   return (
-    <ScrollArea>
-      <TextInput
-        placeholder="Search by any field"
-        mb="md"
-        icon={<Search size={14} />}
-        value={search}
-        onChange={handleSearchChange}
-      />
+    <Container mb={40}>
       <Table
-        horizontalSpacing="md"
-        verticalSpacing="xs"
-        sx={{ tableLayout: "fixed", minWidth: 700 }}
+        highlightOnHover
+        horizontalSpacing="sm"
+        verticalSpacing="sm"
+        sx={{ tableLayout: "fixed", minWidth: 500 }}
       >
         <thead>
           <tr>
-            <Th
-              sorted={sortBy === "name"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("name")}
-            >
-              Name
-            </Th>
-            <Th
-              sorted={sortBy === "email"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("email")}
-            >
-              Email
-            </Th>
-            <Th
-              sorted={sortBy === "company"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("company")}
-            >
-              Company
-            </Th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
-          {rows.length > 0 ? (
+          {rows.length >= 0 && rows.length <= numRows ? (
             rows
+          ) : rows.length > numRows ? (
+            <>
+              {/*Displays the current expense data in batches of numRows, currently set to 5 */}
+              {rows.slice(0, numRows)}
+            </>
           ) : (
             <tr>
-              <td colSpan={Object.keys(data[0]).length}>
+              <td colSpan={5}>
                 <Text weight={500} align="center">
                   Nothing found
                 </Text>
@@ -187,6 +62,6 @@ export function IncomeExpenseOverviewTable() {
           )}
         </tbody>
       </Table>
-    </ScrollArea>
+    </Container>
   );
 }
