@@ -9,7 +9,7 @@ function PortfolioTotals() {
   const totalPortfolioTargetValue = useSelector(
     (state: RootState) => state.user.goals.totalValueGoal
   );
-  const { totalPortfolioValue } = PortfolioFunctions();
+  const { categoryTotals, totalPortfolioValue } = PortfolioFunctions();
   const data = [
     {
       title: "Total Portfolio Value",
@@ -21,6 +21,9 @@ function PortfolioTotals() {
       diff: Math.floor((totalPortfolioValue / totalPortfolioTargetValue) * 100),
     },
   ];
+
+  console.log(categoryTotals);
+  console.log(totalPortfolioValue);
 
   const stats = data.map((stat) => {
     return (

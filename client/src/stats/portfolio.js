@@ -8,19 +8,6 @@ const PortfolioFunctions = () => {
   const userData = useSelector((state) => state.user.user);
   const investment = userData.investments.map((investment) => investment);
 
-  // Get item Totals Quantity * price
-  //Would be better to do on backend, but this also works
-  const priceBought = investment.map((item) =>
-    Object.values(item.price).map((item) => item.priceBought)
-  );
-  const quantity = investment.map((item) => item.quantity);
-  const totals = [];
-  const priceTotals = (function () {
-    for (let i = 0; i < (quantity.length, priceBought.length); i++) {
-      totals.push(priceBought[i] * quantity[i]);
-    }
-  })();
-
   /*---- Get PORTFOLIO BY CATEGORY---- */
 
   // Get all items with same category and store in object
@@ -40,26 +27,19 @@ const PortfolioFunctions = () => {
   // Get category names from array
   const combinedCategoryArray = categoriesArray.map((item) => item[0]);
 
-  // Get priceBought from categories
+  // Get totalValues from categories
 
-  const categoryPriceBought = categoriesArray.map((item) =>
-    Object.values(item[1]).map((item) =>
-      Object.values(item.price)
-        .map((item) => item.priceBought)
-        .reduce((sum, currentValue) => {
-          return sum + currentValue;
-        })
-    )
-  );
-
-  // Get totals per category -- will only return the total as number
-  const totalsByCategory = categoryPriceBought.map((item) =>
-    item.reduce((sum, currentValue) => sum + currentValue, initialValue)
+  const categoryTotals = categoriesArray.map((item) =>
+    item[1]
+      .map((item) => item.totalValue)
+      .reduce((sum, currentValue) => {
+        return sum + currentValue;
+      }, initialValue)
   );
 
   // Get total value of all categories
 
-  const totalPortfolioValue = totalsByCategory.reduce(
+  const totalPortfolioValue = categoryTotals.reduce(
     (sum, currentValue) => sum + currentValue,
     initialValue
   );
@@ -68,8 +48,8 @@ const PortfolioFunctions = () => {
   const totalInvestmentsByCategory = combinedCategoryArray.reduce(
     (newObject, currentValue, index) => {
       newObject[currentValue] = newObject[currentValue]
-        ? newObject[currentValue] + ", " + totalsByCategory[index]
-        : totalsByCategory[index];
+        ? newObject[currentValue] + ", " + categoryTotals[index]
+        : categoryTotals[index];
       return newObject;
     },
     {}
@@ -78,9 +58,8 @@ const PortfolioFunctions = () => {
   return {
     combinedCategoryArray,
     totalInvestmentsByCategory,
-    totalsByCategory,
+    categoryTotals,
     totalPortfolioValue,
-    priceTotals,
   };
 };
 export default PortfolioFunctions;

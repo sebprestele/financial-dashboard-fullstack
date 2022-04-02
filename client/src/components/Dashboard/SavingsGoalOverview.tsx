@@ -14,7 +14,7 @@ export function SavingsGoalOverview() {
 
   // Check if categories of expenses and budget are the same
   const categoryExpense = expenseData.filter((item) =>
-    item[0] === budgetData[0].tag ? item : null
+    item[0] === budgetData && budgetData[0].tag ? item : null
   );
 
   return (

@@ -41,12 +41,14 @@ export function PortfolioOverviewTable() {
   const rows = portfolioDataArray.map((row: PortfolioData) => (
     <tr key={row._id}>
       <td>{row.name}</td>
-      <td>{Object.values(row.price).map((price) => price.priceBought)}</td>
+      <td>{row.totalValue}</td>
       <td>{row.quantity}</td>
       <td>{row.currency}</td>
       <td>{row.category}</td>
       <td>
-        {Object.values(row.date).map((date) => date.dateBought.slice(0, 10))}
+        {Object.values(row.date).map((date) =>
+          date.dateBought === null ? "" : date.dateBought.slice(0, 10)
+        )}
       </td>
       <td>
         <Link to={""} className="edit-icon">
@@ -78,7 +80,7 @@ export function PortfolioOverviewTable() {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Price</th>
+            <th>Value</th>
             <th>Quantity</th>
             <th>Currency</th>
             <th>Category</th>

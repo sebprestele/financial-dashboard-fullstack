@@ -13,11 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 
-import {
-  setIsLoggedIn,
-  setSingleUser,
-  setUserImage,
-} from "../../Redux/userSlice";
+import { setIsLoggedIn, setSingleUser } from "../../Redux/userSlice";
 
 function Copyright(props: any) {
   return (
@@ -63,7 +59,6 @@ export default function Login() {
             localStorage.setItem("userId", res.data.user._id);
             dispatch(setIsLoggedIn());
             dispatch(setSingleUser(res.data.user));
-            dispatch(setUserImage(""));
             navigate(`/dashboard/${res.data.user.username}`);
           }
         })

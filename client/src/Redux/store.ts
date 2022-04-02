@@ -17,6 +17,7 @@ const _persistedReducer = persistCombineReducers(persistConfig, {
   helper: helperReducer,
 });
 export type RootState = ReturnType<typeof store.getState>;
+
 export const store = configureStore({
   reducer: _persistedReducer,
 });

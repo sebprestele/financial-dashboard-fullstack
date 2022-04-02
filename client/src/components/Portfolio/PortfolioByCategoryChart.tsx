@@ -1,5 +1,6 @@
 import { Container, Paper, Title } from "@mantine/core";
-import { PieChart, Pie, Cell } from "recharts";
+import { useMediaQuery } from "@mantine/hooks";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 import InvestmentsFunctions from "../../stats/portfolio";
 
@@ -22,6 +23,8 @@ const COLORS = [
 const renderLabel = (entry: data) => entry.key;
 
 const PortfolioCategoryChart = () => {
+  const largeScreen = useMediaQuery("(min-width: 1350px)");
+  const smallScreen = useMediaQuery("(max-width: 850px)");
   const { totalInvestmentsByCategory } = InvestmentsFunctions();
 
   const data = Object.entries(totalInvestmentsByCategory).map(
@@ -33,32 +36,38 @@ const PortfolioCategoryChart = () => {
 
   return (
     <>
-      <Container mt={30}>
-        <Paper>
-          <Title order={4} ml={50} mb={-10}>
-            Investments by Category
-          </Title>
-          <PieChart width={400} height={300}>
-            <Pie
-              data={data}
-              cx={180}
-              cy={150}
-              labelLine={true}
-              label={renderLabel}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="value"
+      <ResponsiveContainer>
+        <Container mt={30}>
+          <Paper>
+            <Title order={4} ml={50} mb={-10}>
+              Investments by Category
+            </Title>
+
+            <PieChart
+              width={largeScreen ? 400 : smallScreen ? 244 : 300}
+              height={300}
             >
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-          </PieChart>
-        </Paper>
-      </Container>
+              <Pie
+                data={data}
+                cx={180}
+                cy={150}
+                labelLine={true}
+                label={renderLabel}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+            </PieChart>
+          </Paper>
+        </Container>
+      </ResponsiveContainer>
     </>
   );
 };

@@ -20,24 +20,24 @@ const ExpensesFunctions = () => {
 
   //Variable that displays the expense date as YYYY-MM
   const dateExpense = userData.expense.map((expense: any) =>
-    expense.date.slice(0, 7)
+    expense.date ? expense.date.slice(0, 7) : ""
   );
 
   // ----- FILTER FUNCTIONS ----
 
   // Filter function to get current month expenses
-  const filteredByMonth = userData.expense.filter(
-    (expense: any) => expense.date.slice(0, 7) === currentMonthYear
+  const filteredByMonth = userData.expense.filter((expense: any) =>
+    expense.date ? expense.date.slice(0, 7) === currentMonthYear : ""
   );
 
   // Filter function to get prev month expenses
   const filteredByPrevMonth = userData.expense.filter(
-    (expense: any) => expense.date.slice(0, 7) === lastMonthYear
+    (expense: any) => expense.date && expense.date.slice(0, 7) === lastMonthYear
   );
 
   // Filter function to get 2months ago expenses
-  const filteredByPrevTwoMonth = userData.expense.filter(
-    (expense: any) => expense.date.slice(0, 7) === lastTwoMonthYear
+  const filteredByPrevTwoMonth = userData.expense.filter((expense: any) =>
+    expense.date ? expense.date.slice(0, 7) === lastTwoMonthYear : ""
   );
 
   /*----  get MONTHLY EXPENSES---- */
@@ -96,10 +96,10 @@ const ExpensesFunctions = () => {
   // Get expenses for each month
   const expensesByMonth = {};
   userData.expense.forEach((item: Object) => {
-    if (expensesByMonth[item.date.slice(0, 7)] === undefined) {
-      expensesByMonth[item.date.slice(0, 7)] = [];
+    if (expensesByMonth[item.date && item.date.slice(0, 7)] === undefined) {
+      expensesByMonth[item.date && item.date.slice(0, 7)] = [];
     }
-    expensesByMonth[item.date.slice(0, 7)].push(item);
+    expensesByMonth[item.date && item.date.slice(0, 7)].push(item);
   });
 
   //Add all monthly expenses
@@ -140,7 +140,9 @@ const ExpensesFunctions = () => {
   //Filter category Expenses by Month
 
   const filteredCategoryExpensesForCurrentMonth = categoriesArray.map((item) =>
-    item[1].filter((item) => item.date.slice(0, 7) === currentMonthYear)
+    item[1].filter(
+      (item) => item.date && item.date.slice(0, 7) === currentMonthYear
+    )
   );
 
   //Get current Month ExpenseTotals ByCategory
