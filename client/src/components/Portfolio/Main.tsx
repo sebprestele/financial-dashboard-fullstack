@@ -12,13 +12,17 @@ import { setGoalsModalState } from "../../Redux/helperSlice";
 import GoalEditForm from "./EditGoalsForm";
 
 const Main = () => {
-  const largeScreen = useMediaQuery("(min-width: 1300px)");
+  const midScreen = useMediaQuery("(min-width: 1300px)");
+  const largeScreen = useMediaQuery("(min-width: 1750px)");
   const dispatch = useDispatch();
   const goalsModalState = useSelector(
     (state: RootState) => state.helper.goalsModalState
   );
   return (
-    <Container ml={largeScreen ? 600 : 250} mt={largeScreen ? 60 : 20}>
+    <Container
+      ml={largeScreen ? 600 : midScreen ? 450 : 250}
+      mt={largeScreen ? 60 : 20}
+    >
       <Paper radius="md" p={30}>
         <Title order={1} align="center">
           Portfolio Overview

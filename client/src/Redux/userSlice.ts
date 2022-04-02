@@ -4,8 +4,6 @@ export interface UserState {
   isLoggedIn: Boolean;
   allUser: [];
   user: {};
-  username: String;
-  userImage: String;
   goals: Object;
 }
 
@@ -13,8 +11,6 @@ const initialState: UserState = {
   isLoggedIn: false,
   allUser: [],
   user: {},
-  username: "",
-  userImage: "",
   goals: {
     totalValueTarget: 1000000,
     cryptoPercentTarget: 20,
@@ -36,12 +32,6 @@ export const userSlice = createSlice({
     setSingleUser: (state, action) => {
       state.user = action.payload;
     },
-    setUsername: (state, action) => {
-      state.username = action.payload;
-    },
-    setUserImage: (state, action) => {
-      state.userImage = action.payload;
-    },
     setUserGoals: (state, action) => {
       state.goals = action.payload;
     },
@@ -49,13 +39,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  setIsLoggedIn,
-  setUsername,
-  getAllUsers,
-  setSingleUser,
-  setUserImage,
-  setUserGoals,
-} = userSlice.actions;
+export const { setIsLoggedIn, getAllUsers, setSingleUser, setUserGoals } =
+  userSlice.actions;
 
 export default userSlice.reducer;

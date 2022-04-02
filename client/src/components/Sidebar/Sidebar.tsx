@@ -1,21 +1,15 @@
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { createStyles, Navbar, Group, Button } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import {
-  Dashboard,
-  ZoomMoney,
-  ChartBar,
-  Settings,
-  Cash,
-  Logout,
-} from "tabler-icons-react";
+import { Logout } from "tabler-icons-react";
 
 import { RootState } from "../../Redux/store";
-import { setIsLoggedIn, setUserImage } from "../../Redux/userSlice";
-import { setActiveItem, setModalState } from "../../Redux/helperSlice";
+import { setIsLoggedIn } from "../../Redux/userSlice";
+import { setActiveItem } from "../../Redux/helperSlice";
 import { UserInfo } from "../UserInfo/UserInfo";
-import { Link } from "react-router-dom";
+import { NavigationLinkData } from "../../data/NavigationLinkData";
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef("icon");
@@ -96,19 +90,17 @@ const useStyles = createStyles((theme, _params, getRef) => {
   };
 });
 
-const username = localStorage.getItem("username");
-
-const data = [
-  { link: `/dashboard/${username}`, label: "Dashboard", icon: Dashboard },
-  { link: `/expense/${username}`, label: "Expense", icon: ZoomMoney },
-  { link: `/portfolio/${username}`, label: "Portfolio", icon: ChartBar },
-  { link: `/budget/${username}`, label: "Budget", icon: Cash },
-  { link: `/settings/${username}`, label: "Settings", icon: Settings },
-];
-
 const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { navLinkData } = NavigationLinkData();
+
+  //Get user data from redux store
+  const userData = useSelector((state: RootState) => state.user.user);
+  //const userImage = useSelector((state: RootState) => state.user.image);
+  const { email, username, image } = userData;
+  const imageUrlArray = image.map((image: any) => image.imageUrl);
+  const userImage = imageUrlArray[imageUrlArray.length - 1];
 
   //Mantine custom hooks for styling
   const { classes, cx } = useStyles();
@@ -116,6 +108,7 @@ const Sidebar = () => {
 
   //sets state for active link
   const active = useSelector((state: RootState) => state.helper.activeItem);
+
   //Logout function
   const handleLogout = () => {
     dispatch(setIsLoggedIn());
@@ -125,7 +118,7 @@ const Sidebar = () => {
     localStorage.removeItem("userId");
   };
 
-  const links = data.map((item) => (
+  const links = navLinkData.map((item) => (
     <Link
       className={cx(classes.link, {
         [classes.linkActive]: item.label === active,
@@ -143,11 +136,6 @@ const Sidebar = () => {
       <span>{item.label}</span>
     </Link>
   ));
-
-  //Get user data from redux store
-  const userData = useSelector((state: RootState) => state.user.user);
-  const userImage = useSelector((state: RootState) => state.user.userImage);
-  const { email, username } = userData;
 
   return (
     <Navbar

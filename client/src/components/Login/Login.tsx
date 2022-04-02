@@ -47,7 +47,7 @@ export default function Login() {
 
   // Check loginStatus and if logged in redirect to user page
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
-  const username = useSelector((state: RootState) => state.user.username);
+  const username = useSelector((state: RootState) => state.user.user.username);
   useEffect(() => {
     isLoggedIn && navigate(`/dashboard/${username}`);
   }, [isLoggedIn, navigate, username]);
@@ -63,11 +63,9 @@ export default function Login() {
       .then((res) => {
         if (res.data.loginToken) {
           localStorage.setItem("currentToken", res.data.loginToken);
-          localStorage.setItem("username", res.data.user.username);
           localStorage.setItem("userId", res.data.user._id);
-          dispatch(setIsLoggedIn());
           dispatch(setSingleUser(res.data.user));
-          navigate(`/dashboard/${res.data.user.username}`);
+          dispatch(setIsLoggedIn());
         }
       })
       .catch((error) => setErrorText(error.response.data.message));

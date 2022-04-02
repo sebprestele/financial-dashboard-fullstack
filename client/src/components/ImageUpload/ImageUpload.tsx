@@ -10,8 +10,8 @@ import { Upload, Photo, X, Icon as TablerIcon } from "tabler-icons-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { setUserImage } from "../../Redux/userSlice";
 import { setDropzoneOpenState } from "../../Redux/helperSlice";
+import { setSingleUser } from "../../Redux/userSlice";
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   return status.accepted
@@ -99,9 +99,7 @@ export default function ImageUpload() {
     })
       .then((res) => res.json())
       .then((data) => {
-        const imageArray = data.image;
-        const image = imageArray.map((image: any) => image.imageUrl);
-        dispatch(setUserImage(image[image.length - 1]));
+        dispatch(setSingleUser(data));
         setIsLoading(false);
         dispatch(setDropzoneOpenState());
       });

@@ -1,5 +1,4 @@
 import {
-  Text,
   TextInput,
   Textarea,
   NumberInput,
@@ -18,7 +17,7 @@ import { setAltModalState } from "../../Redux/helperSlice";
 import {
   category,
   currency,
-  transactionType,
+  //transactionType,
 } from "../../data/TransactionsData";
 
 function AddInvestment() {
@@ -30,7 +29,7 @@ function AddInvestment() {
     initialValues: {
       name: "Random Investment",
       category: "Uncategorized",
-      transactionType: "Buy",
+      //transactionType: "Buy",
       amount: 0,
       quantity: 0,
       totalValue: 0,
@@ -81,13 +80,13 @@ function AddInvestment() {
           placeholder="Add a name for this transaction"
           {...form.getInputProps("name")}
         />
-        <Select
+        {/*   <Select
           style={{ marginTop: 10, zIndex: 2 }}
           data={transactionType}
           placeholder="Type of transaction"
           label="Type of transaction"
           {...form.getInputProps("transactionType")}
-        />
+        /> */}
         <Select
           style={{ marginTop: 10, zIndex: 2 }}
           data={category}
