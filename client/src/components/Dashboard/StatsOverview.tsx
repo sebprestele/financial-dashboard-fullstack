@@ -23,7 +23,7 @@ export function StatsOverview() {
     },
     {
       title: "Expenses this month",
-      value: currentMonthExpense[0][1],
+      value: currentMonthExpense.length ? currentMonthExpense[0][1] : 0,
       icon: <ZoomMoney />,
     },
   ];

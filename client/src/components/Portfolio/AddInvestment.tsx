@@ -1,4 +1,5 @@
 import {
+  Text,
   TextInput,
   Textarea,
   NumberInput,
@@ -32,6 +33,7 @@ function AddInvestment() {
       transactionType: "Buy",
       amount: 0,
       quantity: 0,
+      totalValue: 0,
       date: formList([{ dateBought: new Date(), dateSold: new Date() }]),
       price: formList([{ priceBought: 0, priceSold: 0 }]),
       currency: "EUR",
@@ -47,6 +49,12 @@ function AddInvestment() {
     <Box sx={{ maxWidth: 300 }} mx="auto">
       <form
         onSubmit={form.onSubmit(async (values) => {
+          values.totalValue =
+            form.values.quantity *
+            //@ts-ignore
+            Object.entries(form.values.price).map(
+              (item) => item[1].priceBought
+            );
           console.log(values);
           try {
             await axios
@@ -117,6 +125,17 @@ function AddInvestment() {
           placeholder="Price"
           label="Price Bought / Sold"
           {...form.getListInputProps("price", 0, "priceBought")}
+        />
+        <NumberInput
+          style={{ marginTop: 10, zIndex: 2 }}
+          placeholder="Fee"
+          label="Total Value"
+          disabled
+          value={
+            form.values.quantity *
+            //@ts-ignore
+            Object.entries(form.values.price).map((item) => item[1].priceBought)
+          }
         />
         <NumberInput
           style={{ marginTop: 10, zIndex: 2 }}

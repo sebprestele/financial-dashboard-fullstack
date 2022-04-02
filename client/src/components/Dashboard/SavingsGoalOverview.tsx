@@ -18,34 +18,43 @@ export function SavingsGoalOverview() {
   );
 
   return (
-    <Paper radius="md" withBorder p={30}>
-      <Text align="center" weight={700}>
-        {budgetData[0].title}
-      </Text>
-      <Text color="dimmed" align="center" size="sm">
-        Budget: {budgetData[0].budget} EUR
-      </Text>
-      <Group position="apart" mt="xs">
-        <Text size="sm" color="dimmed">
-          Already spent:{" "}
+    budgetData && (
+      <Paper radius="md" withBorder p={30}>
+        <Text align="center" weight={700}>
+          {budgetData.length ? budgetData[0].title : ""}
         </Text>
-        <Text size="sm" color="dimmed">
-          {/*@ts-ignore */}
-          {Math.floor((categoryExpense[0][1] / budgetData[0].budget) * 100)} %
+        <Text color="dimmed" align="center" size="sm">
+          Budget: {budgetData.length ? budgetData[0].budget : 0} EUR
         </Text>
-      </Group>
-      <Progress
-        //@ts-ignore
-        value={Math.floor((categoryExpense[0][1] / budgetData[0].budget) * 100)}
-        mt={5}
-      />
-      <Group position="apart" mt="md">
-        <Text size="sm">
-          {/*@ts-ignore */}
-          Spent: {categoryExpense[0][1]} EUR
-        </Text>
-        <Badge size="sm">{budgetData[0].tag}</Badge>
-      </Group>
-    </Paper>
+        <Group position="apart" mt="xs">
+          <Text size="sm" color="dimmed">
+            Already spent:{" "}
+          </Text>
+          <Text size="sm" color="dimmed">
+            {categoryExpense.length
+              ? //@ts-ignore
+                Math.floor((categoryExpense[0][1] / budgetData[0].budget) * 100)
+              : 0}
+            %
+          </Text>
+        </Group>
+        <Progress
+          value={
+            categoryExpense.length
+              ? //@ts-ignore
+                Math.floor((categoryExpense[0][1] / budgetData[0].budget) * 100)
+              : 0
+          }
+          mt={5}
+        />
+        <Group position="apart" mt="md">
+          <Text size="sm">
+            {/*@ts-ignore */}
+            Spent: {categoryExpense.length ? categoryExpense[0][1] : 0} EUR
+          </Text>
+          <Badge size="sm">{budgetData.length && budgetData[0].tag}</Badge>
+        </Group>
+      </Paper>
+    )
   );
 }

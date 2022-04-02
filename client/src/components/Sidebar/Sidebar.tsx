@@ -12,7 +12,7 @@ import {
 } from "tabler-icons-react";
 
 import { RootState } from "../../Redux/store";
-import { setIsLoggedIn } from "../../Redux/userSlice";
+import { setIsLoggedIn, setUserImage } from "../../Redux/userSlice";
 import { setActiveItem, setModalState } from "../../Redux/helperSlice";
 import { UserInfo } from "../UserInfo/UserInfo";
 import { Link } from "react-router-dom";
@@ -23,18 +23,15 @@ const useStyles = createStyles((theme, _params, getRef) => {
     navbar: {
       backgroundColor: theme.colors.indigo[6],
       borderColor: theme.colors.indigo[6],
-      //sticky nav
       position: "fixed",
       minHeight: "100%",
       top: 0,
     },
-
     version: {
       backgroundColor: theme.colors[theme.primaryColor][7],
       color: theme.white,
       fontWeight: 700,
     },
-
     header: {
       paddingBottom: theme.spacing.md,
       marginBottom: theme.spacing.md * 1.5,
@@ -43,14 +40,12 @@ const useStyles = createStyles((theme, _params, getRef) => {
         marginBottom: theme.spacing.sm * 1.5,
       },
     },
-
     footer: {
       paddingTop: theme.spacing.sm,
       marginTop: theme.spacing.sm,
       paddingBottom: theme.spacing.sm,
       borderTop: `1px solid ${theme.colors.blue[9]}`,
     },
-
     link: {
       ...theme.fn.focusStyles(),
       display: "flex",
@@ -69,14 +64,12 @@ const useStyles = createStyles((theme, _params, getRef) => {
         backgroundColor: theme.colors[theme.primaryColor][5],
       },
     },
-
     linkIcon: {
       ref: icon,
       color: theme.white,
       opacity: 0.75,
       marginRight: theme.spacing.sm,
     },
-
     linkActive: {
       "&, &:hover": {
         backgroundColor: theme.colors.blue[9],
@@ -85,7 +78,6 @@ const useStyles = createStyles((theme, _params, getRef) => {
         },
       },
     },
-
     logoutLink: {
       ...theme.fn.focusStyles(),
       display: "flex",
@@ -129,6 +121,8 @@ const Sidebar = () => {
     dispatch(setIsLoggedIn());
     dispatch(setActiveItem("Dashboard"));
     localStorage.removeItem("currentToken");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userId");
   };
 
   const links = data.map((item) => (

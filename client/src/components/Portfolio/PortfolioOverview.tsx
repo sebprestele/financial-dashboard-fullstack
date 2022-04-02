@@ -55,18 +55,20 @@ export function PortfolioOverview() {
   const data = [
     {
       title: "Crypto value",
-      value: cryptoValue[0][1],
+      value: cryptoValue.length ? cryptoValue[0][1] : 0,
       percentOfTotal: Math.floor(
         //@ts-ignore
-        (cryptoValue[0][1] / totalPortfolioValue) * 100
+        cryptoValue.length && (cryptoValue[0][1] / totalPortfolioValue) * 100
       ),
       goal: goals.cryptoPercentGoal,
-      diff: Math.floor(
-        //@ts-ignore
-        (((cryptoValue[0][1] / totalPortfolioValue) * 100) /
-          goals.cryptoPercentGoal) *
-          100
-      ),
+      diff:
+        cryptoValue.length &&
+        Math.floor(
+          //@ts-ignore
+          (((cryptoValue[0][1] / totalPortfolioValue) * 100) /
+            goals.cryptoPercentGoal) *
+            100
+        ),
     },
     {
       title: "Stocks & ETF value",
@@ -81,18 +83,20 @@ export function PortfolioOverview() {
     },
     {
       title: "Total Cash value",
-      value: cashValue.length !== 0 ? cashValue[0][1] : 0,
+      value: cashValue.length ? cashValue[0][1] : 0,
       percentOfTotal: Math.floor(
         //@ts-ignore
-        (cashValue[0][1] / totalPortfolioValue) * 100
+        cashValue.length && (cashValue[0][1] / totalPortfolioValue) * 100
       ),
       goal: goals.cashPercentGoal,
-      diff: Math.floor(
-        //@ts-ignore
-        (((cashValue[0][1] / totalPortfolioValue) * 100) /
-          goals.cashPercentGoal) *
-          100
-      ),
+      diff:
+        cashValue.length &&
+        Math.floor(
+          //@ts-ignore
+          (((cashValue[0][1] / totalPortfolioValue) * 100) /
+            goals.cashPercentGoal) *
+            100
+        ),
     },
   ];
 
