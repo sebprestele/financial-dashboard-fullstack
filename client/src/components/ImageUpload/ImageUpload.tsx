@@ -81,22 +81,28 @@ export default function ImageUpload() {
   const uploadImage = async (base64EncodedImage: String) => {
     try {
       setIsLoading(true);
-      await fetch(`http://localhost:5000/api/v1/upload`, {
-        method: "POST",
-        body: JSON.stringify({ data: base64EncodedImage, userId: userId }),
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
-        },
-      });
+      await fetch(
+        `https://finans-fullstack-app-server.herokuapp.com/api/v1/upload`,
+        {
+          method: "POST",
+          body: JSON.stringify({ data: base64EncodedImage, userId: userId }),
+          headers: {
+            "Content-type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
     } catch (error) {
       console.log(error);
     }
 
-    await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    await fetch(
+      `https://finans-fullstack-app-server.herokuapp.com/api/v1/users/${userId}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         dispatch(setSingleUser(data));

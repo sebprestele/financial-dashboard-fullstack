@@ -6,7 +6,10 @@ import { getAllUsers } from "../Redux/userSlice";
 const useGetUserData = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    Axios.get(`http://localhost:5000/api/v1/users`, {}).then((res) => {
+    Axios.get(
+      `https://finans-fullstack-app-server.herokuapp.com/api/v1/users`,
+      {}
+    ).then((res) => {
       // @ts-ignore
       dispatch(getAllUsers(res.data));
     });

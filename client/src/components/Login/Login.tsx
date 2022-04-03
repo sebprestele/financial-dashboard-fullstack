@@ -56,10 +56,13 @@ export default function Login() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    await Axios.post("http://localhost:5000/api/v1/auth/login", {
-      email: data.get("email"),
-      password: data.get("password"),
-    })
+    await Axios.post(
+      "https://finans-fullstack-app-server.herokuapp.com/api/v1/auth/login",
+      {
+        email: data.get("email"),
+        password: data.get("password"),
+      }
+    )
       .then((res) => {
         if (res.data.loginToken) {
           localStorage.setItem("currentToken", res.data.loginToken);

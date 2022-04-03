@@ -43,15 +43,21 @@ export default function Login() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    await Axios.post("http://localhost:5000/api/v1/users", {
-      username: data.get("username"),
-      email: data.get("email"),
-      password: data.get("password"),
-    }).then((res) => {
-      Axios.post("http://localhost:5000/api/v1/auth/login", {
-        email: res.data.email,
+    await Axios.post(
+      "https://finans-fullstack-app-server.herokuapp.com/api/v1/users",
+      {
+        username: data.get("username"),
+        email: data.get("email"),
         password: data.get("password"),
-      })
+      }
+    ).then((res) => {
+      Axios.post(
+        "https://finans-fullstack-app-server.herokuapp.com/api/v1/auth/login",
+        {
+          email: res.data.email,
+          password: data.get("password"),
+        }
+      )
         .then((res) => {
           if (res.data.loginToken) {
             localStorage.setItem("currentToken", res.data.loginToken);

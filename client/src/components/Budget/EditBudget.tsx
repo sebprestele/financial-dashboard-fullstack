@@ -33,14 +33,17 @@ const EditBudget = (budgetDetails: BudgetDataProps) => {
           try {
             await axios
               .put(
-                `http://localhost:5000/api/v1/budget/${budgetDetails._id}`,
+                `https://finans-fullstack-app-server.herokuapp.com/api/v1/budget/${budgetDetails._id}`,
                 values
               )
               .then((res) => console.log(res));
-            await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
-              method: "GET",
-              headers: { Authorization: `Bearer ${token}` },
-            })
+            await fetch(
+              `https://finans-fullstack-app-server.herokuapp.com/api/v1/users/${userId}`,
+              {
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            )
               .then((res) => res.json())
               .then((data) => {
                 dispatch(setSingleUser(data));
@@ -86,13 +89,16 @@ const EditBudget = (budgetDetails: BudgetDataProps) => {
               try {
                 await axios
                   .delete(
-                    `http://localhost:5000/api/v1/budget/${budgetDetails._id}`
+                    `https://finans-fullstack-app-server.herokuapp.com/api/v1/budget/${budgetDetails._id}`
                   )
                   .then((res) => console.log(res));
-                await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
-                  method: "GET",
-                  headers: { Authorization: `Bearer ${token}` },
-                })
+                await fetch(
+                  `https://finans-fullstack-app-server.herokuapp.com/api/v1/users/${userId}`,
+                  {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` },
+                  }
+                )
                   .then((res) => res.json())
                   .then((data) => {
                     dispatch(setSingleUser(data));

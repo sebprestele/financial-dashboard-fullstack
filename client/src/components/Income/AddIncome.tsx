@@ -40,13 +40,19 @@ function AddIncome() {
         onSubmit={form.onSubmit(async (values) => {
           try {
             await axios
-              .post(`http://localhost:5000/api/v1/income/${userId}`, values)
+              .post(
+                `https://finans-fullstack-app-server.herokuapp.com/api/v1/income/${userId}`,
+                values
+              )
               .then((res) => console.log(res));
             form.reset();
-            await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
-              method: "GET",
-              headers: { Authorization: `Bearer ${token}` },
-            })
+            await fetch(
+              `https://finans-fullstack-app-server.herokuapp.com/api/v1/users/${userId}`,
+              {
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            )
               .then((res) => res.json())
               .then((data) => {
                 dispatch(setSingleUser(data));

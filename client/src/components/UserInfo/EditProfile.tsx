@@ -44,14 +44,21 @@ export default function EditProfile() {
     <Box sx={{ maxWidth: 300 }} mx="auto">
       <form
         onSubmit={form.onSubmit(async (values) => {
-          await axios.put(`http://localhost:5000/api/v1/users/${_id}`, values, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          await axios.put(
+            `https://finans-fullstack-app-server.herokuapp.com/api/v1/users/${_id}`,
+            values,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
 
           await axios
-            .get(`http://localhost:5000/api/v1/users/${_id}`, {
-              headers: { Authorization: `Bearer ${token}` },
-            })
+            .get(
+              `https://finans-fullstack-app-server.herokuapp.com/api/v1/users/${_id}`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            )
             .then((res) => {
               dispatch(setSingleUser(res.data));
             })

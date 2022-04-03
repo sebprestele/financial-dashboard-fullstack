@@ -10,11 +10,14 @@ const useGetSingleUserData = () => {
   const currentUser = useSelector((state: RootState) => state.user.username);
   const token = localStorage.getItem("currentToken");
   useEffect(() => {
-    Axios.get(`http://localhost:5000/api/v1/user/${currentUser}}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
+    Axios.get(
+      `https://finans-fullstack-app-server.herokuapp.com/api/v1/user/${currentUser}}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ).then((res) => {
       // @ts-ignore
       dispatch(setSingleUser(res.data));
     });
