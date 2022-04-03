@@ -14,7 +14,6 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run serve",
-    "build": "babel src -d lib",
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
