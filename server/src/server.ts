@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import app from './src/app'
+import app from './app'
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const mongoUri = process.env.MONGODB_URI!
