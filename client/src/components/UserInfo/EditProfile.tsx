@@ -54,7 +54,6 @@ export default function EditProfile() {
             })
             .then((res) => {
               dispatch(setSingleUser(res.data));
-              console.log(res.data);
             })
             .catch((error) => console.log(error.response.data));
         })}

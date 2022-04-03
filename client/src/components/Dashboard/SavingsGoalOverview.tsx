@@ -9,6 +9,7 @@ export function SavingsGoalOverview() {
   const expenseData = Object.entries(totalExpenseByCategoryCurrentMonth).map(
     (item) => item
   );
+
   // Budget Data from Redux Store
   const budgetData = useSelector((state: RootState) => state.user.user.budget);
 
@@ -28,21 +29,21 @@ export function SavingsGoalOverview() {
         </Text>
         <Group position="apart" mt="xs">
           <Text size="sm" color="dimmed">
-            Already spent:{" "}
+            Already spent:
           </Text>
           <Text size="sm" color="dimmed">
-            {categoryExpense.length
+            {expenseData.length && categoryExpense
               ? //@ts-ignore
-                Math.floor((categoryExpense[0][1] / budgetData[0].budget) * 100)
+                Math.floor((expenseData[0][1] / budgetData[0].budget) * 100)
               : 0}
             %
           </Text>
         </Group>
         <Progress
           value={
-            categoryExpense.length
+            expenseData.length && categoryExpense
               ? //@ts-ignore
-                Math.floor((categoryExpense[0][1] / budgetData[0].budget) * 100)
+                Math.floor((expenseData[0][1] / budgetData[0].budget) * 100)
               : 0
           }
           mt={5}
@@ -50,7 +51,8 @@ export function SavingsGoalOverview() {
         <Group position="apart" mt="md">
           <Text size="sm">
             {/*@ts-ignore */}
-            Spent: {categoryExpense.length ? categoryExpense[0][1] : 0} EUR
+            Spent:{" "}
+            {expenseData.length && categoryExpense ? expenseData[0][1] : 0} EUR
           </Text>
           <Badge size="sm">{budgetData.length && budgetData[0].tag}</Badge>
         </Group>
