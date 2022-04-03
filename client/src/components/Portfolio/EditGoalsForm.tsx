@@ -31,7 +31,6 @@ export default function GoalEditForm() {
           placeholder={form.values.totalValueGoal}
           value={form.values.totalValueGoal}
           {...form.getInputProps("totalValueGoal")}
-          // onChange={() => console.log("values")}
           variant="default"
         />
         <NumberInput
@@ -39,7 +38,6 @@ export default function GoalEditForm() {
           placeholder={form.values.cryptoPercentGoal}
           value={form.values.cryptoPercentGoal}
           {...form.getInputProps("cryptoPercentGoal")}
-          // onChange={() => console.log("values")}
           variant="default"
         />
         <NumberInput
@@ -47,7 +45,6 @@ export default function GoalEditForm() {
           placeholder={form.values.stockPercentGoal}
           value={form.values.stockPercentGoal}
           {...form.getInputProps("stockPercentGoal")}
-          //   onChange={() => console.log("values")}
           variant="default"
         />
         <NumberInput
@@ -55,10 +52,8 @@ export default function GoalEditForm() {
           placeholder={form.values.cashPercentGoal}
           value={form.values.cashPercentGoal}
           {...form.getInputProps("cashPercentGoal")}
-          //    onChange={() => console.log("values")}
           variant="default"
         />
-
         {form.values.cashPercentGoal +
           form.values.stockPercentGoal +
           form.values.cryptoPercentGoal <=

@@ -1,21 +1,15 @@
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { createStyles, Navbar, Group, Button } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import {
-  Dashboard,
-  ZoomMoney,
-  ChartBar,
-  Settings,
-  Cash,
-  Logout,
-} from "tabler-icons-react";
+import { Logout } from "tabler-icons-react";
 
 import { RootState } from "../../Redux/store";
 import { setIsLoggedIn } from "../../Redux/userSlice";
-import { setActiveItem, setModalState } from "../../Redux/helperSlice";
+import { setActiveItem } from "../../Redux/helperSlice";
 import { UserInfo } from "../UserInfo/UserInfo";
-import { Link } from "react-router-dom";
+import { NavigationLinkData } from "../../data/NavigationLinkData";
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef("icon");
@@ -23,18 +17,15 @@ const useStyles = createStyles((theme, _params, getRef) => {
     navbar: {
       backgroundColor: theme.colors.indigo[6],
       borderColor: theme.colors.indigo[6],
-      //sticky nav
       position: "fixed",
       minHeight: "100%",
       top: 0,
     },
-
     version: {
       backgroundColor: theme.colors[theme.primaryColor][7],
       color: theme.white,
       fontWeight: 700,
     },
-
     header: {
       paddingBottom: theme.spacing.md,
       marginBottom: theme.spacing.md * 1.5,
@@ -42,16 +33,13 @@ const useStyles = createStyles((theme, _params, getRef) => {
         paddingBottom: theme.spacing.sm,
         marginBottom: theme.spacing.sm * 1.5,
       },
-      /*   borderBottom: `1px solid ${theme.colors.blue[9]}`, */
     },
-
     footer: {
       paddingTop: theme.spacing.sm,
       marginTop: theme.spacing.sm,
       paddingBottom: theme.spacing.sm,
       borderTop: `1px solid ${theme.colors.blue[9]}`,
     },
-
     link: {
       ...theme.fn.focusStyles(),
       display: "flex",
@@ -70,14 +58,12 @@ const useStyles = createStyles((theme, _params, getRef) => {
         backgroundColor: theme.colors[theme.primaryColor][5],
       },
     },
-
     linkIcon: {
       ref: icon,
       color: theme.white,
       opacity: 0.75,
       marginRight: theme.spacing.sm,
     },
-
     linkActive: {
       "&, &:hover": {
         backgroundColor: theme.colors.blue[9],
@@ -86,7 +72,6 @@ const useStyles = createStyles((theme, _params, getRef) => {
         },
       },
     },
-
     logoutLink: {
       ...theme.fn.focusStyles(),
       display: "flex",
@@ -105,18 +90,17 @@ const useStyles = createStyles((theme, _params, getRef) => {
   };
 });
 
-const username = localStorage.getItem("username");
-
-const data = [
-  { link: `/dashboard/${username}`, label: "Dashboard", icon: Dashboard },
-  { link: `/expense/${username}`, label: "Expense", icon: ZoomMoney },
-  { link: `/portfolio/${username}`, label: "Portfolio", icon: ChartBar },
-  { link: `/budget/${username}`, label: "Budget", icon: Cash },
-  { link: `/settings/${username}`, label: "Settings", icon: Settings },
-];
-
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { navLinkData } = NavigationLinkData();
+
+  //Get user data from redux store
+  const userData = useSelector((state: RootState) => state.user.user);
+  //const userImage = useSelector((state: RootState) => state.user.image);
+  const { email, username, image } = userData;
+  const imageUrlArray = image.map((image: any) => image.imageUrl);
+  const userImage = imageUrlArray[imageUrlArray.length - 1];
 
   //Mantine custom hooks for styling
   const { classes, cx } = useStyles();
@@ -129,11 +113,11 @@ const Sidebar = () => {
     dispatch(setIsLoggedIn());
     dispatch(setActiveItem("Dashboard"));
     localStorage.removeItem("currentToken");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userId");
   };
 
-  const navigate = useNavigate();
-
-  const links = data.map((item) => (
+  const links = navLinkData.map((item) => (
     <Link
       className={cx(classes.link, {
         [classes.linkActive]: item.label === active,
@@ -152,11 +136,6 @@ const Sidebar = () => {
     </Link>
   ));
 
-  //Get user data from redux store
-  const userData = useSelector((state: RootState) => state.user.user);
-  const userImage = useSelector((state: RootState) => state.user.userImage);
-  const { email, username } = userData;
-
   return (
     <Navbar
       width={{ sm: largeScreen ? 300 : 200 }}
@@ -165,7 +144,6 @@ const Sidebar = () => {
     >
       <Navbar.Section mt={-45}>
         <Group className={classes.header} position="apart"></Group>
-
         <UserInfo avatar={userImage} name={username} email={email} />
         {links}
       </Navbar.Section>

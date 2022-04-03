@@ -9,7 +9,7 @@ function PortfolioTotals() {
   const totalPortfolioTargetValue = useSelector(
     (state: RootState) => state.user.goals.totalValueGoal
   );
-  const { totalPortfolioValue } = PortfolioFunctions();
+  const { categoryTotals, totalPortfolioValue } = PortfolioFunctions();
   const data = [
     {
       title: "Total Portfolio Value",
@@ -22,9 +22,12 @@ function PortfolioTotals() {
     },
   ];
 
+  console.log(categoryTotals);
+  console.log(totalPortfolioValue);
+
   const stats = data.map((stat) => {
     return (
-      <Paper radius="md" p="md" pb={60} mt={20}>
+      <Paper radius="md" p="md" pb={60} mt={20} key={stat.title}>
         <Title order={4} ml={50} mb={10}>
           Current Portfolio Value
         </Title>
@@ -38,7 +41,7 @@ function PortfolioTotals() {
             <RingProgress
               size={200}
               thickness={12}
-              sections={[{ value: 20, color: "cyan" }]}
+              sections={[{ value: stat.diff, color: "cyan" }]}
               label={
                 <Text color="blue" weight={700} align="center" size="xl">
                   {`${stat.diff} %`}

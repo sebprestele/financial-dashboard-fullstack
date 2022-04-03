@@ -12,15 +12,12 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setIsLoggedIn,
-  setUsername,
-  setSingleUser,
-} from "../../Redux/userSlice";
+
+import { setIsLoggedIn, setSingleUser } from "../../Redux/userSlice";
 import { RootState } from "../../Redux/store";
-import { useEffect } from "react";
 
 function Copyright(props: any) {
   return (
@@ -31,7 +28,7 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="">
         SebPrestele
       </Link>{" "}
       {new Date().getFullYear()}
@@ -46,34 +43,32 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [errorText, setErrorText] = useState("");
+
   // Check loginStatus and if logged in redirect to user page
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
-  const username = useSelector((state: RootState) => state.user.username);
+  const username = useSelector((state: RootState) => state.user.user.username);
   useEffect(() => {
     isLoggedIn && navigate(`/dashboard/${username}`);
   }, [isLoggedIn, navigate, username]);
 
   // Handle checkin form submit and if login succesful redirect to user page
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    Axios.post("http://localhost:5000/api/v1/auth/login", {
+    await Axios.post("http://localhost:5000/api/v1/auth/login", {
       email: data.get("email"),
       password: data.get("password"),
     })
       .then((res) => {
         if (res.data.loginToken) {
           localStorage.setItem("currentToken", res.data.loginToken);
-          localStorage.setItem("username", res.data.user.username);
           localStorage.setItem("userId", res.data.user._id);
-          dispatch(setIsLoggedIn());
-          dispatch(setUsername(res.data.user.username));
           dispatch(setSingleUser(res.data.user));
-          navigate(`/dashboard/${res.data.user.username}`);
-          console.log(res.data.user, "FROM login");
+          dispatch(setIsLoggedIn());
         }
       })
-      .catch((error) => console.log(error.response.data.message));
+      .catch((error) => setErrorText(error.response.data.message));
   };
 
   return (
@@ -128,6 +123,7 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                helperText={errorText}
               />
               <TextField
                 margin="normal"
@@ -138,6 +134,7 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                helperText={errorText}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}

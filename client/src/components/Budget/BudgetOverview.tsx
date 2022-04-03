@@ -27,7 +27,6 @@ export function BudgetOverview() {
   const expenseData = Object.entries(totalExpenseByCategoryCurrentMonth).map(
     (item) => item
   );
-  console.log(expenseData);
 
   // State for the EditModal State
   const altModalState = useSelector(
@@ -46,7 +45,7 @@ export function BudgetOverview() {
     );
     return (
       <Paper radius="md" p={30} withBorder shadow="md">
-        <Title align="center" mt={30} order={4}>
+        <Title align="center" mt="xs" order={4}>
           {stat.title}
         </Title>
         <Text color="indigo" align="center" size="sm">

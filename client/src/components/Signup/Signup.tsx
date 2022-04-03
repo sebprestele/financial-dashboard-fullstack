@@ -12,8 +12,8 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { setSingleUser } from "../../Redux/userSlice";
-import { setUsername } from "../../Redux/userSlice";
+
+import { setIsLoggedIn, setSingleUser } from "../../Redux/userSlice";
 
 function Copyright(props: any) {
   return (
@@ -39,19 +39,30 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    Axios.post("http://localhost:5000/api/v1/users", {
+    await Axios.post("http://localhost:5000/api/v1/users", {
       username: data.get("username"),
       email: data.get("email"),
       password: data.get("password"),
     }).then((res) => {
-      console.log(res.data);
-      dispatch(setSingleUser(res.data));
-      localStorage.setItem("username", res.data.user.username);
-      navigate(`/dashboard/${localStorage.getItem("username")}`);
+      Axios.post("http://localhost:5000/api/v1/auth/login", {
+        email: res.data.email,
+        password: data.get("password"),
+      })
+        .then((res) => {
+          if (res.data.loginToken) {
+            localStorage.setItem("currentToken", res.data.loginToken);
+            localStorage.setItem("username", res.data.user.username);
+            localStorage.setItem("userId", res.data.user._id);
+            dispatch(setIsLoggedIn());
+            dispatch(setSingleUser(res.data.user));
+            navigate(`/dashboard/${res.data.user.username}`);
+          }
+        })
+        .catch((error) => console.log(error.response.data.message));
     });
   };
 
@@ -128,7 +139,6 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-
               <Button
                 type="submit"
                 fullWidth
@@ -137,7 +147,6 @@ export default function Login() {
               >
                 Sign Up
               </Button>
-
               <Grid item>
                 <Link href="/login" variant="body2">
                   {"Already have an account? Login"}

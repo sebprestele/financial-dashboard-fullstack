@@ -5,8 +5,6 @@ import { useEffect } from "react";
 
 function useCheckAuthentication() {
   const dispatch = useDispatch();
-  const timestamp = Math.floor(Date.now() / 1000);
-  // console.log(timestamp, "Timestamp");
 
   useEffect(() => {
     const timestamp = Math.floor(Date.now() / 1000);

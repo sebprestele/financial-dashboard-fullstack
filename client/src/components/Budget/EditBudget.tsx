@@ -19,7 +19,6 @@ const EditBudget = (budgetDetails: BudgetDataProps) => {
       tag: budgetDetails.tag,
       comments: budgetDetails.comments,
     },
-
     validate: (values) => ({
       name: values.title === undefined ? "Name is required" : null,
       budget: values.budget === undefined ? "Amount is required" : null,
@@ -64,7 +63,6 @@ const EditBudget = (budgetDetails: BudgetDataProps) => {
           label="Amount"
           {...form.getInputProps("budget")}
         />
-
         <TextInput
           required
           label="Category"
@@ -77,7 +75,6 @@ const EditBudget = (budgetDetails: BudgetDataProps) => {
           {...form.getInputProps("comments")}
         />
         <Checkbox mt={10} label="Show on Dashboard?"></Checkbox>
-
         <Group mt={10}>
           <Button type="submit" name="save">
             Save

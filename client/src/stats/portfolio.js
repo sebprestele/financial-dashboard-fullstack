@@ -1,13 +1,6 @@
 import { useSelector } from "react-redux";
 
 const PortfolioFunctions = () => {
-  //Setup CONSTANTS for month and year
-  const currentMonth = "0" + (new Date().getMonth() + 1);
-  const prevMonth = "0" + new Date().getMonth();
-  const currentYear = new Date().getFullYear();
-  const currentMonthYear = currentYear + "-" + currentMonth;
-  const lastMonthYear = currentYear + "-" + prevMonth;
-
   // Set initial value for calculations
   let initialValue = 0;
 
@@ -33,27 +26,20 @@ const PortfolioFunctions = () => {
 
   // Get category names from array
   const combinedCategoryArray = categoriesArray.map((item) => item[0]);
-  console.log(categoriesArray);
 
-  // Get priceBought from categories
-  const categoryPriceBought = categoriesArray.map((item) =>
-    Object.values(item[1]).map((item) =>
-      Object.values(item.price)
-        .map((item) => item.priceBought)
-        .reduce((sum, currentValue) => {
-          return sum + currentValue;
-        })
-    )
-  );
+  // Get totalValues from categories
 
-  // Get totals per category -- will only return the total as number
-  const totalsByCategory = categoryPriceBought.map((item) =>
-    item.reduce((sum, currentValue) => sum + currentValue, initialValue)
+  const categoryTotals = categoriesArray.map((item) =>
+    item[1]
+      .map((item) => item.totalValue)
+      .reduce((sum, currentValue) => {
+        return sum + currentValue;
+      }, initialValue)
   );
 
   // Get total value of all categories
 
-  const totalPortfolioValue = totalsByCategory.reduce(
+  const totalPortfolioValue = categoryTotals.reduce(
     (sum, currentValue) => sum + currentValue,
     initialValue
   );
@@ -62,8 +48,8 @@ const PortfolioFunctions = () => {
   const totalInvestmentsByCategory = combinedCategoryArray.reduce(
     (newObject, currentValue, index) => {
       newObject[currentValue] = newObject[currentValue]
-        ? newObject[currentValue] + ", " + totalsByCategory[index]
-        : totalsByCategory[index];
+        ? newObject[currentValue] + ", " + categoryTotals[index]
+        : categoryTotals[index];
       return newObject;
     },
     {}
@@ -72,7 +58,7 @@ const PortfolioFunctions = () => {
   return {
     combinedCategoryArray,
     totalInvestmentsByCategory,
-    totalsByCategory,
+    categoryTotals,
     totalPortfolioValue,
   };
 };

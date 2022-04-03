@@ -9,7 +9,7 @@ import { setModalState } from "../../Redux/helperSlice";
 import {
   category,
   currency,
-  transactionType,
+  //  transactionType,
 } from "../../data/TransactionsData";
 import { PortfolioData } from "../../types/types";
 
@@ -18,14 +18,15 @@ const EditInvestment = (rowDetails: PortfolioData) => {
   const token = localStorage.getItem("currentToken");
   const dispatch = useDispatch();
 
-  console.log(rowDetails);
-
   const form = useForm({
     initialValues: {
       name: rowDetails.name,
       amount: rowDetails.amount,
       category: rowDetails.category,
-      transactionType: rowDetails.transactionType,
+      transactionType:
+        rowDetails.transactionType === undefined
+          ? ""
+          : rowDetails.transactionType,
       quantity: rowDetails.quantity,
       date: formList([
         {
@@ -33,10 +34,22 @@ const EditInvestment = (rowDetails: PortfolioData) => {
           dateSold: rowDetails.date[0].dateSold,
         },
       ]),
-      price: formList([{ priceBought: rowDetails.price, priceSold: 0 }]),
+      price: formList([
+        {
+          priceBought:
+            rowDetails.price[0].priceBought === undefined
+              ? 0
+              : rowDetails.price[0].priceBought,
+          priceSold:
+            rowDetails.price[0].priceSold === undefined
+              ? 0
+              : rowDetails.price[0].priceSold,
+        },
+      ]),
+      totalValue: rowDetails.totalValue,
       currency: rowDetails.currency,
-      fee: rowDetails.fee,
-      comments: rowDetails.comments,
+      fee: rowDetails.fee === undefined ? "" : rowDetails.fee,
+      comments: rowDetails.comments === undefined ? "" : rowDetails.comments,
     },
 
     validate: (values) => ({
@@ -47,19 +60,23 @@ const EditInvestment = (rowDetails: PortfolioData) => {
     }),
   });
 
-  console.log(rowDetails.date[0].dateBought);
-
   return (
     <>
       <form
         onSubmit={form.onSubmit(async (values) => {
+          values.totalValue =
+            //@ts-ignore
+            form.values.quantity *
+            //@ts-ignore
+            Object.entries(form.values.price).map(
+              (item) => item[1].priceBought
+            );
+          console.log(values);
           try {
-            await axios
-              .put(
-                `http://localhost:5000/api/v1/investment/${rowDetails._id}`,
-                values
-              )
-              .then((res) => console.log(res));
+            await axios.put(
+              `http://localhost:5000/api/v1/investment/${rowDetails._id}`,
+              values
+            );
             await fetch(`http://localhost:5000/api/v1/users/${userId}`, {
               method: "GET",
               headers: { Authorization: `Bearer ${token}` },
@@ -67,7 +84,6 @@ const EditInvestment = (rowDetails: PortfolioData) => {
               .then((res) => res.json())
               .then((data) => {
                 dispatch(setSingleUser(data));
-                console.log(data);
               });
           } catch (error) {
             console.log(error);
@@ -81,13 +97,13 @@ const EditInvestment = (rowDetails: PortfolioData) => {
           placeholder={rowDetails.name}
           {...form.getInputProps("name")}
         />
-        <Select
+        {/*   <Select
           style={{ marginTop: 10, zIndex: 2 }}
           data={transactionType}
           placeholder="Type of transaction"
           label="Type of transaction"
           {...form.getInputProps("transactionType")}
-        />
+        /> */}
         <DatePicker
           style={{ marginTop: 10, zIndex: 2 }}
           placeholder={rowDetails.date[0].dateBought.slice(0, 10)}
@@ -123,6 +139,18 @@ const EditInvestment = (rowDetails: PortfolioData) => {
           placeholder="Price"
           label="Price Bought / Sold"
           {...form.getListInputProps("price", 0, "priceBought")}
+        />
+        <NumberInput
+          style={{ marginTop: 10, zIndex: 2 }}
+          placeholder="Fee"
+          label="Total Value"
+          disabled
+          value={
+            //@ts-ignore
+            form.values.quantity *
+            //@ts-ignore
+            Object.entries(form.values.price).map((item) => item[1].priceBought)
+          }
         />
         <NumberInput
           style={{ marginTop: 10, zIndex: 2 }}

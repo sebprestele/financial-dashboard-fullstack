@@ -1,5 +1,4 @@
 import { Group, Paper, Text, SimpleGrid, Title } from "@mantine/core";
-import { iconSizes } from "@mantine/core/lib/components/Stepper/Step/Step.styles";
 import { ChartLine, CurrencyEuro, ZoomMoney } from "tabler-icons-react";
 
 import ExpensesFunctions from "../../stats/expenses";
@@ -24,7 +23,7 @@ export function StatsOverview() {
     },
     {
       title: "Expenses this month",
-      value: currentMonthExpense[0][1],
+      value: currentMonthExpense.length ? currentMonthExpense[0][1] : 0,
       icon: <ZoomMoney />,
     },
   ];

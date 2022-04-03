@@ -7,18 +7,21 @@ import AddBudget from "./AddBudget";
 import { BudgetOverview } from "./BudgetOverview";
 
 const Main = () => {
-  const largeScreen = useMediaQuery("(min-width: 1300px)");
+  const midScreen = useMediaQuery("(min-width: 1300px)");
+  const largeScreen = useMediaQuery("(min-width: 1750px)");
   const dispatch = useDispatch();
   const opened = useSelector((state: RootState) => state.helper.modalState);
   return (
-    <Container ml={largeScreen ? 600 : 250} mt={largeScreen ? 80 : 30}>
+    <Container
+      ml={largeScreen ? 600 : midScreen ? 450 : 250}
+      mt={largeScreen ? 60 : 20}
+    >
       <Paper radius="md" p={largeScreen ? 150 : 50} shadow="lg">
         <BudgetOverview />
         <Button mt={30} onClick={() => dispatch(setModalState())}>
           Add new budget
         </Button>
       </Paper>
-
       <Modal opened={opened} onClose={() => dispatch(setModalState())}>
         <AddBudget />
       </Modal>
