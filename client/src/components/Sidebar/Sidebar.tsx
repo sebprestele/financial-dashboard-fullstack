@@ -128,7 +128,6 @@ const Sidebar = () => {
         navigate(item.link);
         dispatch(setActiveItem(item.label));
         event.preventDefault();
-        console.log(active);
       }}
     >
       <item.icon className={classes.linkIcon} />

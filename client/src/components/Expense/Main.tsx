@@ -11,11 +11,9 @@ import { RootState } from "../../Redux/store";
 const Main = () => {
   const midScreen = useMediaQuery("(min-width: 1300px)");
   const largeScreen = useMediaQuery("(min-width: 1750px)");
-
   const expenseData = useSelector(
     (state: RootState) => state.user.user.expense
   );
-  console.log(expenseData);
 
   return (
     <Container
