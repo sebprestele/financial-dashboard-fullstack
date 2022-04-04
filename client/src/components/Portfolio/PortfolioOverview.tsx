@@ -60,13 +60,13 @@ export function PortfolioOverview() {
         //@ts-ignore
         cryptoValue.length && (cryptoValue[0][1] / totalPortfolioValue) * 100
       ),
-      goal: goals.cryptoPercentGoal,
+      goal: goals.cryptoPercentTarget,
       diff:
         cryptoValue.length &&
         Math.floor(
           //@ts-ignore
           (((cryptoValue[0][1] / totalPortfolioValue) * 100) /
-            goals.cryptoPercentGoal) *
+            goals.cryptoPercentTarget) *
             100
         ),
     },
@@ -74,10 +74,10 @@ export function PortfolioOverview() {
       title: "Stocks & ETF value",
       value: stocksEtfValue,
       percentOfTotal: Math.floor((stocksEtfValue / totalPortfolioValue) * 100),
-      goal: goals.stockPercentGoal,
+      goal: goals.stockPercentTarget,
       diff: Math.floor(
         (((stocksEtfValue / totalPortfolioValue) * 100) /
-          goals.stockPercentGoal) *
+          goals.stockPercentTarget) *
           100
       ),
     },
@@ -88,13 +88,13 @@ export function PortfolioOverview() {
         //@ts-ignore
         cashValue.length && (cashValue[0][1] / totalPortfolioValue) * 100
       ),
-      goal: goals.cashPercentGoal,
+      goal: goals.cashPercentTarget,
       diff:
         cashValue.length &&
         Math.floor(
           //@ts-ignore
           (((cashValue[0][1] / totalPortfolioValue) * 100) /
-            goals.cashPercentGoal) *
+            goals.cashPercentTarget) *
             100
         ),
     },
