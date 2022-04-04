@@ -31,7 +31,7 @@ function AddInvestment() {
       category: "Uncategorized",
       //transactionType: "Buy",
       amount: 0,
-      quantity: 0,
+      quantity: 1,
       totalValue: 0,
       date: formList([{ dateBought: new Date(), dateSold: new Date() }]),
       price: formList([{ priceBought: 0, priceSold: 0 }]),
@@ -54,7 +54,6 @@ function AddInvestment() {
             Object.entries(form.values.price).map(
               (item) => item[1].priceBought
             );
-          console.log(values);
           try {
             await axios
               .post(

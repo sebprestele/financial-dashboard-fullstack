@@ -15,7 +15,7 @@ export function SavingsGoalOverview() {
 
   // Check if categories of expenses and budget are the same
   const categoryExpense = expenseData.filter((item) =>
-    item[0] === budgetData && budgetData[0].tag ? item : null
+    item[0].toLowerCase() === budgetData[0].tag.toLowerCase() ? item : null
   );
 
   return (
@@ -34,7 +34,7 @@ export function SavingsGoalOverview() {
           <Text size="sm" color="dimmed">
             {expenseData.length && categoryExpense
               ? //@ts-ignore
-                Math.floor((expenseData[0][1] / budgetData[0].budget) * 100)
+                Math.floor((categoryExpense[0][1] / budgetData[0].budget) * 100)
               : 0}
             %
           </Text>
@@ -43,7 +43,7 @@ export function SavingsGoalOverview() {
           value={
             expenseData.length && categoryExpense
               ? //@ts-ignore
-                Math.floor((expenseData[0][1] / budgetData[0].budget) * 100)
+                Math.floor((categoryExpense[0][1] / budgetData[0].budget) * 100)
               : 0
           }
           mt={5}
@@ -52,7 +52,10 @@ export function SavingsGoalOverview() {
           <Text size="sm">
             {/*@ts-ignore */}
             Spent:{" "}
-            {expenseData.length && categoryExpense ? expenseData[0][1] : 0} EUR
+            {expenseData.length && categoryExpense
+              ? categoryExpense[0][1]
+              : 0}{" "}
+            EUR
           </Text>
           <Badge size="sm">{budgetData.length && budgetData[0].tag}</Badge>
         </Group>

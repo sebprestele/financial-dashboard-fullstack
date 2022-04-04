@@ -71,7 +71,6 @@ const EditInvestment = (rowDetails: PortfolioData) => {
             Object.entries(form.values.price).map(
               (item) => item[1].priceBought
             );
-          console.log(values);
           try {
             await axios.put(
               `https://finans-fullstack-app-server.herokuapp.com/api/v1/investment/${rowDetails._id}`,

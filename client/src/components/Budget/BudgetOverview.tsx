@@ -44,7 +44,7 @@ export function BudgetOverview() {
       item[0] === stat.tag ? item : null
     );
     return (
-      <Paper radius="md" p={30} withBorder shadow="md">
+      <Paper radius="md" p={30} withBorder shadow="md" key={stat._id}>
         <Title align="center" mt="xs" order={4}>
           {stat.title}
         </Title>

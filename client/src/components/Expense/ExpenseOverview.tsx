@@ -71,18 +71,16 @@ export function ExpenseOverview() {
             <DiffIcon size={28} />
           </ThemeIcon>
         </Group>
-        {stat.diff <= 0 && (
-          <Text color="dimmed" size="sm" mt="md">
-            <Text
-              component="span"
-              color={stat.diff > 0 ? "teal" : "red"}
-              weight={700}
-            >
-              {stat.diff}%
-            </Text>
-            {stat.diff > 0 ? "increase" : "decrease"} compared to previous month
+        <Text color="dimmed" size="sm" mt="md">
+          <Text
+            component="span"
+            color={stat.diff > 0 ? "teal" : "red"}
+            weight={700}
+          >
+            {stat.diff} %
           </Text>
-        )}
+          {stat.diff > 0 ? "increase" : "decrease"} compared to previous month
+        </Text>
       </Paper>
     );
   });
