@@ -20,6 +20,7 @@ export const addInvestment = async (
       date,
       currency,
       cryptoCurrency,
+      totalValue,
       comments,
       category,
     } = req.body
@@ -33,6 +34,7 @@ export const addInvestment = async (
       date,
       currency,
       cryptoCurrency,
+      totalValue,
       comments,
       category,
     })
