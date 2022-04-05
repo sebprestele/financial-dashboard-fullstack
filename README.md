@@ -37,7 +37,7 @@ Update User Image Dropzone
 
 
 Frontend:
-- React, TypeScript, Recharts.js, Mantine UI, Material UI
+- React, TypeScript, Redux (Toolkit), Recharts.js, Mantine UI, Material UI
 Deployed on Netlify
 
 Backend: 
