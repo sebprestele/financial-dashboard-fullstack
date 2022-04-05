@@ -49,6 +49,7 @@ Deployed on Heroku
 - Add realtime portfolio tracking by consuming data from Crypto and Stock API 
 - Add option to set values based on various currencies, (currently only EUR values supported)
 - Add option to select between target value or target percent of total for portfolio categories
+- Allow multiple categories to be tracked under one budget
 - Add recurring expenses and income
 
 ## 🧑🏻 Author
